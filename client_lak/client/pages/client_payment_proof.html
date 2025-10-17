@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Payment Proof</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .proof-card {
+            transition: all 0.3s ease;
+        }
+        
+        .proof-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .upload-area {
+            transition: all 0.3s ease;
+            border: 2px dashed #d1d5db;
+        }
+        
+        .upload-area:hover, .upload-area.dragover {
+            border-color: #f97316;
+            background-color: #fff7ed;
+        }
+        
+        .preview-image {
+            transition: all 0.3s ease;
+        }
+        
+        .preview-image:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Submit Payment Proof</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column - Payment Details -->
+            <div class="space-y-6">
+                <!-- Booking Information -->
+                <div class="proof-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Booking Information</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Booking Number</span>
+                            <span class="font-medium text-gray-900">#CAM-2024-001</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Service</span>
+                            <span class="font-medium text-gray-900">Brake Service</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Mechanic</span>
+                            <span class="font-medium text-gray-900">John Rodriguez</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expected Payment -->
+                <div class="proof-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Expected Payment</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Total Amount</span>
+                            <span class="font-medium text-gray-900">₱3,900</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Selected Method</span>
+                            <span class="font-medium text-gray-900">GCash (E-Wallet)</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <div class="flex justify-between items-center text-lg">
+                                <span class="font-semibold text-gray-900">Amount Due</span>
+                                <span class="font-bold text-orange-600">₱3,900</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="proof-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Submission Guidelines</h2>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-base mt-0.5">check_circle</span>
+                            <span>Ensure the ticket number matches your booking</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-base mt-0.5">check_circle</span>
+                            <span>Enter the exact amount you paid</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-base mt-0.5">check_circle</span>
+                            <span>Upload clear screenshot of payment confirmation</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-base mt-0.5">check_circle</span>
+                            <span>Payment proof should show transaction details</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Payment Proof Form -->
+            <div class="space-y-6">
+                <!-- Payment Proof Form -->
+                <div class="proof-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-6">Payment Proof Details</h2>
+                    
+                    <form id="paymentProofForm" class="space-y-6">
+                        <!-- Ticket Number -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Ticket Number
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                name="ticketNumber"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                placeholder="Enter your ticket number (e.g., #CAM-2024-001)"
+                                required
+                            >
+                            <p class="text-xs text-gray-500 mt-1">Found on your service ticket</p>
+                        </div>
+
+                        <!-- Amount Paid -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Amount Paid
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">₱</span>
+                                <input 
+                                    type="number" 
+                                    name="amountPaid"
+                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                    placeholder="0.00"
+                                    step="0.01"
+                                    min="0"
+                                    required
+                                >
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Enter the exact amount you paid</p>
+                        </div>
+
+                        <!-- Payment Method Used -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Payment Method Used
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <select 
+                                name="paymentMethod"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition appearance-none bg-white"
+                                required
+                            >
+                                <option value="">Select payment method</option>
+                                <option value="gcash">GCash</option>
+                                <option value="maya">Maya</option>
+                                <option value="grabpay">GrabPay</option>
+                                <option value="cash">Cash</option>
+                                <option value="bpi">BPI Transfer</option>
+                                <option value="bdo">BDO Transfer</option>
+                                <option value="metrobank">Metrobank Transfer</option>
+                            </select>
+                        </div>
+
+                        <!-- Payment Proof Upload -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Payment Proof (Screenshot/Photo)
+                                <span class="text-red-500">*</span>
+                            </label>
+                            
+                            <!-- Upload Area -->
+                            <div 
+                                id="uploadArea" 
+                                class="upload-area rounded-xl p-8 text-center cursor-pointer mb-4"
+                                onclick="document.getElementById('proofFile').click()"
+                            >
+                                <input 
+                                    type="file" 
+                                    id="proofFile" 
+                                    name="proofFile"
+                                    class="hidden" 
+                                    accept="image/*"
+                                    required
+                                >
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <span class="material-icons-round text-gray-400 text-2xl">cloud_upload</span>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Upload Payment Proof</h3>
+                                <p class="text-gray-600 text-sm mb-2">
+                                    Click to upload or drag and drop
+                                </p>
+                                <p class="text-gray-500 text-xs">
+                                    PNG, JPG, JPEG up to 5MB
+                                </p>
+                            </div>
+
+                            <!-- Preview Area -->
+                            <div id="previewContainer" class="hidden">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Preview</span>
+                                    <button type="button" onclick="removeImage()" class="text-red-500 hover:text-red-700 text-sm flex items-center gap-1">
+                                        <span class="material-icons-round text-base">delete</span>
+                                        Remove
+                                    </button>
+                                </div>
+                                <div class="preview-image bg-gray-100 rounded-lg overflow-hidden">
+                                    <img id="imagePreview" class="w-full h-48 object-cover" alt="Payment proof preview">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Additional Notes (Optional)
+                            </label>
+                            <textarea 
+                                name="additionalNotes"
+                                rows="3"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition resize-none"
+                                placeholder="Any additional information about your payment..."
+                            ></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit"
+                            class="w-full bg-orange-500 text-white py-4 rounded-xl text-base font-semibold hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+                        >
+                            <span class="material-icons-round text-lg">check_circle</span>
+                            Submit Payment Proof
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Support Information -->
+                <div class="proof-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="material-icons-round text-blue-600 text-xl">support_agent</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">Need Help with Payment?</h3>
+                            <p class="text-sm text-gray-600 mb-2">Our support team is here to assist you</p>
+                            <div class="space-y-1 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-icons-round text-gray-400 text-sm">phone</span>
+                                    <span class="text-gray-600">+63 912 345 6789</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="material-icons-round text-gray-400 text-sm">email</span>
+                                    <span class="text-gray-600">support@autocare.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Submission Modal -->
+    <div id="submissionModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md text-center">
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons-round text-orange-600 text-2xl">upload</span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Submitting Payment Proof</h3>
+            <p class="text-gray-600 mb-6">Please wait while we process your submission...</p>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-orange-500 h-2 rounded-full transition-all duration-2000" id="submissionProgress"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File upload functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('proofFile');
+            const previewContainer = document.getElementById('previewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                uploadArea.classList.add('dragover');
+            }
+            
+            function unhighlight() {
+                uploadArea.classList.remove('dragover');
+            }
+            
+            // Handle file drop
+            uploadArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            // Handle file selection
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+            
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            imagePreview.src = e.target.result;
+                            previewContainer.classList.remove('hidden');
+                            uploadArea.classList.add('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please select an image file (PNG, JPG, JPEG)');
+                    }
+                }
+            }
+            
+            // Form submission
+            document.getElementById('paymentProofForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitPaymentProof();
+            });
+        });
+        
+        function removeImage() {
+            const uploadArea = document.getElementById('uploadArea');
+            const previewContainer = document.getElementById('previewContainer');
+            const fileInput = document.getElementById('proofFile');
+            
+            fileInput.value = '';
+            previewContainer.classList.add('hidden');
+            uploadArea.classList.remove('hidden');
+        }
+        
+        function submitPaymentProof() {
+            const modal = document.getElementById('submissionModal');
+            const progressBar = document.getElementById('submissionProgress');
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            
+            // Simulate submission process
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 20;
+                progressBar.style.width = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        showSubmissionSuccess();
+                    }, 500);
+                }
+            }, 300);
+        }
+        
+        function showSubmissionSuccess() {
+            // Create success message
+            const successMsg = document.createElement('div');
+            successMsg.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            successMsg.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="material-icons-round">check_circle</span>
+                    Payment proof submitted successfully!
+                </div>
+            `;
+            document.body.appendChild(successMsg);
+            
+            // Redirect to confirmation page after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'payment_confirmation.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

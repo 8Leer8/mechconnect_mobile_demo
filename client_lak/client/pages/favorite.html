@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites - AutoCare Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .favorite-card {
+            transition: all 0.3s ease;
+        }
+        
+        .favorite-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-active {
+            background-color: #f97316;
+            color: white;
+        }
+        
+        .tab-inactive {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .gold-rank {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+        
+        .silver-rank {
+            background: linear-gradient(135deg, #C0C0C0 0%, #808080 100%);
+        }
+        
+        .bronze-rank {
+            background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+        }
+        
+        .status-open {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .status-closed {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        .status-active {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .status-inactive {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        .availability-available {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .availability-unavailable {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        .empty-state {
+            transition: all 0.3s ease;
+        }
+        
+        .empty-state:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Mobile-first tab styles */
+        .mobile-tab {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 8px;
+            border-radius: 8px;
+            margin: 2px;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        
+        .mobile-tab-content {
+            display: none;
+        }
+        
+        .mobile-tab-content.active {
+            display: block;
+        }
+        
+        /* Improved responsive design */
+        @media (max-width: 640px) {
+            .mechanic-card-mobile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .mechanic-stats-mobile {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            
+            .shop-banner-mobile {
+                height: 120px;
+            }
+            
+            .shop-info-mobile {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .service-card-mobile .actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+            .mobile-tab {
+                font-size: 0.8rem;
+                padding: 12px 10px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">My Favorites</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6">
+        <!-- Mobile-Friendly Tabs Navigation -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 mb-6">
+            <div class="flex flex-nowrap overflow-x-auto no-scrollbar">
+                <button id="mobile-mechanics-tab" class="mobile-tab tab-active flex items-center justify-center gap-1 sm:gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm sm:text-base">handyman</span>
+                    <span class="truncate">Mechanics</span>
+                    <span class="bg-white text-orange-600 text-xs px-1.5 py-0.5 rounded-full min-w-[20px] text-center">3</span>
+                </button>
+                <button id="mobile-shops-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-1 sm:gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm sm:text-base">build_circle</span>
+                    <span class="truncate">Shops</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs px-1.5 py-0.5 rounded-full min-w-[20px] text-center">2</span>
+                </button>
+                <button id="mobile-services-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-1 sm:gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm sm:text-base">miscellaneous_services</span>
+                    <span class="truncate">Services</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs px-1.5 py-0.5 rounded-full min-w-[20px] text-center">4</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Mechanics Tab Content -->
+            <div id="mobile-mechanics-content" class="mobile-tab-content active space-y-4 sm:space-y-6">
+                <!-- Mechanic Card 1 - Independent -->
+                <div class="favorite-card bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 mechanic-card-mobile">
+                        <!-- Profile Section -->
+                        <div class="flex flex-col items-center sm:items-start sm:w-2/5 lg:w-1/3">
+                            <div class="relative mb-3 sm:mb-4">
+                                <img src="../../../imgs/mechanic_default_1.png" alt="Mike Rodriguez" class="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-full flex items-center justify-center">
+                                <!-- Remove Favorite Button -->
+                                <button class="remove-favorite absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:shadow-lg transition-all h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center" data-type="mechanic" data-id="1">
+                                    <span class="material-icons-round text-sm sm:text-lg text-orange-500">favorite</span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex flex-col items-center sm:items-start w-full">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <h2 class="text-base sm:text-lg font-bold text-gray-900 truncate max-w-[140px] sm:max-w-none">Rodriguez, Mike</h2>
+                                    <span class="gold-rank text-xs font-bold px-2 py-1 rounded-full text-white">GOLD</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="status-active text-xs font-medium px-2 py-1 rounded-full">Active</span>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-yellow-400 text-xs sm:text-sm">star</span>
+                                        <span class="text-xs sm:text-sm font-medium text-gray-700">4.8</span>
+                                        <span class="text-xs text-gray-500 hidden sm:inline">(128)</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-xs sm:text-sm text-gray-600 mb-2 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">work</span>
+                                    <span>8 years</span>
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-1 mb-3 sm:mb-4 justify-center sm:justify-start">
+                                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Brakes</span>
+                                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Engine</span>
+                                </div>
+                                
+                                <!-- Independent Mechanic Badge -->
+                                <div class="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded-full mb-3 sm:mb-4 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">person</span>
+                                    <span>Independent</span>
+                                </div>
+                                
+                                <button onclick="window.location.href='../request_form/mechanic_custom_request.html'" class="w-full bg-orange-500 text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-1 sm:gap-2">
+                                    <span class="material-icons-round text-sm">chat</span>
+                                    <span>Custom Request</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Details Section -->
+                        <div class="sm:w-3/5 lg:w-2/3 space-y-3 sm:space-y-4">
+                            <div>
+                                <h3 class="text-sm sm:text-md font-semibold text-gray-900 mb-2">About</h3>
+                                <p class="text-xs sm:text-sm text-gray-600 line-clamp-3">
+                                    With over 8 years of experience in automotive repair, I specialize in brake systems, engine diagnostics, and preventive maintenance. Your vehicle's safety is my top priority.
+                                </p>
+                            </div>
+                            
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 sm:gap-4 mechanic-stats-mobile">
+                                <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                    <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">347</div>
+                                    <div class="text-xs text-gray-600">Services</div>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                    <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">98%</div>
+                                    <div class="text-xs text-gray-600">Success</div>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                    <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">4.8</div>
+                                    <div class="text-xs text-gray-600">Rating</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Actions -->
+                            <div class="flex gap-2">
+                                <button class="flex-1 border border-gray-300 text-gray-700 px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors">
+                                    View Profile
+                                </button>
+                                <button class="flex-1 bg-orange-500 text-white px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Book Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mechanic Card 2 - Part of AutoCare Pro Shop -->
+                <div class="favorite-card bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6">
+                    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 mechanic-card-mobile">
+                        <!-- Profile Section -->
+                        <div class="flex flex-col items-center sm:items-start sm:w-2/5 lg:w-1/3">
+                            <div class="relative mb-3 sm:mb-4">
+                                <img src="../../../imgs/mechanic_default_2.png" alt="Sarah Johnson" class="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-full flex items-center justify-center">
+                                <!-- Remove Favorite Button -->
+                                <button class="remove-favorite absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:shadow-lg transition-all h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center" data-type="mechanic" data-id="2">
+                                    <span class="material-icons-round text-sm sm:text-lg text-orange-500">favorite</span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex flex-col items-center sm:items-start w-full">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <h2 class="text-base sm:text-lg font-bold text-gray-900 truncate max-w-[140px] sm:max-w-none">Johnson, Sarah</h2>
+                                    <span class="silver-rank text-xs font-bold px-2 py-1 rounded-full text-white">SILVER</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="status-active text-xs font-medium px-2 py-1 rounded-full">Active</span>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-yellow-400 text-xs sm:text-sm">star</span>
+                                        <span class="text-xs sm:text-sm font-medium text-gray-700">4.6</span>
+                                        <span class="text-xs text-gray-500 hidden sm:inline">(89)</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-xs sm:text-sm text-gray-600 mb-2 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">work</span>
+                                    <span>5 years</span>
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-1 mb-3 sm:mb-4 justify-center sm:justify-start">
+                                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Electrical</span>
+                                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">AC Repair</span>
+                                </div>
+                                
+                                <!-- Shop Mechanic Badge -->
+                                <div class="bg-purple-50 text-purple-700 text-xs px-2 py-1 rounded-full mb-3 sm:mb-4 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">build_circle</span>
+                                    <span>AutoCare Pro</span>
+                                </div>
+                                
+                                <button onclick="window.location.href='../request_form/mechanic_custom_request.html'" class="w-full bg-orange-500 text-white px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-1 sm:gap-2">
+                                    <span class="material-icons-round text-sm">chat</span>
+                                    <span>Custom Request</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Details Section -->
+                        <div class="sm:w-3/5 lg:w-2/3 space-y-3 sm:space-y-4">
+                            <div>
+                                <h3 class="text-sm sm:text-md font-semibold text-gray-900 mb-2">About</h3>
+                                <p class="text-xs sm:text-sm text-gray-600 line-clamp-3">
+                                    Electrical systems specialist with 5 years of experience. Expert in AC repair, wiring diagnostics, and electronic component replacement.
+                                </p>
+                            </div>
+                            
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-2 sm:gap-4 mechanic-stats-mobile">
+                                <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                    <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">189</div>
+                                    <div class="text-xs text-gray-600">Services</div>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                    <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">96%</div>
+                                    <div class="text-xs text-gray-600">Success</div>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                    <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">4.6</div>
+                                    <div class="text-xs text-gray-600">Rating</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Actions -->
+                            <div class="flex gap-2">
+                                <button class="flex-1 border border-gray-300 text-gray-700 px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors">
+                                    View Profile
+                                </button>
+                                <button class="flex-1 bg-orange-500 text-white px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Book Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Shops Tab Content -->
+            <div id="mobile-shops-content" class="mobile-tab-content space-y-4 sm:space-y-6">
+                <!-- Shop Card 1 -->
+                <div class="favorite-card bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="h-28 sm:h-40 bg-gradient-to-r from-blue-600 to-purple-700 relative shop-banner-mobile">
+                        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                        <div class="absolute bottom-3 sm:bottom-4 left-4 sm:left-6 flex items-end gap-3 sm:gap-4">
+                            <img src="../../../imgs/service_deafault_2.png" alt="AutoCare Pro Shop" class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-white">
+                                <h2 class="text-lg sm:text-xl font-bold mb-1">AutoCare Pro Shop</h2>
+                                <div class="flex items-center gap-2">
+                                    <span class="status-open text-xs font-medium px-2 py-1 rounded-full">OPEN</span>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-yellow-400 text-xs sm:text-sm">star</span>
+                                        <span class="text-xs sm:text-sm font-medium">4.7</span>
+                                        <span class="text-xs text-white/80 hidden sm:inline">(342)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Remove Favorite Button -->
+                        <button class="remove-favorite absolute top-3 sm:top-4 right-3 sm:right-4 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:shadow-lg transition-all h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center" data-type="shop" data-id="1">
+                            <span class="material-icons-round text-sm sm:text-lg text-orange-500">favorite</span>
+                        </button>
+                    </div>
+                    
+                    <div class="p-4 sm:p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 shop-info-mobile">
+                            <!-- Shop Info -->
+                            <div class="space-y-3 sm:space-y-4">
+                                <div>
+                                    <h3 class="text-sm sm:text-md font-semibold text-gray-900 mb-2">About</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 line-clamp-3">
+                                        Serving the Zamboanga community since 2015 with top-quality automotive repair and maintenance services. ASE certified with state-of-the-art diagnostic equipment.
+                                    </p>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                                    <span class="material-icons-round text-sm">location_on</span>
+                                    <span class="truncate">123 Automotive Street</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                                    <span class="material-icons-round text-sm">schedule</span>
+                                    <span class="truncate">Mon-Fri: 8AM-6PM</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Stats & Actions -->
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                                    <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                        <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">5</div>
+                                        <div class="text-xs text-gray-600">Mechs</div>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                        <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">2.8K</div>
+                                        <div class="text-xs text-gray-600">Services</div>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                        <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">4.7</div>
+                                        <div class="text-xs text-gray-600">Rating</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-2">
+                                    <button class="flex-1 border border-gray-300 text-gray-700 px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors">
+                                        View Shop
+                                    </button>
+                                    <button class="flex-1 bg-orange-500 text-white px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors">
+                                        Book Service
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shop Card 2 -->
+                <div class="favorite-card bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="h-28 sm:h-40 bg-gradient-to-r from-green-600 to-teal-700 relative shop-banner-mobile">
+                        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                        <div class="absolute bottom-3 sm:bottom-4 left-4 sm:left-6 flex items-end gap-3 sm:gap-4">
+                            <img src="../../../imgs/service_deafault_2.png" alt="Precision Auto Works" class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-white">
+                                <h2 class="text-lg sm:text-xl font-bold mb-1">Precision Auto</h2>
+                                <div class="flex items-center gap-2">
+                                    <span class="status-open text-xs font-medium px-2 py-1 rounded-full">OPEN</span>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-yellow-400 text-xs sm:text-sm">star</span>
+                                        <span class="text-xs sm:text-sm font-medium">4.5</span>
+                                        <span class="text-xs text-white/80 hidden sm:inline">(187)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Remove Favorite Button -->
+                        <button class="remove-favorite absolute top-3 sm:top-4 right-3 sm:right-4 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:shadow-lg transition-all h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center" data-type="shop" data-id="2">
+                            <span class="material-icons-round text-sm sm:text-lg text-orange-500">favorite</span>
+                        </button>
+                    </div>
+                    
+                    <div class="p-4 sm:p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 shop-info-mobile">
+                            <!-- Shop Info -->
+                            <div class="space-y-3 sm:space-y-4">
+                                <div>
+                                    <h3 class="text-sm sm:text-md font-semibold text-gray-900 mb-2">About</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 line-clamp-3">
+                                        Specializing in European and luxury vehicle service and repair. Factory-trained technicians with OEM equipment and parts.
+                                    </p>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                                    <span class="material-icons-round text-sm">location_on</span>
+                                    <span class="truncate">456 Luxury Ave</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                                    <span class="material-icons-round text-sm">schedule</span>
+                                    <span class="truncate">Mon-Sat: 8AM-5PM</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Stats & Actions -->
+                            <div class="space-y-3 sm:space-y-4">
+                                <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                                    <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                        <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">3</div>
+                                        <div class="text-xs text-gray-600">Mechs</div>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                        <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">1.2K</div>
+                                        <div class="text-xs text-gray-600">Services</div>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-lg p-2 sm:p-3 text-center">
+                                        <div class="text-base sm:text-lg font-bold text-gray-900 mb-1">4.5</div>
+                                        <div class="text-xs text-gray-600">Rating</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-2">
+                                    <button class="flex-1 border border-gray-300 text-gray-700 px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors">
+                                        View Shop
+                                    </button>
+                                    <button class="flex-1 bg-orange-500 text-white px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors">
+                                        Book Service
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Services Tab Content -->
+            <div id="mobile-services-content" class="mobile-tab-content space-y-4 sm:space-y-6">
+                <!-- Service Card 1 - From Shop -->
+                <div class="favorite-card bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden service-card-mobile">
+                    <div class="h-24 sm:h-40 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center relative">
+                        <span class="material-icons-round text-orange-400 text-3xl sm:text-5xl">build</span>
+                        <!-- Remove Favorite Button -->
+                        <button class="remove-favorite absolute top-3 sm:top-4 right-3 sm:right-4 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:shadow-lg transition-all h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center" data-type="service" data-id="1">
+                            <span class="material-icons-round text-sm sm:text-lg text-orange-500">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-4 sm:p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-900">Brake Pad Replacement</h3>
+                            <span class="availability-available text-xs font-medium px-2 py-1 rounded-full">Available</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600 mb-2">
+                            <span class="material-icons-round text-xs">build_circle</span>
+                            <span>AutoCare Pro Shop</span>
+                        </div>
+                        
+                        <p class="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-2">
+                            Complete brake pad replacement with inspection of rotors and calipers.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
+                            <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-700">
+                                <span class="material-icons-round text-yellow-400 text-xs sm:text-sm">star</span>
+                                <span class="font-medium">4.9</span>
+                                <span class="text-gray-500 hidden sm:inline">(47)</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base sm:text-lg font-bold text-orange-600">₱2,500</div>
+                                <div class="text-xs text-gray-500">Starting</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2 actions">
+                            <button class="flex-1 border border-gray-300 text-gray-700 px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors">
+                                Details
+                            </button>
+                            <button class="flex-1 bg-orange-500 text-white px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 - From Independent Mechanic -->
+                <div class="favorite-card bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 overflow-hidden service-card-mobile">
+                    <div class="h-24 sm:h-40 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center relative">
+                        <span class="material-icons-round text-blue-400 text-3xl sm:text-5xl">oil_barrel</span>
+                        <!-- Remove Favorite Button -->
+                        <button class="remove-favorite absolute top-3 sm:top-4 right-3 sm:right-4 bg-white rounded-full p-1.5 sm:p-2 shadow-md hover:shadow-lg transition-all h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center" data-type="service" data-id="2">
+                            <span class="material-icons-round text-sm sm:text-lg text-orange-500">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-4 sm:p-5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-900">Oil Change</h3>
+                            <span class="availability-available text-xs font-medium px-2 py-1 rounded-full">Available</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600 mb-2">
+                            <span class="material-icons-round text-xs">person</span>
+                            <span>Mike Rodriguez</span>
+                        </div>
+                        
+                        <p class="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 line-clamp-2">
+                            Premium synthetic oil change with oil filter replacement and fluid check.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4">
+                            <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-700">
+                                <span class="material-icons-round text-yellow-400 text-xs sm:text-sm">star</span>
+                                <span class="font-medium">4.7</span>
+                                <span class="text-gray-500 hidden sm:inline">(32)</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base sm:text-lg font-bold text-orange-600">₱1,800</div>
+                                <div class="text-xs text-gray-500">Fixed</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2 actions">
+                            <button class="flex-1 border border-gray-300 text-gray-700 px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors">
+                                Details
+                            </button>
+                            <button class="flex-1 bg-orange-500 text-white px-2 py-2 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Empty State -->
+        <div id="mobile-empty-state" class="hidden">
+            <div class="empty-state bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-12 text-center">
+                <div class="w-16 h-16 sm:w-24 sm:h-24 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                    <span class="material-icons-round text-orange-500 text-2xl sm:text-4xl">favorite_border</span>
+                </div>
+                <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">No favorites yet</h3>
+                <p class="text-sm sm:text-gray-600 mb-4 sm:mb-6 max-w-md mx-auto">
+                    Start exploring mechanics, shops, and services to add them to your favorites for quick access later.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
+                    <button onclick="window.location.href='../search/search.html'" class="bg-orange-500 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                        Explore Services
+                    </button>
+                    <button onclick="window.location.href='../shops/shops.html'" class="border border-gray-300 text-gray-700 px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Browse Shops
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile tab switching functionality
+            const mechanicsTab = document.getElementById('mobile-mechanics-tab');
+            const shopsTab = document.getElementById('mobile-shops-tab');
+            const servicesTab = document.getElementById('mobile-services-tab');
+            
+            const mechanicsContent = document.getElementById('mobile-mechanics-content');
+            const shopsContent = document.getElementById('mobile-shops-content');
+            const servicesContent = document.getElementById('mobile-services-content');
+            const emptyState = document.getElementById('mobile-empty-state');
+            
+            // Initialize with mechanics tab active
+            updateMobileTabDisplay('mechanics');
+            
+            mechanicsTab.addEventListener('click', () => updateMobileTabDisplay('mechanics'));
+            shopsTab.addEventListener('click', () => updateMobileTabDisplay('shops'));
+            servicesTab.addEventListener('click', () => updateMobileTabDisplay('services'));
+            
+            function updateMobileTabDisplay(activeTab) {
+                // Reset all tabs
+                mechanicsTab.classList.remove('tab-active');
+                shopsTab.classList.remove('tab-active');
+                servicesTab.classList.remove('tab-active');
+                mechanicsTab.classList.add('tab-inactive');
+                shopsTab.classList.add('tab-inactive');
+                servicesTab.classList.add('tab-inactive');
+                
+                // Hide all content
+                mechanicsContent.classList.remove('active');
+                shopsContent.classList.remove('active');
+                servicesContent.classList.remove('active');
+                emptyState.classList.add('hidden');
+                
+                // Activate selected tab
+                if (activeTab === 'mechanics') {
+                    mechanicsTab.classList.remove('tab-inactive');
+                    mechanicsTab.classList.add('tab-active');
+                    mechanicsContent.classList.add('active');
+                    updateMobileEmptyState('mechanics');
+                } else if (activeTab === 'shops') {
+                    shopsTab.classList.remove('tab-inactive');
+                    shopsTab.classList.add('tab-active');
+                    shopsContent.classList.add('active');
+                    updateMobileEmptyState('shops');
+                } else if (activeTab === 'services') {
+                    servicesTab.classList.remove('tab-inactive');
+                    servicesTab.classList.add('tab-active');
+                    servicesContent.classList.add('active');
+                    updateMobileEmptyState('services');
+                }
+                
+                // Update badge colors
+                updateMobileBadgeColors(activeTab);
+            }
+            
+            function updateMobileBadgeColors(activeTab) {
+                // Reset all badges
+                document.querySelectorAll('.mobile-tab span:last-child').forEach(badge => {
+                    if (badge.classList.contains('bg-white')) {
+                        badge.classList.remove('bg-white', 'text-orange-600');
+                        badge.classList.add('bg-gray-200', 'text-gray-700');
+                    }
+                });
+                
+                // Activate current tab badge
+                if (activeTab === 'mechanics') {
+                    const badge = mechanicsTab.querySelector('span:last-child');
+                    badge.classList.remove('bg-gray-200', 'text-gray-700');
+                    badge.classList.add('bg-white', 'text-orange-600');
+                } else if (activeTab === 'shops') {
+                    const badge = shopsTab.querySelector('span:last-child');
+                    badge.classList.remove('bg-gray-200', 'text-gray-700');
+                    badge.classList.add('bg-white', 'text-orange-600');
+                } else if (activeTab === 'services') {
+                    const badge = servicesTab.querySelector('span:last-child');
+                    badge.classList.remove('bg-gray-200', 'text-gray-700');
+                    badge.classList.add('bg-white', 'text-orange-600');
+                }
+            }
+            
+            function updateMobileEmptyState(tab) {
+                // Check if the current tab has content
+                let hasContent = false;
+                if (tab === 'mechanics') {
+                    hasContent = document.querySelectorAll('#mobile-mechanics-content .favorite-card').length > 0;
+                } else if (tab === 'shops') {
+                    hasContent = document.querySelectorAll('#mobile-shops-content .favorite-card').length > 0;
+                } else if (tab === 'services') {
+                    hasContent = document.querySelectorAll('#mobile-services-content .favorite-card').length > 0;
+                }
+                
+                // Show/hide empty state
+                if (!hasContent) {
+                    emptyState.classList.remove('hidden');
+                    if (tab === 'mechanics') {
+                        mechanicsContent.classList.remove('active');
+                    } else if (tab === 'shops') {
+                        shopsContent.classList.remove('active');
+                    } else if (tab === 'services') {
+                        servicesContent.classList.remove('active');
+                    }
+                } else {
+                    emptyState.classList.add('hidden');
+                }
+            }
+            
+            // Remove favorite functionality
+            document.querySelectorAll('.remove-favorite').forEach(button => {
+                button.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const id = this.getAttribute('data-id');
+                    
+                    // Remove the card
+                    const card = this.closest('.favorite-card');
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateX(100px)';
+                    
+                    setTimeout(() => {
+                        card.remove();
+                        
+                        // Update tab counts
+                        updateMobileTabCounts();
+                        
+                        // Check if we need to show empty state
+                        updateMobileEmptyState(getMobileActiveTab());
+                        
+                        // Show confirmation message
+                        showMobileMessage('Removed from favorites', 'info');
+                    }, 300);
+                });
+            });
+            
+            function getMobileActiveTab() {
+                if (mechanicsTab.classList.contains('tab-active')) return 'mechanics';
+                if (shopsTab.classList.contains('tab-active')) return 'shops';
+                if (servicesTab.classList.contains('tab-active')) return 'services';
+                return 'mechanics';
+            }
+            
+            function updateMobileTabCounts() {
+                const mechanicsCount = document.querySelectorAll('#mobile-mechanics-content .favorite-card').length;
+                const shopsCount = document.querySelectorAll('#mobile-shops-content .favorite-card').length;
+                const servicesCount = document.querySelectorAll('#mobile-services-content .favorite-card').length;
+                
+                // Update badge counts
+                updateMobileBadgeCount('mobile-mechanics-tab', mechanicsCount);
+                updateMobileBadgeCount('mobile-shops-tab', shopsCount);
+                updateMobileBadgeCount('mobile-services-tab', servicesCount);
+            }
+            
+            function updateMobileBadgeCount(tabId, count) {
+                const tab = document.getElementById(tabId);
+                const badge = tab.querySelector('span:last-child');
+                
+                if (count > 0) {
+                    badge.textContent = count;
+                } else {
+                    badge.textContent = '0';
+                }
+            }
+            
+            function showMobileMessage(message, type) {
+                const messageEl = document.createElement('div');
+                messageEl.className = `fixed top-4 right-4 px-4 py-3 rounded-lg shadow-lg z-50 ${
+                    type === 'success' ? 'bg-green-500 text-white' : 'bg-blue-500 text-white'
+                }`;
+                messageEl.innerHTML = `<div class="flex items-center gap-2"><span class="material-icons-round text-sm">${type === 'success' ? 'check_circle' : 'info'}</span> <span class="text-sm">${message}</span></div>`;
+                document.body.appendChild(messageEl);
+                
+                setTimeout(() => {
+                    messageEl.remove();
+                }, 3000);
+            }
+            
+            // Initialize tab counts
+            updateMobileTabCounts();
+        });
+    </script>
+</body>
+</html>

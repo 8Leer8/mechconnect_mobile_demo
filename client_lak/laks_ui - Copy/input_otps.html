@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Input Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .otp-input {
+            transition: all 0.2s ease;
+        }
+        
+        .otp-input:focus {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Hide number input arrows */
+        .otp-input::-webkit-outer-spin-button,
+        .otp-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .otp-input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        /* Auto-tabbing functionality */
+        .otp-group {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8 max-w-2xl mx-auto font-sans">
+    <div class="space-y-12">
+        <h1 class="text-3xl font-bold text-gray-900">OTP Input Styles with Geist</h1>
+
+        <!-- Simple OTP Input -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Simple OTP Input</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Enter Verification Code</h3>
+                    <p class="text-sm text-gray-600">We've sent a 6-digit code to your phone</p>
+                    <p class="text-sm font-medium text-gray-900 mt-1">+1 (555) 123-4567</p>
+                </div>
+                
+                <div class="otp-group mb-6">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                </div>
+                
+                <div class="text-center">
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition mb-4">
+                        Verify Code
+                    </button>
+                    <p class="text-sm text-gray-600">
+                        Didn't receive code? 
+                        <button class="text-black font-medium hover:underline">Resend</button>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTP Input with Dots -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">OTP Input with Dots</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-icons-round text-blue-600 text-2xl">lock</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Two-Factor Authentication</h3>
+                    <p class="text-sm text-gray-600">Enter the 6-digit code from your authenticator app</p>
+                </div>
+                
+                <div class="otp-group mb-6">
+                    <input type="password" class="otp-input w-12 h-12 border-2 border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="password" class="otp-input w-12 h-12 border-2 border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="password" class="otp-input w-12 h-12 border-2 border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="password" class="otp-input w-12 h-12 border-2 border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="password" class="otp-input w-12 h-12 border-2 border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="password" class="otp-input w-12 h-12 border-2 border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                </div>
+                
+                <div class="text-center">
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Verify & Continue
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTP Input with Underline -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">OTP Input with Underline</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Email Verification</h3>
+                    <p class="text-sm text-gray-600">Enter the 4-digit code sent to your email</p>
+                    <p class="text-sm font-medium text-gray-900 mt-1">sarah@example.com</p>
+                </div>
+                
+                <div class="otp-group mb-6">
+                    <input type="number" class="otp-input w-16 h-16 border-0 border-b-2 border-gray-300 text-center text-2xl font-bold focus:ring-0 focus:border-black outline-none bg-transparent" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-16 h-16 border-0 border-b-2 border-gray-300 text-center text-2xl font-bold focus:ring-0 focus:border-black outline-none bg-transparent" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-16 h-16 border-0 border-b-2 border-gray-300 text-center text-2xl font-bold focus:ring-0 focus:border-black outline-none bg-transparent" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-16 h-16 border-0 border-b-2 border-gray-300 text-center text-2xl font-bold focus:ring-0 focus:border-black outline-none bg-transparent" maxlength="1" pattern="[0-9]">
+                </div>
+                
+                <div class="text-center">
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition mb-4">
+                        Verify Email
+                    </button>
+                    <p class="text-xs text-gray-500">
+                        Code expires in <span class="font-medium text-gray-900">04:59</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTP Input with Icons -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">OTP Input with Icons</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-6">
+                    <div class="flex items-center justify-center gap-2 mb-4">
+                        <span class="material-icons-round text-green-500 text-xl">verified</span>
+                        <h3 class="text-lg font-semibold text-gray-900">Secure Verification</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Enter the 5-digit security code</p>
+                </div>
+                
+                <div class="otp-group mb-6">
+                    <div class="relative">
+                        <input type="number" class="otp-input w-14 h-14 border-2 border-gray-300 rounded-xl text-center text-xl font-bold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    </div>
+                    <div class="relative">
+                        <input type="number" class="otp-input w-14 h-14 border-2 border-gray-300 rounded-xl text-center text-xl font-bold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    </div>
+                    <div class="relative">
+                        <input type="number" class="otp-input w-14 h-14 border-2 border-gray-300 rounded-xl text-center text-xl font-bold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    </div>
+                    <div class="relative">
+                        <input type="number" class="otp-input w-14 h-14 border-2 border-gray-300 rounded-xl text-center text-xl font-bold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    </div>
+                    <div class="relative">
+                        <input type="number" class="otp-input w-14 h-14 border-2 border-gray-300 rounded-xl text-center text-xl font-bold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition mb-3">
+                        Confirm Verification
+                    </button>
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-600">
+                        <span class="material-icons-round text-base">schedule</span>
+                        <span>Expires in 10:00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compact OTP Input -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Compact OTP Input</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 max-w-md mx-auto">
+                <div class="text-center mb-6">
+                    <h3 class="text-base font-semibold text-gray-900 mb-1">Mobile Verification</h3>
+                    <p class="text-xs text-gray-600">Enter the code we just sent</p>
+                </div>
+                
+                <div class="otp-group mb-6">
+                    <input type="number" class="otp-input w-10 h-10 border border-gray-300 rounded text-center text-sm font-semibold focus:ring-1 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-10 h-10 border border-gray-300 rounded text-center text-sm font-semibold focus:ring-1 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-10 h-10 border border-gray-300 rounded text-center text-sm font-semibold focus:ring-1 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-10 h-10 border border-gray-300 rounded text-center text-sm font-semibold focus:ring-1 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                </div>
+                
+                <div class="text-center">
+                    <button class="w-full bg-black text-white py-2 rounded text-xs font-medium hover:bg-gray-800 transition">
+                        Verify
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTP Input with Timer -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">OTP Input with Timer</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Phone Verification</h3>
+                    <p class="text-sm text-gray-600">We've sent a verification code to your phone</p>
+                </div>
+                
+                <div class="otp-group mb-4">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border border-gray-300 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-black focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                </div>
+                
+                <div class="text-center mb-6">
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-600 mb-4">
+                        <span class="material-icons-round text-base">schedule</span>
+                        <span>Code expires in <span class="font-medium text-gray-900" id="timer">05:00</span></span>
+                    </div>
+                    
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition mb-3">
+                        Verify Phone Number
+                    </button>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        Didn't receive the code? 
+                        <button class="text-black font-medium hover:underline flex items-center justify-center gap-1 mx-auto">
+                            <span class="material-icons-round text-base">refresh</span>
+                            Resend Code
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTP Input with Error State -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">OTP Input with Error State</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-icons-round text-red-500 text-2xl">error</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Invalid Code</h3>
+                    <p class="text-sm text-gray-600">The code you entered is incorrect. Please try again.</p>
+                </div>
+                
+                <div class="otp-group mb-6">
+                    <input type="number" class="otp-input w-12 h-12 border-2 border-red-300 bg-red-50 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border-2 border-red-300 bg-red-50 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border-2 border-red-300 bg-red-50 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border-2 border-red-300 bg-red-50 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border-2 border-red-300 bg-red-50 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                    <input type="number" class="otp-input w-12 h-12 border-2 border-red-300 bg-red-50 rounded-lg text-center text-lg font-semibold focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none" maxlength="1" pattern="[0-9]">
+                </div>
+                
+                <div class="text-center">
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Auto-tabbing functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            
+            otpInputs.forEach((input, index) => {
+                // Auto-tab to next input on input
+                input.addEventListener('input', function(e) {
+                    if (this.value.length === this.maxLength) {
+                        if (index < otpInputs.length - 1) {
+                            otpInputs[index + 1].focus();
+                        }
+                    }
+                });
+                
+                // Handle backspace
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '') {
+                        if (index > 0) {
+                            otpInputs[index - 1].focus();
+                        }
+                    }
+                });
+                
+                // Prevent non-numeric input
+                input.addEventListener('keypress', function(e) {
+                    if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                    }
+                });
+                
+                // Handle paste
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const paste = e.clipboardData.getData('text');
+                    const numbers = paste.replace(/[^0-9]/g, '');
+                    
+                    for (let i = 0; i < Math.min(numbers.length, otpInputs.length); i++) {
+                        otpInputs[i].value = numbers[i];
+                    }
+                    
+                    // Focus the next empty input or the last one
+                    const nextEmpty = Array.from(otpInputs).findIndex(inp => inp.value === '');
+                    if (nextEmpty !== -1) {
+                        otpInputs[nextEmpty].focus();
+                    } else {
+                        otpInputs[otpInputs.length - 1].focus();
+                    }
+                });
+            });
+            
+            // Simple timer simulation
+            let timeLeft = 300; // 5 minutes in seconds
+            const timerElement = document.getElementById('timer');
+            
+            if (timerElement) {
+                const timerInterval = setInterval(() => {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerElement.textContent = '00:00';
+                        timerElement.classList.add('text-red-500');
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

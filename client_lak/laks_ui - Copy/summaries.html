@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Summary Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .payment-card {
+            transition: all 0.3s ease;
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .price-increase {
+            color: #dc2626;
+        }
+        
+        .price-decrease {
+            color: #16a34a;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8 max-w-6xl mx-auto font-sans">
+    <div class="space-y-12">
+        <h1 class="text-3xl font-bold text-gray-900">Payment Summary Styles with Geist</h1>
+
+        <!-- Simple Payment Summary -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Simple Payment Summary</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Order Summary</h3>
+                    <p class="text-sm text-gray-600 mt-1">Order #ORD-7842 • March 15, 2024</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Subtotal</span>
+                        <span class="text-sm font-medium text-gray-900">$149.99</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Shipping</span>
+                        <span class="text-sm font-medium text-gray-900">$9.99</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Tax</span>
+                        <span class="text-sm font-medium text-gray-900">$12.00</span>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-base font-semibold text-gray-900">Total</span>
+                            <span class="text-lg font-bold text-gray-900">$171.98</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-50 border-t border-gray-200">
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Proceed to Payment
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Payment Summary -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Detailed Payment Summary</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-900">Invoice Summary</h3>
+                        <span class="text-sm text-gray-500">Due: Mar 30, 2024</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <!-- Items List -->
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-blue-600">laptop</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">MacBook Pro Case</div>
+                                    <div class="text-xs text-gray-500">Quantity: 1</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-medium text-gray-900">$49.99</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-start gap-3">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-green-600">mouse</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">Wireless Mouse</div>
+                                    <div class="text-xs text-gray-500">Quantity: 2</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm font-medium text-gray-900">$79.98</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pricing Breakdown -->
+                    <div class="space-y-3 border-t border-gray-200 pt-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Subtotal (3 items)</span>
+                            <span class="text-sm font-medium text-gray-900">$129.97</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Shipping & Handling</span>
+                            <span class="text-sm font-medium text-gray-900">$9.99</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Discount</span>
+                            <span class="text-sm font-medium text-green-600">-$10.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Tax</span>
+                            <span class="text-sm font-medium text-gray-900">$12.45</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-base font-semibold text-gray-900">Total Amount</span>
+                                <span class="text-xl font-bold text-gray-900">$142.41</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscription Payment Summary -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Subscription Payment Summary</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Pro Plan Subscription</h3>
+                    <p class="text-sm text-gray-600 mt-1">Billed monthly • Next charge: Apr 15, 2024</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Plan Price</span>
+                        <span class="text-sm font-medium text-gray-900">$29.99/month</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Additional Users (2)</span>
+                        <span class="text-sm font-medium text-gray-900">$19.98</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600">Storage (50GB)</span>
+                        <span class="text-sm font-medium text-gray-900">$9.99</span>
+                    </div>
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-base font-semibold text-gray-900">Monthly Total</span>
+                            <span class="text-lg font-bold text-gray-900">$59.96</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gray-600">
+                            <span>Yearly Total</span>
+                            <span>$719.52</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-50 border-t border-gray-200">
+                    <div class="flex gap-3">
+                        <button class="flex-1 bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                            Confirm Subscription
+                        </button>
+                        <button class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                            Change Plan
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Summary with Cards -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Payment Summary with Payment Methods</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Order Summary -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Order Summary</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Items (4)</span>
+                            <span class="text-sm font-medium text-gray-900">$247.50</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Shipping</span>
+                            <span class="text-sm font-medium text-gray-900">$14.99</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Discount</span>
+                            <span class="text-sm font-medium text-green-600">-$25.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Tax</span>
+                            <span class="text-sm font-medium text-gray-900">$18.92</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-base font-semibold text-gray-900">Total</span>
+                                <span class="text-lg font-bold text-gray-900">$256.41</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card">
+                    <div class="p-6 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Payment Method</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <!-- Selected Card -->
+                        <div class="border border-gray-300 rounded-lg p-4 bg-gray-50">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-6 bg-blue-500 rounded flex items-center justify-center">
+                                        <span class="text-white text-xs font-bold">VISA</span>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Visa ending in 4242</div>
+                                        <div class="text-xs text-gray-500">Expires 12/2025</div>
+                                    </div>
+                                </div>
+                                <span class="material-icons-round text-green-500">check_circle</span>
+                            </div>
+                        </div>
+
+                        <!-- Other Payment Methods -->
+                        <div class="space-y-2">
+                            <button class="w-full flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                                <div class="w-10 h-6 bg-yellow-400 rounded flex items-center justify-center">
+                                    <span class="text-gray-800 text-xs font-bold">PP</span>
+                                </div>
+                                <span class="text-sm text-gray-700">PayPal</span>
+                            </button>
+                            
+                            <button class="w-full flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                                <div class="w-10 h-6 bg-black rounded flex items-center justify-center">
+                                    <span class="text-white text-xs font-bold">AP</span>
+                                </div>
+                                <span class="text-sm text-gray-700">Apple Pay</span>
+                            </button>
+                        </div>
+
+                        <button class="w-full border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                            <span class="material-icons-round text-base">add</span>
+                            Add New Payment Method
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Invoice Style Summary -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Invoice Style Summary</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card">
+                <div class="p-8">
+                    <!-- Header -->
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">INVOICE</h1>
+                            <p class="text-sm text-gray-600 mt-1">#INV-2024-001</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-semibold text-gray-900">TechStore Inc.</div>
+                            <div class="text-sm text-gray-600">123 Business Ave</div>
+                            <div class="text-sm text-gray-600">San Francisco, CA 94107</div>
+                        </div>
+                    </div>
+
+                    <!-- Bill To -->
+                    <div class="grid grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Bill To</h3>
+                            <div class="text-sm text-gray-600">
+                                <div>Sarah Johnson</div>
+                                <div>sarah@example.com</div>
+                                <div>+1 (555) 123-4567</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-900 mb-2">Invoice Details</h3>
+                            <div class="text-sm text-gray-600 space-y-1">
+                                <div class="flex justify-between">
+                                    <span>Invoice Date:</span>
+                                    <span>March 15, 2024</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Due Date:</span>
+                                    <span>March 30, 2024</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Payment Terms:</span>
+                                    <span>Net 15</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden mb-6">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Description</th>
+                                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-700">Qty</th>
+                                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-700">Unit Price</th>
+                                    <th class="text-right py-3 px-4 text-sm font-medium text-gray-700">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="py-3 px-4 text-sm text-gray-900">MacBook Pro 16"</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">1</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">$2,499.00</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">$2,499.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 text-sm text-gray-900">Apple Care+</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">1</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">$279.00</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">$279.00</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 text-sm text-gray-900">USB-C Adapter</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">1</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">$69.00</td>
+                                    <td class="py-3 px-4 text-sm text-gray-900 text-right">$69.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="flex justify-end">
+                        <div class="w-64 space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Subtotal:</span>
+                                <span class="font-medium text-gray-900">$2,847.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Tax (8.5%):</span>
+                                <span class="font-medium text-gray-900">$242.00</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Shipping:</span>
+                                <span class="font-medium text-gray-900">$29.99</span>
+                            </div>
+                            <div class="border-t border-gray-200 pt-2">
+                                <div class="flex justify-between text-lg font-bold">
+                                    <span>Total:</span>
+                                    <span>$3,118.99</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile Payment Summary -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Mobile Payment Summary</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card max-w-sm mx-auto">
+                <div class="p-4 border-b border-gray-200">
+                    <h3 class="text-base font-semibold text-gray-900">Payment Summary</h3>
+                </div>
+                <div class="p-4 space-y-3">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Items total</span>
+                        <span class="font-medium text-gray-900">$89.99</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Delivery</span>
+                        <span class="font-medium text-gray-900">$4.99</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Service fee</span>
+                        <span class="font-medium text-gray-900">$2.50</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-600">Discount</span>
+                        <span class="font-medium text-green-600">-$5.00</span>
+                    </div>
+                    <div class="border-t border-gray-200 pt-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-base font-semibold text-gray-900">Total</span>
+                            <span class="text-lg font-bold text-gray-900">$92.48</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-50 border-t border-gray-200">
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Pay $92.48
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Summary with Timeline -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Payment Summary with Timeline</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden payment-card">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Booking Confirmation</h3>
+                    <p class="text-sm text-gray-600 mt-1">Hotel California • March 20-25, 2024</p>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Payment Details -->
+                        <div class="space-y-4">
+                            <h4 class="text-sm font-semibold text-gray-900">Payment Details</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Room Charge (5 nights)</span>
+                                    <span class="text-sm font-medium text-gray-900">$750.00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Resort Fee</span>
+                                    <span class="text-sm font-medium text-gray-900">$125.00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Taxes</span>
+                                    <span class="text-sm font-medium text-gray-900">$87.50</span>
+                                </div>
+                                <div class="border-t border-gray-200 pt-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-base font-semibold text-gray-900">Total</span>
+                                        <span class="text-lg font-bold text-gray-900">$962.50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline -->
+                        <div class="space-y-4">
+                            <h4 class="text-sm font-semibold text-gray-900">Payment Timeline</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                        <span class="material-icons-round text-white text-sm">check</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-gray-900">Deposit Paid</div>
+                                        <div class="text-xs text-gray-500">$250.00 • Mar 15, 2024</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xs font-medium">2</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-gray-900">Balance Due</div>
+                                        <div class="text-xs text-gray-500">$712.50 • Due Mar 18, 2024</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 bg-gray-50 border-t border-gray-200">
+                    <div class="flex gap-3">
+                        <button class="flex-1 bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                            Pay Balance
+                        </button>
+                        <button class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                            Download Invoice
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

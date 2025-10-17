@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Pro - Bookings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .booking-card {
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-active {
+            background-color: #f97316;
+            color: white;
+        }
+        
+        .tab-inactive {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .mobile-tab {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 8px;
+            border-radius: 8px;
+            margin: 2px;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .mobile-tab-content {
+            display: none;
+        }
+        
+        .mobile-tab-content.active {
+            display: block;
+        }
+        
+        .status-badge {
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Page Title -->
+                <h1 class="text-xl font-bold text-gray-900">My Bookings</h1>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Profile Picture -->
+                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        JS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <!-- Tabs -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 mb-6">
+            <div class="flex">
+                <button id="active-tab" class="mobile-tab tab-active flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">pending_actions</span>
+                    <span>Active</span>
+                </button>
+                <button id="completed-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">check_circle</span>
+                    <span>Completed</span>
+                </button>
+                <button id="rescheduled-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">calendar_today</span>
+                    <span>Rescheduled</span>
+                </button>
+                <button id="cancelled-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">cancel</span>
+                    <span>Cancelled</span>
+                </button>
+                <button id="refunded-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">payments</span>
+                    <span>Refunded</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Active Tab Content -->
+            <div id="active-content" class="mobile-tab-content active">
+                <div class="space-y-4">
+                    <!-- Active Booking Card 1 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">READY FOR PAYMENT</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 16, 2024 • 10:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-orange-600">₱3,030</div>
+                                <div class="text-xs text-gray-500">Total</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-001
+                            </div>
+                            <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Pay Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Active Booking Card 2 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Oil Change Service</h3>
+                                    <span class="status-badge bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">IN PROGRESS</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Today • 2:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱1,800</div>
+                                <div class="text-xs text-gray-500">Estimated</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-002
+                            </div>
+                            <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                Track Service
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Active Booking Card 3 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Engine Diagnostics</h3>
+                                    <span class="status-badge bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">SCHEDULED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 18, 2024 • 9:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱1,200</div>
+                                <div class="text-xs text-gray-500">Starting price</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-003
+                            </div>
+                            <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Tab Content -->
+            <div id="completed-content" class="mobile-tab-content">
+                <div class="space-y-4">
+                    <!-- Completed Booking Card 1 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">COMPLETED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 10, 2024 • 10:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱3,030</div>
+                                <div class="text-xs text-gray-500">Paid</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-001
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                    Rate Service
+                                </button>
+                                <button class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Book Again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completed Booking Card 2 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">AC Repair</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">COMPLETED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 5, 2024 • 1:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱2,500</div>
+                                <div class="text-xs text-gray-500">Paid</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-1 mb-3">
+                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                            <span class="text-sm font-medium text-gray-700">4.8</span>
+                            <span class="text-xs text-gray-500">Rated</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-005
+                            </div>
+                            <button class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rescheduled Tab Content -->
+            <div id="rescheduled-content" class="mobile-tab-content">
+                <div class="space-y-4">
+                    <!-- Rescheduled Booking Card 1 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                    <span class="status-badge bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">RESCHEDULED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 22, 2024 • 2:30 PM</span>
+                                </div>
+                                <div class="text-xs text-orange-600 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">info</span>
+                                    <span>Location changed to workshop</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱3,030</div>
+                                <div class="text-xs text-gray-500">Total</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-001
+                            </div>
+                            <button class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Rescheduled Booking Card 2 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Tire Replacement</h3>
+                                    <span class="status-badge bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">RESCHEDULED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 25, 2024 • 11:00 AM</span>
+                                </div>
+                                <div class="text-xs text-orange-600 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">info</span>
+                                    <span>Date changed from Jan 20</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱4,200</div>
+                                <div class="text-xs text-gray-500">Total</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-006
+                            </div>
+                            <button class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cancelled Tab Content -->
+            <div id="cancelled-content" class="mobile-tab-content">
+                <div class="space-y-4">
+                    <!-- Cancelled Booking Card 1 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Engine Diagnostics</h3>
+                                    <span class="status-badge bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium">CANCELLED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 18, 2024 • 9:00 AM</span>
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    Cancelled on Jan 16, 2024
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-500 line-through">₱1,200</div>
+                                <div class="text-xs text-gray-500">Refunded</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-003
+                            </div>
+                            <button class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cancelled Booking Card 2 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Battery Replacement</h3>
+                                    <span class="status-badge bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium">CANCELLED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 12, 2024 • 3:00 PM</span>
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    Cancelled on Jan 11, 2024
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-500 line-through">₱2,800</div>
+                                <div class="text-xs text-gray-500">Refunded</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-007
+                            </div>
+                            <button class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refunded Tab Content -->
+            <div id="refunded-content" class="mobile-tab-content">
+                <div class="space-y-4">
+                    <!-- Refunded Booking Card 1 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Engine Diagnostics</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">REFUNDED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 18, 2024 • 9:00 AM</span>
+                                </div>
+                                <div class="text-xs text-green-600 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">check_circle</span>
+                                    <span>Full refund processed</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-green-600">₱1,200</div>
+                                <div class="text-xs text-gray-500">Refunded</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-003 • Refund ID: REF-2024-001
+                            </div>
+                            <button class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Refunded Booking Card 2 -->
+                    <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Battery Replacement</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">REFUNDED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 12, 2024 • 3:00 PM</span>
+                                </div>
+                                <div class="text-xs text-green-600 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">check_circle</span>
+                                    <span>Full refund processed</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-green-600">₱2,800</div>
+                                <div class="text-xs text-gray-500">Refunded</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Booking ID: BK-2024-007 • Refund ID: REF-2024-002
+                            </div>
+                            <button class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Booking -->
+            <a href="../bookings/bookings.html" class="flex flex-col items-center text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">calendar_today</span>
+                <span class="text-xs mt-1">Booking</span>
+            </a>
+            
+            <!-- Discover -->
+            <a href="../discover/discover.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">explore</span>
+                <span class="text-xs mt-1">Discover</span>
+            </a>
+            
+            <!-- Home -->
+            <a href="../home/home.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">home</span>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            
+            <!-- Request -->
+            <a href="../request_form/custom_request.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">add_circle</span>
+                <span class="text-xs mt-1">Request</span>
+            </a>
+            
+            <!-- Profile -->
+            <a href="../profile/profile.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">person</span>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const activeTab = document.getElementById('active-tab');
+            const completedTab = document.getElementById('completed-tab');
+            const rescheduledTab = document.getElementById('rescheduled-tab');
+            const cancelledTab = document.getElementById('cancelled-tab');
+            const refundedTab = document.getElementById('refunded-tab');
+            
+            const activeContent = document.getElementById('active-content');
+            const completedContent = document.getElementById('completed-content');
+            const rescheduledContent = document.getElementById('rescheduled-content');
+            const cancelledContent = document.getElementById('cancelled-content');
+            const refundedContent = document.getElementById('refunded-content');
+            
+            // Initialize with active tab active
+            updateTabDisplay('active');
+            
+            activeTab.addEventListener('click', () => updateTabDisplay('active'));
+            completedTab.addEventListener('click', () => updateTabDisplay('completed'));
+            rescheduledTab.addEventListener('click', () => updateTabDisplay('rescheduled'));
+            cancelledTab.addEventListener('click', () => updateTabDisplay('cancelled'));
+            refundedTab.addEventListener('click', () => updateTabDisplay('refunded'));
+            
+            function updateTabDisplay(selectedTab) {
+                // Reset all tabs
+                activeTab.classList.remove('tab-active');
+                completedTab.classList.remove('tab-active');
+                rescheduledTab.classList.remove('tab-active');
+                cancelledTab.classList.remove('tab-active');
+                refundedTab.classList.remove('tab-active');
+                
+                activeTab.classList.add('tab-inactive');
+                completedTab.classList.add('tab-inactive');
+                rescheduledTab.classList.add('tab-inactive');
+                cancelledTab.classList.add('tab-inactive');
+                refundedTab.classList.add('tab-inactive');
+                
+                // Hide all content
+                activeContent.classList.remove('active');
+                completedContent.classList.remove('active');
+                rescheduledContent.classList.remove('active');
+                cancelledContent.classList.remove('active');
+                refundedContent.classList.remove('active');
+                
+                // Activate selected tab
+                if (selectedTab === 'active') {
+                    activeTab.classList.remove('tab-inactive');
+                    activeTab.classList.add('tab-active');
+                    activeContent.classList.add('active');
+                } else if (selectedTab === 'completed') {
+                    completedTab.classList.remove('tab-inactive');
+                    completedTab.classList.add('tab-active');
+                    completedContent.classList.add('active');
+                } else if (selectedTab === 'rescheduled') {
+                    rescheduledTab.classList.remove('tab-inactive');
+                    rescheduledTab.classList.add('tab-active');
+                    rescheduledContent.classList.add('active');
+                } else if (selectedTab === 'cancelled') {
+                    cancelledTab.classList.remove('tab-inactive');
+                    cancelledTab.classList.add('tab-active');
+                    cancelledContent.classList.add('active');
+                } else if (selectedTab === 'refunded') {
+                    refundedTab.classList.remove('tab-inactive');
+                    refundedTab.classList.add('tab-active');
+                    refundedContent.classList.add('active');
+                }
+            }
+            
+            // Simple interactions
+            const payButtons = document.querySelectorAll('#active-content button');
+            const viewButtons = document.querySelectorAll('#rescheduled-content button, #cancelled-content button');
+            const bookAgainButtons = document.querySelectorAll('#completed-content button, #cancelled-content button, #refunded-content button');
+            const rateButtons = document.querySelectorAll('#completed-content button');
+            
+            payButtons.forEach(button => {
+                if (button.textContent.includes('Pay Now')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.booking-card').querySelector('h3').textContent;
+                        alert(`Processing payment for: ${serviceName}`);
+                    });
+                } else if (button.textContent.includes('Track Service')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.booking-card').querySelector('h3').textContent;
+                        alert(`Tracking service: ${serviceName}`);
+                    });
+                } else if (button.textContent.includes('View Details')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.booking-card').querySelector('h3').textContent;
+                        alert(`Viewing details for: ${serviceName}`);
+                    });
+                }
+            });
+            
+            bookAgainButtons.forEach(button => {
+                if (button.textContent.includes('Book Again')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.booking-card').querySelector('h3').textContent;
+                        alert(`Booking again: ${serviceName}`);
+                    });
+                }
+            });
+            
+            rateButtons.forEach(button => {
+                if (button.textContent.includes('Rate Service')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.booking-card').querySelector('h3').textContent;
+                        alert(`Rating service: ${serviceName}`);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

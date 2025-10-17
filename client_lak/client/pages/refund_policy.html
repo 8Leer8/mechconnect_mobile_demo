@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy - Your Company</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .content-section {
+            max-width: 65ch;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .back-btn:hover {
+            transform: translateX(-2px);
+        }
+        
+        .policy-badge {
+            transition: all 0.2s ease;
+        }
+        
+        .policy-badge:hover {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header with Back Button -->
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Refund Policy</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Policy Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="policy-badge bg-white rounded-xl p-4 border border-green-200 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-green-600 text-lg">check_circle</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-sm">30-Day Guarantee</h3>
+                        <p class="text-xs text-gray-600">Full refund within 30 days</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="policy-badge bg-white rounded-xl p-4 border border-blue-200 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-blue-600 text-lg">support_agent</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-sm">Quick Processing</h3>
+                        <p class="text-xs text-gray-600">5-7 business days</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="policy-badge bg-white rounded-xl p-4 border border-orange-200 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-orange-600 text-lg">help</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-sm">Need Help?</h3>
+                        <p class="text-xs text-gray-600">Contact support anytime</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <!-- Last Updated -->
+            <div class="bg-orange-50 border-b border-orange-100 px-6 py-4">
+                <div class="flex items-center gap-2 text-sm text-orange-800">
+                    <span class="material-icons-round text-base">update</span>
+                    Last updated: October 16, 2025
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 sm:p-8 space-y-8 content-section">
+                <!-- Introduction -->
+                <section class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Our Refund Policy</h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        We want you to be completely satisfied with your purchase. If you're not happy with our products or services, 
+                        we're here to help. This policy outlines the terms and conditions for refunds and returns.
+                    </p>
+                </section>
+
+                <!-- 30-Day Money-Back Guarantee -->
+                <section class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                            <span class="material-icons-round text-green-600 text-sm">verified</span>
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-900">30-Day Money-Back Guarantee</h2>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        We offer a 30-day money-back guarantee on all purchases. If you're not satisfied with our product 
+                        for any reason, you can request a full refund within 30 days of your purchase date.
+                    </p>
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-lg mt-0.5">lightbulb</span>
+                            <div>
+                                <h4 class="font-medium text-green-800 mb-1">No Questions Asked</h4>
+                                <p class="text-sm text-green-700">
+                                    During the first 30 days, we process refunds without requiring explanations. 
+                                    We believe in our product and want you to feel confident in your purchase.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Eligibility -->
+                <section class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Refund Eligibility</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h3 class="font-medium text-gray-800 mb-2 flex items-center gap-2">
+                                <span class="material-icons-round text-green-500 text-lg">check_circle</span>
+                                Eligible for Refund
+                            </h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-600 ml-6">
+                                <li>Products purchased within the last 30 days</li>
+                                <li>Digital products that haven't been extensively used</li>
+                                <li>Services that haven't been fully rendered</li>
+                                <li>Duplicate or accidental purchases</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <h3 class="font-medium text-gray-800 mb-2 flex items-center gap-2">
+                                <span class="material-icons-round text-red-500 text-lg">cancel</span>
+                                Not Eligible for Refund
+                            </h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-600 ml-6">
+                                <li>Products purchased more than 30 days ago</li>
+                                <li>Custom or personalized products</li>
+                                <li>Services that have been fully completed</li>
+                                <li>Digital products that have been substantially used</li>
+                                <li>Products damaged due to customer misuse</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- How to Request -->
+                <section class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">How to Request a Refund</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-white text-xs font-bold">1</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Contact Support</h4>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    Email us at <a href="mailto:refunds@yourcompany.com" class="text-orange-600 hover:text-orange-500 font-medium">refunds@yourcompany.com</a> 
+                                    or use the contact form on our website.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-white text-xs font-bold">2</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Provide Details</h4>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    Include your order number, purchase date, and reason for the refund request.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-white text-xs font-bold">3</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Wait for Processing</h4>
+                                <p class="text-sm text-gray-600 mt-1">
+                                    We'll review your request and respond within 2 business days.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Processing Time -->
+                <section class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Processing Time & Method</h2>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="material-icons-round text-orange-500 text-lg">schedule</span>
+                                <h4 class="font-medium text-gray-800">Processing Time</h4>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                Once approved, refunds are processed within <strong>5-7 business days</strong>. 
+                                The time it takes for the refund to appear in your account depends on your payment method and financial institution.
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="material-icons-round text-orange-500 text-lg">payments</span>
+                                <h4 class="font-medium text-gray-800">Refund Method</h4>
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                Refunds are issued to the original payment method used for purchase. 
+                                If this isn't possible, we'll work with you to find an alternative solution.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Special Cases -->
+                <section class="space-y-4">
+                    <h2 class="text-xl font-semibold text-gray-900">Special Cases</h2>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <div class="flex items-start gap-3">
+                                <span class="material-icons-round text-yellow-600 text-lg mt-0.5">warning</span>
+                                <div>
+                                    <h4 class="font-medium text-yellow-800 mb-1">Digital Products</h4>
+                                    <p class="text-sm text-yellow-700">
+                                        For digital products, access will be revoked once the refund is processed. 
+                                        Please note that we cannot refund digital products that have been substantially used or downloaded.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                            <div class="flex items-start gap-3">
+                                <span class="material-icons-round text-purple-500 text-lg mt-0.5">star</span>
+                                <div>
+                                    <h4 class="font-medium text-purple-800 mb-1">Subscription Services</h4>
+                                    <p class="text-sm text-purple-700">
+                                        Subscription refunds are prorated based on unused time. 
+                                        You can cancel your subscription at any time, and we'll refund the unused portion.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Information -->
+                <section class="space-y-4 border-t border-gray-200 pt-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Need Help With a Refund?</h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        Our support team is here to help you with any refund-related questions or concerns. 
+                        We're committed to ensuring you have a positive experience with our company.
+                    </p>
+                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-orange-600 text-lg">support_agent</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Customer Support</h4>
+                                <p class="text-sm text-gray-600">We're available Monday-Friday, 9AM-6PM EST</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p class="flex items-center gap-2 text-gray-700">
+                                <span class="material-icons-round text-base text-gray-400">email</span>
+                                <a href="mailto:support@yourcompany.com" class="text-orange-600 hover:text-orange-500 font-medium">support@yourcompany.com</a>
+                            </p>
+                            <p class="flex items-center gap-2 text-gray-700">
+                                <span class="material-icons-round text-base text-gray-400">phone</span>
+                                <a href="tel:+1-555-REFUND" class="text-orange-600 hover:text-orange-500 font-medium">+1 (555) REFUND</a>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Policy Updates -->
+                <section class="space-y-4 border-t border-gray-200 pt-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Policy Updates</h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        We may update this refund policy from time to time to reflect changes in our practices or for other operational, 
+                        legal, or regulatory reasons. The "Last updated" date at the top of this page indicates when changes were last made.
+                    </p>
+                </section>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+            <button onclick="window.print()" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                <span class="material-icons-round text-base">print</span>
+                Print Policy
+            </button>
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                <span class="material-icons-round text-base">arrow_upward</span>
+                Back to Top
+            </button>
+            <a href="contact.html" class="flex items-center gap-2 px-4 py-2 text-sm text-orange-600 hover:text-orange-700 transition-colors">
+                <span class="material-icons-round text-base">contact_support</span>
+                Contact Support
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Print functionality
+        function printPolicy() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

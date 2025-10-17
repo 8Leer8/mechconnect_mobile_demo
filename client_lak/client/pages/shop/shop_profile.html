@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .service-card, .mechanic-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover, .mechanic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-open {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .status-closed {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .shop-header {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../../../imgs/shop_banner_1.png');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Shop Profile</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto">
+        <!-- Shop Header with Background Image -->
+        <div class="shop-header text-white py-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col md:flex-row items-center md:items-end gap-6">
+                    <!-- Shop Logo -->
+                    <div class="relative">
+                        <img src="../../../imgs/service_deafault_2.png" alt="" class="w-32 h-32 bg-white rounded-full shadow-lg flex items-center justify-center">
+                        <!-- Favorite Button -->
+                        <button id="favoriteBtn" class="absolute -top-2 -right-2 bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all h-10 w-10 flex items-center justify-center">
+                            <span id="favoriteIcon" class="material-icons-round text-lg text-gray-400 hover:text-orange-500">favorite_border</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Shop Info -->
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="flex flex-col md:flex-row md:items-center gap-3 mb-3">
+                            <h1 class="text-3xl font-bold">AutoCare Pro Shop</h1>
+                            <div class="flex items-center gap-2 justify-center md:justify-start">
+                                <span class="status-open text-xs font-medium px-2 py-1 rounded-full">OPEN</span>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium">4.7</span>
+                                    <span class="text-xs text-white/80">(342 reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-4 text-sm text-white/90 justify-center md:justify-start">
+                            <div class="flex items-center gap-1">
+                                <span class="material-icons-round text-base">calendar_today</span>
+                                <span>Est. 2015</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-icons-round text-base">location_on</span>
+                                <span>Zamboanga City</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-icons-round text-base">verified</span>
+                                <span>ASE Certified</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Custom Booking Button -->
+                        <div class="mt-6">
+                            <button onclick="window.location.href='../request_form/shop_custom_request.html'" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-lg text-sm font-medium hover:from-orange-600 hover:to-orange-700 transition-all flex items-center gap-2 shadow-md hover:shadow-lg">
+                                <span class="material-icons-round text-base">chat</span>
+                                Custom Request
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shop Details Section -->
+        <div class="px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - About and Stats -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- About Section -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">About Our Shop</h2>
+                        <p class="text-gray-600 mb-4">
+                            AutoCare Pro Shop has been serving the Zamboanga community since 2015, providing top-quality automotive repair and maintenance services. 
+                            Our team of certified mechanics specializes in everything from routine oil changes to complex engine diagnostics and repairs.
+                        </p>
+                        <p class="text-gray-600">
+                            We pride ourselves on our commitment to excellence, using only the highest quality parts and state-of-the-art diagnostic equipment. 
+                            Your vehicle's safety and performance are our top priorities.
+                        </p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="stat-card bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <span class="material-icons-round text-orange-600 text-xl">star</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-900 mb-1">4.7</div>
+                            <div class="text-xs text-gray-600">Average Rating</div>
+                        </div>
+                        
+                        <div class="stat-card bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <span class="material-icons-round text-blue-600 text-xl">handyman</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-900 mb-1">2,847</div>
+                            <div class="text-xs text-gray-600">Services Completed</div>
+                        </div>
+                        
+                        <div class="stat-card bg-white rounded-xl border border-gray-200 p-4 text-center hover:shadow-md transition">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <span class="material-icons-round text-green-600 text-xl">trending_up</span>
+                            </div>
+                            <div class="text-2xl font-bold text-gray-900 mb-1">96%</div>
+                            <div class="text-xs text-gray-600">Success Rate</div>
+                        </div>
+                    </div>
+
+                    <!-- Mechanics Section -->
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-bold text-gray-900">Our Mechanics</h2>
+                            <div class="text-sm text-gray-500">5 mechanics</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Mechanic 1 -->
+                            <div class="mechanic-card bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                                <div class="flex items-center gap-4">
+                                    <img src="../../../imgs/mechanic_default_2.png" alt="" class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <h3 class="text-base font-semibold text-gray-900">Mike Rodriguez</h3>
+                                            <span class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full">GOLD</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 mb-2">
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="text-sm font-medium text-gray-700">4.8</span>
+                                            <span class="text-xs text-gray-500">(128 reviews)</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Brakes</span>
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Engine</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mechanic 2 -->
+                            <div class="mechanic-card bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                                <div class="flex items-center gap-4">
+                                    <img src="../../../imgs/mechanic_default_1.png" alt="" class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <h3 class="text-base font-semibold text-gray-900">Sarah Johnson</h3>
+                                            <span class="bg-gradient-to-r from-gray-400 to-gray-600 text-white text-xs px-2 py-0.5 rounded-full">SILVER</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 mb-2">
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="text-sm font-medium text-gray-700">4.6</span>
+                                            <span class="text-xs text-gray-500">(89 reviews)</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Electrical</span>
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">AC Repair</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mechanic 3 -->
+                            <div class="mechanic-card bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                                <div class="flex items-center gap-4">
+                                    <img src="../../../imgs/mechanic_default_2.png" alt="" class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <h3 class="text-base font-semibold text-gray-900">David Chen</h3>
+                                            <span class="bg-gradient-to-r from-yellow-700 to-yellow-900 text-white text-xs px-2 py-0.5 rounded-full">BRONZE</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 mb-2">
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="text-sm font-medium text-gray-700">4.5</span>
+                                            <span class="text-xs text-gray-500">(67 reviews)</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Transmission</span>
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Suspension</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mechanic 4 -->
+                            <div class="mechanic-card bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                                <div class="flex items-center gap-4">
+                                    <img src="../../../imgs/mechanic_default_1.png" alt="" class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <h3 class="text-base font-semibold text-gray-900">Maria Santos</h3>
+                                            <span class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full">GOLD</span>
+                                        </div>
+                                        <div class="flex items-center gap-1 mb-2">
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="text-sm font-medium text-gray-700">4.9</span>
+                                            <span class="text-xs text-gray-500">(156 reviews)</span>
+                                        </div>
+                                        <div class="flex flex-wrap gap-1">
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Diagnostics</span>
+                                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Hybrid</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Info and Hours -->
+                <div class="space-y-6">
+                    <!-- Contact & Hours Card -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Shop Information</h3>
+                        
+                        <!-- Hours -->
+                        <div class="mb-6">
+                            <h4 class="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
+                                <span class="material-icons-round text-base text-gray-500">schedule</span>
+                                Business Hours
+                            </h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Monday - Friday</span>
+                                    <span class="font-medium text-gray-900">8:00 AM - 6:00 PM</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Saturday</span>
+                                    <span class="font-medium text-gray-900">9:00 AM - 4:00 PM</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Sunday</span>
+                                    <span class="font-medium text-gray-900 text-red-500">Closed</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Location -->
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
+                                <span class="material-icons-round text-base text-gray-500">location_on</span>
+                                Location
+                            </h4>
+                            <p class="text-sm text-gray-600">
+                                123 Automotive Street, Zamboanga City, 7000 Philippines
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Certifications -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Certifications</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-blue-600 text-lg">verified</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">ASE Blue Seal</div>
+                                    <div class="text-xs text-gray-500">Automotive Service Excellence</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-green-600 text-lg">verified</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">EPA Certified</div>
+                                    <div class="text-xs text-gray-500">Environmental Protection</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-purple-600 text-lg">verified</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-gray-900">AAA Approved</div>
+                                    <div class="text-xs text-gray-500">Auto Repair Facility</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Services Section -->
+            <div class="mt-12">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-gray-900">Available Services</h2>
+                    <div class="text-sm text-gray-500">Showing 6 services</div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Service 1 -->
+                    <div class="service-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-40 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
+                            <span class="material-icons-round text-orange-400 text-5xl">build</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">Complete brake pad replacement with inspection of rotors and calipers.</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
+                                <span class="material-icons-round text-sm">person</span>
+                                <span>Mike Rodriguez</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.9</span>
+                                    <span class="text-xs text-gray-500">(47)</span>
+                                </div>
+                                <div class="text-lg font-bold text-orange-600">₱2,500</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="flex-1 border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                                    View Details
+                                </button>
+                                <button class="flex-1 bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Service 2 -->
+                    <div class="service-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-40 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                            <span class="material-icons-round text-blue-400 text-5xl">oil_barrel</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900">Full Synthetic Oil Change</h3>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">Premium synthetic oil change with oil filter replacement and fluid check.</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
+                                <span class="material-icons-round text-sm">person</span>
+                                <span>Sarah Johnson</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.7</span>
+                                    <span class="text-xs text-gray-500">(32)</span>
+                                </div>
+                                <div class="text-lg font-bold text-orange-600">₱1,800</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="flex-1 border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                                    View Details
+                                </button>
+                                <button class="flex-1 bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Service 3 -->
+                    <div class="service-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-40 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
+                            <span class="material-icons-round text-green-400 text-5xl">engineering</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-semibold text-gray-900">Engine Diagnostics</h3>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">Comprehensive engine diagnostics using advanced scanning tools.</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
+                                <span class="material-icons-round text-sm">person</span>
+                                <span>Maria Santos</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.8</span>
+                                    <span class="text-xs text-gray-500">(28)</span>
+                                </div>
+                                <div class="text-lg font-bold text-orange-600">₱1,200</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="flex-1 border border-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                                    View Details
+                                </button>
+                                <button class="flex-1 bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Load More Button -->
+                <div class="text-center mt-8">
+                    <button class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Load More Services
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Favorite functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            const favoriteIcon = document.getElementById('favoriteIcon');
+            let isFavorite = false;
+            
+            favoriteBtn.addEventListener('click', function() {
+                isFavorite = !isFavorite;
+                
+                if (isFavorite) {
+                    favoriteIcon.textContent = 'favorite';
+                    favoriteIcon.classList.remove('text-gray-400');
+                    favoriteIcon.classList.add('text-orange-500');
+                    
+                    // Show success message
+                    showMessage('Shop added to favorites!', 'success');
+                } else {
+                    favoriteIcon.textContent = 'favorite_border';
+                    favoriteIcon.classList.remove('text-orange-500');
+                    favoriteIcon.classList.add('text-gray-400');
+                    
+                    // Show message
+                    showMessage('Shop removed from favorites', 'info');
+                }
+            });
+            
+            // Card interactions
+            const serviceCards = document.querySelectorAll('.service-card');
+            const mechanicCards = document.querySelectorAll('.mechanic-card');
+            
+            serviceCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking buttons
+                    if (e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
+                    
+                    // Navigate to service details (placeholder)
+                    console.log('Navigating to service details');
+                });
+            });
+            
+            mechanicCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Navigate to mechanic profile (placeholder)
+                    console.log('Navigating to mechanic profile');
+                });
+            });
+            
+            function showMessage(message, type) {
+                const messageEl = document.createElement('div');
+                messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                    type === 'success' ? 'bg-green-500 text-white' : 'bg-blue-500 text-white'
+                }`;
+                messageEl.innerHTML = `<div class="flex items-center gap-2"><span class="material-icons-round">${type === 'success' ? 'check_circle' : 'info'}</span> ${message}</div>`;
+                document.body.appendChild(messageEl);
+                
+                setTimeout(() => {
+                    messageEl.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

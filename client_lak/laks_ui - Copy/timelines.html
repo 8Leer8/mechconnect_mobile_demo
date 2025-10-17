@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .timeline-item {
+            transition: all 0.3s ease;
+        }
+        .timeline-item:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8 max-w-4xl mx-auto font-sans">
+    <div class="space-y-12">
+        <h1 class="text-3xl font-bold text-gray-900">Timeline Styles with Geist</h1>
+
+        <!-- Simple Vertical Timeline -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Simple Vertical Timeline</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="space-y-8">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-3 h-3 bg-blue-500 rounded-full border-4 border-white shadow"></div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-sm font-medium text-gray-900">Project Kickoff</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Completed</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Initial project meeting with stakeholders and team alignment.</p>
+                            <div class="text-xs text-gray-500 flex items-center gap-1">
+                                <span class="material-icons-round text-sm">schedule</span>
+                                Mar 15, 2024 • 2:00 PM
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-3 h-3 bg-green-500 rounded-full border-4 border-white shadow"></div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-sm font-medium text-gray-900">Design Phase</span>
+                                <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">In Progress</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">UI/UX design and wireframing for the main application.</p>
+                            <div class="text-xs text-gray-500 flex items-center gap-1">
+                                <span class="material-icons-round text-sm">schedule</span>
+                                Mar 18 - Mar 25, 2024
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline-item flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-3 h-3 bg-gray-300 rounded-full border-4 border-white shadow"></div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-sm font-medium text-gray-900">Development</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Upcoming</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Frontend and backend development sprint.</p>
+                            <div class="text-xs text-gray-500 flex items-center gap-1">
+                                <span class="material-icons-round text-sm">schedule</span>
+                                Mar 26 - Apr 10, 2024
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 4 -->
+                    <div class="timeline-item flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-3 h-3 bg-gray-300 rounded-full border-4 border-white shadow"></div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-sm font-medium text-gray-900">Launch</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Upcoming</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Production deployment and go-live.</p>
+                            <div class="text-xs text-gray-500 flex items-center gap-1">
+                                <span class="material-icons-round text-sm">schedule</span>
+                                Apr 15, 2024
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Icon Timeline -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Icon Timeline</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="space-y-8">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons-round text-blue-600">event</span>
+                            </div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-4"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="text-base font-semibold text-gray-900">Order Placed</span>
+                                <span class="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">Completed</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Your order #ORD-7842 has been successfully placed and confirmed.</p>
+                            <div class="text-xs text-gray-500 flex items-center gap-2">
+                                <span class="material-icons-round text-sm">schedule</span>
+                                Today • 9:30 AM
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons-round text-green-600">inventory_2</span>
+                            </div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-4"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="text-base font-semibold text-gray-900">Processing</span>
+                                <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Current</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Your order is being processed and prepared for shipment.</p>
+                            <div class="text-xs text-gray-500 flex items-center gap-2">
+                                <span class="material-icons-round text-sm">schedule</span>
+                                Today • 11:45 AM
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline-item flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons-round text-gray-400">local_shipping</span>
+                            </div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-4"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="text-base font-semibold text-gray-900">Shipped</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Pending</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Your order will be shipped and tracking information will be provided.</p>
+                            <div class="text-xs text-gray-500">Estimated: Tomorrow</div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 4 -->
+                    <div class="timeline-item flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons-round text-gray-400">home</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="text-base font-semibold text-gray-900">Delivered</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Pending</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Your order will be delivered to your specified address.</p>
+                            <div class="text-xs text-gray-500">Estimated: Mar 20, 2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Horizontal Timeline -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Horizontal Timeline</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="flex items-start justify-between relative">
+                    <!-- Connecting Line -->
+                    <div class="absolute top-6 left-0 right-0 h-0.5 bg-gray-200 z-0"></div>
+                    
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center text-center z-10">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-white text-sm">check</span>
+                        </div>
+                        <div class="text-sm font-medium text-gray-900 mb-1">Sign Up</div>
+                        <div class="text-xs text-gray-500">Mar 10</div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center text-center z-10">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-white text-sm">check</span>
+                        </div>
+                        <div class="text-sm font-medium text-gray-900 mb-1">Profile</div>
+                        <div class="text-xs text-gray-500">Mar 12</div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center text-center z-10">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-white text-sm font-medium">3</span>
+                        </div>
+                        <div class="text-sm font-medium text-gray-900 mb-1">Verification</div>
+                        <div class="text-xs text-gray-500">Current</div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex flex-col items-center text-center z-10">
+                        <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-3">
+                            <span class="text-gray-500 text-sm font-medium">4</span>
+                        </div>
+                        <div class="text-sm font-medium text-gray-500 mb-1">Complete</div>
+                        <div class="text-xs text-gray-400">Upcoming</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Card Timeline -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Card Timeline</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="space-y-8">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center shadow-lg">
+                                <span class="material-icons-round text-white text-sm">work</span>
+                            </div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-4"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-semibold text-gray-900">Senior Product Designer</span>
+                                    <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Current</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Leading design initiatives for our flagship product and mentoring junior designers.</p>
+                                <div class="flex items-center gap-4 text-xs text-gray-500">
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-sm">business</span>
+                                        <span>TechCorp Inc.</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-sm">schedule</span>
+                                        <span>2022 - Present</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                                <span class="material-icons-round text-white text-sm">design_services</span>
+                            </div>
+                            <div class="w-0.5 h-full bg-gray-200 mt-4"></div>
+                        </div>
+                        <div class="flex-1 pb-8">
+                            <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-semibold text-gray-900">Product Designer</span>
+                                    <span class="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">Completed</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Designed user interfaces and experiences for web and mobile applications.</p>
+                                <div class="flex items-center gap-4 text-xs text-gray-500">
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-sm">business</span>
+                                        <span>DesignStudio</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-sm">schedule</span>
+                                        <span>2020 - 2022</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline-item flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                                <span class="material-icons-round text-white text-sm">school</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-semibold text-gray-900">UI/UX Design Degree</span>
+                                    <span class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">Completed</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-3">Bachelor's degree in User Interface and Experience Design with honors.</p>
+                                <div class="flex items-center gap-4 text-xs text-gray-500">
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-sm">school</span>
+                                        <span>Design University</span>
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="material-icons-round text-sm">schedule</span>
+                                        <span>2016 - 2020</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity Timeline -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Activity Timeline</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div class="space-y-6">
+                    <!-- Today -->
+                    <div class="space-y-4">
+                        <h3 class="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                            <span class="material-icons-round text-base">today</span>
+                            Today
+                        </h3>
+                        
+                        <!-- Activity 1 -->
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-icons-round text-blue-600 text-sm">edit</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-900">
+                                    <span class="font-medium">You</span> updated the project documentation
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                            </div>
+                        </div>
+
+                        <!-- Activity 2 -->
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-icons-round text-green-600 text-sm">comment</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-900">
+                                    <span class="font-medium">Sarah Chen</span> commented on the design file
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">4 hours ago</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yesterday -->
+                    <div class="space-y-4">
+                        <h3 class="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                            <span class="material-icons-round text-base">event</span>
+                            Yesterday
+                        </h3>
+                        
+                        <!-- Activity 1 -->
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-icons-round text-purple-600 text-sm">file_upload</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-900">
+                                    <span class="font-medium">Alex Kumar</span> uploaded new assets
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">Yesterday, 3:45 PM</p>
+                            </div>
+                        </div>
+
+                        <!-- Activity 2 -->
+                        <div class="flex gap-4">
+                            <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="material-icons-round text-orange-600 text-sm">group</span>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-900">
+                                    <span class="font-medium">Team meeting</span> completed - Project review
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">Yesterday, 11:00 AM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

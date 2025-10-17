@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Pro - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .quick-card {
+            transition: all 0.3s ease;
+        }
+        
+        .quick-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .booking-card {
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mechanic-card {
+            transition: all 0.3s ease;
+        }
+        
+        .mechanic-card:hover {
+            transform: translateY(-1px);
+        }
+        
+        .nav-active {
+            color: #f97316;
+        }
+        
+        .status-badge {
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Page Title -->
+                <h1 class="text-xl font-bold text-gray-900">Home</h1>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Profile Picture -->
+                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        JS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Good morning, John!</h2>
+            <p class="text-gray-600">Ready to take care of your vehicle today?</p>
+        </div>
+
+        <!-- Quick Actions Cards -->
+        <div class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Custom Request -->
+                <a href="../request_form/custom_request.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <span class="material-icons-round text-orange-500 text-xl">chat</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-900">Custom Request</span>
+                </a>
+                
+                <!-- Mechanic -->
+                <a href="../mechanics/mechanics.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <span class="material-icons-round text-blue-500 text-xl">handyman</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-900">Mechanic</span>
+                </a>
+                
+                <!-- Shop -->
+                <a href="../shops/shops.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <span class="material-icons-round text-green-500 text-xl">build_circle</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-900">Shop</span>
+                </a>
+                
+                <!-- Service -->
+                <a href="../services/services.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <span class="material-icons-round text-purple-500 text-xl">miscellaneous_services</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-900">Service</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Current Bookings -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Current Bookings</h3>
+                <a href="../bookings/bookings.html" class="text-sm text-orange-600 font-medium hover:text-orange-700">View All</a>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Booking 1 -->
+                <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-900">Brake Pad Replacement</h4>
+                            <p class="text-sm text-gray-600">Mike Rodriguez • Today, 10:00 AM</p>
+                        </div>
+                        <span class="status-badge bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">Confirmed</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-600">
+                            <span class="material-icons-round text-sm align-text-bottom">location_on</span>
+                            Home Service
+                        </div>
+                        <button class="text-sm text-orange-600 font-medium hover:text-orange-700">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Booking 2 -->
+                <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h4 class="font-semibold text-gray-900">Oil Change</h4>
+                            <p class="text-sm text-gray-600">AutoCare Pro Shop • Tomorrow, 2:30 PM</p>
+                        </div>
+                        <span class="status-badge bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">Pending</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-600">
+                            <span class="material-icons-round text-sm align-text-bottom">location_on</span>
+                            Workshop
+                        </div>
+                        <button class="text-sm text-orange-600 font-medium hover:text-orange-700">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No Bookings State -->
+            <!-- <div class="text-center py-8">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons-round text-gray-400 text-2xl">schedule</span>
+                </div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">No current bookings</h4>
+                <p class="text-gray-600 mb-4">Book your first service to get started</p>
+                <button class="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                    Book Service
+                </button>
+            </div> -->
+        </div>
+
+        <!-- Mechanics Near Me -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Mechanics Near You</h3>
+                <a href="../mechanics/mechanics.html" class="text-sm text-orange-600 font-medium hover:text-orange-700">View All</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Mechanic 1 -->
+                <div class="mechanic-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-center gap-3">
+                        <img src="../../imgs/mechanic_default_1.png" alt="Mike Rodriguez" class="w-12 h-12 bg-gray-200 rounded-full">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h4 class="font-semibold text-gray-900">Mike Rodriguez</h4>
+                                <span class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full">GOLD</span>
+                            </div>
+                            <div class="flex items-center gap-1 mb-2">
+                                <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                <span class="text-sm font-medium text-gray-700">4.8</span>
+                                <span class="text-xs text-gray-500">(128 reviews)</span>
+                            </div>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Brakes</span>
+                                <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Engine</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-3">
+                        <div class="text-xs text-gray-600 flex items-center gap-1">
+                            <span class="material-icons-round text-xs">location_on</span>
+                            <span>1.2 km away</span>
+                        </div>
+                        <button class="text-xs bg-orange-500 text-white px-3 py-1.5 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mechanic 2 -->
+                <div class="mechanic-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-center gap-3">
+                        <img src="../../imgs/mechanic_default_2.png" alt="Sarah Johnson" class="w-12 h-12 bg-gray-200 rounded-full">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h4 class="font-semibold text-gray-900">Sarah Johnson</h4>
+                                <span class="bg-gradient-to-r from-gray-400 to-gray-600 text-white text-xs px-2 py-0.5 rounded-full">SILVER</span>
+                            </div>
+                            <div class="flex items-center gap-1 mb-2">
+                                <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                <span class="text-sm font-medium text-gray-700">4.6</span>
+                                <span class="text-xs text-gray-500">(89 reviews)</span>
+                            </div>
+                            <div class="flex flex-wrap gap-1">
+                                <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Electrical</span>
+                                <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">AC Repair</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-3">
+                        <div class="text-xs text-gray-600 flex items-center gap-1">
+                            <span class="material-icons-round text-xs">location_on</span>
+                            <span>2.1 km away</span>
+                        </div>
+                        <button class="text-xs bg-orange-500 text-white px-3 py-1.5 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Booking -->
+            <a href="../bookings/bookings.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">calendar_today</span>
+                <span class="text-xs mt-1">Booking</span>
+            </a>
+            
+            <!-- Discover -->
+            <a href="../discover/discover.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">explore</span>
+                <span class="text-xs mt-1">Discover</span>
+            </a>
+            
+            <!-- Home -->
+            <a href="home.html" class="flex flex-col items-center text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">home</span>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            
+            <!-- Request -->
+            <a href="../request_form/custom_request.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">add_circle</span>
+                <span class="text-xs mt-1">Request</span>
+            </a>
+            
+            <!-- Profile -->
+            <a href="../profile/profile.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">person</span>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simple interactions
+            const bookButtons = document.querySelectorAll('.mechanic-card button');
+            const viewDetailsButtons = document.querySelectorAll('.booking-card button');
+            
+            bookButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const mechanicName = this.closest('.mechanic-card').querySelector('h4').textContent;
+                    alert(`Booking mechanic: ${mechanicName}`);
+                });
+            });
+            
+            viewDetailsButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const serviceName = this.closest('.booking-card').querySelector('h4').textContent;
+                    alert(`Viewing details for: ${serviceName}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

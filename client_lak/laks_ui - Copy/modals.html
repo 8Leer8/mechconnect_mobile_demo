@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .modal {
+            transition: all 0.3s ease;
+        }
+        
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-enter {
+            opacity: 0;
+            transform: scale(0.9) translateY(-10px);
+        }
+        
+        .modal-enter-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
+        .modal-exit {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
+        .modal-exit-active {
+            opacity: 0;
+            transform: scale(0.9) translateY(-10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8 max-w-6xl mx-auto font-sans">
+    <div class="space-y-12">
+        <h1 class="text-3xl font-bold text-gray-900">Modal Styles with Geist</h1>
+
+        <!-- Simple Confirmation Modal -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Simple Confirmation Modal</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <button onclick="openModal('confirmModal')" class="bg-black text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                    Open Confirmation Modal
+                </button>
+            </div>
+        </section>
+
+        <!-- Form Modal -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Form Modal</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <button onclick="openModal('formModal')" class="bg-black text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                    Open Form Modal
+                </button>
+            </div>
+        </section>
+
+        <!-- Success Modal -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Success Modal</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <button onclick="openModal('successModal')" class="bg-black text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                    Open Success Modal
+                </button>
+            </div>
+        </section>
+
+        <!-- Delete Confirmation Modal -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Delete Confirmation Modal</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <button onclick="openModal('deleteModal')" class="bg-red-600 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-red-700 transition">
+                    Open Delete Modal
+                </button>
+            </div>
+        </section>
+
+        <!-- Side Modal -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Side Modal</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <button onclick="openModal('sideModal')" class="bg-black text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                    Open Side Modal
+                </button>
+            </div>
+        </section>
+
+        <!-- Fullscreen Modal -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Fullscreen Modal</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <button onclick="openModal('fullscreenModal')" class="bg-black text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                    Open Fullscreen Modal
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Simple Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="modal bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-icons-round text-blue-600 text-2xl">help</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Confirm Action</h3>
+                    <p class="text-gray-600">Are you sure you want to proceed with this action? This cannot be undone.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="closeModal('confirmModal')" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                        Cancel
+                    </button>
+                    <button onclick="closeModal('confirmModal')" class="flex-1 bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Modal -->
+    <div id="formModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="modal bg-white rounded-2xl shadow-xl max-w-md w-full">
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Create New Project</h3>
+                    <button onclick="closeModal('formModal')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition">
+                        <span class="material-icons-round text-lg">close</span>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Project Name</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none" placeholder="Enter project name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none" rows="3" placeholder="Project description"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none appearance-none bg-white">
+                            <option>Select category</option>
+                            <option>Web Development</option>
+                            <option>Mobile App</option>
+                            <option>Design</option>
+                            <option>Marketing</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-3 p-6 border-t border-gray-200">
+                    <button onclick="closeModal('formModal')" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                        Cancel
+                    </button>
+                    <button onclick="closeModal('formModal')" class="flex-1 bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Create Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="modal bg-white rounded-2xl shadow-xl max-w-sm w-full p-8 text-center">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons-round text-green-500 text-3xl">check_circle</span>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-3">Success!</h3>
+                <p class="text-gray-600 mb-6">Your action has been completed successfully. You can now continue with your work.</p>
+                <button onclick="closeModal('successModal')" class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="modal bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-icons-round text-red-500 text-2xl">warning</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Delete Item</h3>
+                    <p class="text-gray-600">Are you sure you want to delete this item? This action cannot be undone and all data will be permanently lost.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="closeModal('deleteModal')" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                        Cancel
+                    </button>
+                    <button onclick="closeModal('deleteModal')" class="flex-1 bg-red-600 text-white py-3 rounded-lg text-sm font-medium hover:bg-red-700 transition">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Side Modal -->
+    <div id="sideModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex justify-end">
+            <div class="modal bg-white rounded-l-2xl shadow-xl w-full max-w-md h-full overflow-y-auto">
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Settings</h3>
+                    <button onclick="closeModal('sideModal')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition">
+                        <span class="material-icons-round text-lg">close</span>
+                    </button>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-900 mb-4">Account Settings</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-sm text-gray-700">Email Notifications</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-sm text-gray-700">Push Notifications</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-900 mb-4">Theme</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="p-4 border-2 border-black rounded-lg bg-white">
+                                <div class="text-sm font-medium text-gray-900 mb-1">Light</div>
+                                <div class="text-xs text-gray-500">Default theme</div>
+                            </button>
+                            <button class="p-4 border-2 border-gray-200 rounded-lg bg-gray-900 text-white">
+                                <div class="text-sm font-medium mb-1">Dark</div>
+                                <div class="text-xs text-gray-300">Dark mode</div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-900 mb-4">Language</h4>
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none appearance-none bg-white">
+                            <option>English</option>
+                            <option>Spanish</option>
+                            <option>French</option>
+                            <option>German</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-6 border-t border-gray-200">
+                    <button onclick="closeModal('sideModal')" class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div id="fullscreenModal" class="fixed inset-0 z-50 hidden">
+        <div class="modal bg-white h-full w-full overflow-y-auto">
+            <div class="border-b border-gray-200">
+                <div class="flex items-center justify-between p-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Create New Document</h2>
+                    <button onclick="closeModal('fullscreenModal')" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition">
+                        <span class="material-icons-round text-xl">close</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Content -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Document Title</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none" placeholder="Enter document title">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                            <div class="border border-gray-300 rounded-lg min-h-48 p-4 bg-gray-50">
+                                <p class="text-gray-500 text-sm">Start typing your document content here...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none appearance-none bg-white">
+                                    <option>General</option>
+                                    <option>Technical</option>
+                                    <option>Creative</option>
+                                    <option>Business</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Visibility</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none appearance-none bg-white">
+                                    <option>Private</option>
+                                    <option>Team</option>
+                                    <option>Public</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="text-sm font-medium text-gray-900 mb-3">Document Settings</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">Auto-save</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">Spell check</span>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <h4 class="text-sm font-medium text-gray-900 mb-2">Tips</h4>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <span class="material-icons-round text-blue-500 text-sm mt-0.5">lightbulb</span>
+                                    <span>Use clear and descriptive titles</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="material-icons-round text-blue-500 text-sm mt-0.5">lightbulb</span>
+                                    <span>Add relevant tags for better organization</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="material-icons-round text-blue-500 text-sm mt-0.5">lightbulb</span>
+                                    <span>Save frequently to avoid losing work</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3 justify-end mt-8 pt-6 border-t border-gray-200">
+                    <button onclick="closeModal('fullscreenModal')" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                        Cancel
+                    </button>
+                    <button onclick="closeModal('fullscreenModal')" class="px-6 py-3 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Create Document
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Add animation class
+            setTimeout(() => {
+                modal.classList.add('modal-enter-active');
+            }, 10);
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('modal-enter-active');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close modal when clicking on backdrop
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-backdrop')) {
+                const openModals = document.querySelectorAll('.modal-backdrop');
+                openModals.forEach(backdrop => {
+                    const modal = backdrop.closest('[id]');
+                    if (modal) {
+                        closeModal(modal.id);
+                    }
+                });
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const openModals = document.querySelectorAll('.modal-backdrop');
+                openModals.forEach(backdrop => {
+                    const modal = backdrop.closest('[id]');
+                    if (modal) {
+                        closeModal(modal.id);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

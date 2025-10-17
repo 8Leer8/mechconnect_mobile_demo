@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brake Pad Replacement - AutoCare Pro Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gold-rank {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+        
+        .silver-rank {
+            background: linear-gradient(135deg, #C0C0C0 0%, #A9A9A9 100%);
+        }
+        
+        .bronze-rank {
+            background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+        }
+        
+        .status-active {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .shop-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 8px;
+            height: 400px;
+        }
+        
+        .main-photo {
+            grid-row: 1 / span 2;
+        }
+        
+        .thumbnails {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .thumbnail {
+            flex: 1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .thumbnail:hover {
+            transform: scale(1.02);
+        }
+        
+        .thumbnail.active {
+            border: 3px solid #f97316;
+        }
+        
+        @media (max-width: 768px) {
+            .photo-gallery {
+                grid-template-columns: 1fr;
+                grid-template-rows: 300px 100px;
+                height: auto;
+            }
+            
+            .main-photo {
+                grid-row: 1;
+            }
+            
+            .thumbnails {
+                flex-direction: row;
+                grid-row: 2;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Service Details</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Service Header Section -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+            <div class="flex flex-col md:flex-row">
+                <!-- Service Image Gallery -->
+                <div class="md:w-1/2">
+                    <div class="photo-gallery p-4">
+                        <div class="main-photo bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl overflow-hidden">
+                            <img id="mainPhoto" src="../../../imgs/shop_service_cover_1.png" 
+                                 alt="Brake Service" class="w-full h-full object-cover">
+                        </div>
+                        <div class="thumbnails">
+                            <div class="thumbnail rounded-lg overflow-hidden active" data-src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+                                <img src="../../../imgs/service_default_1.png" 
+                                     alt="Brake Service" class="w-full h-full object-cover">
+                            </div>
+                            <div class="thumbnail rounded-lg overflow-hidden" data-src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+                                <img src="../../../imgs/service_deafault_3.png" 
+                                     alt="Brake Pads" class="w-full h-full object-cover">
+                            </div>
+                            <div class="thumbnail rounded-lg overflow-hidden" data-src="https://images.unsplash.com/photo-1603712610496-5362a2c93c90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80">
+                                <img src="../../../imgs/service_deafault_2.png" 
+                                     alt="Brake Calipers" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Info -->
+                <div class="md:w-1/2 p-6 md:p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 mb-2">Brake Pad Replacement</h1>
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Available</span>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.9</span>
+                                    <span class="text-xs text-gray-500">(47 reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Favorite Button -->
+                        <button id="favoriteBtn" class="bg-gray-100 rounded-full p-2 hover:bg-gray-200 transition h-10 w-10 flex items-center justify-center">
+                            <span id="favoriteIcon" class="material-icons-round text-lg text-gray-400 hover:text-orange-500">favorite_border</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Price and Service Count -->
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <div class="text-3xl font-bold text-orange-600">₱2,500</div>
+                            <div class="text-sm text-gray-500">Starting price</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-bold text-gray-900">347</div>
+                            <div class="text-sm text-gray-500">Services Completed</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Service Description -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Service Description</h3>
+                        <p class="text-gray-600">
+                            Complete brake pad replacement with thorough inspection of rotors and calipers. 
+                            Our certified mechanics use premium quality brake pads and follow manufacturer 
+                            specifications to ensure optimal braking performance and safety.
+                        </p>
+                    </div>
+                    
+                    <!-- Service Duration -->
+                    <div class="flex items-center gap-2 text-sm text-gray-600 mb-6">
+                        <span class="material-icons-round text-base">schedule</span>
+                        <span>Estimated time: 2-3 hours</span>
+                    </div>
+                    
+                    <!-- Book Now Button -->
+                    <button id="bookNowBtn" class="w-full bg-orange-500 text-white px-4 py-3 rounded-lg text-base font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2">
+                        <span class="material-icons-round text-base">event_available</span>
+                        <span>Book This Service</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Service Details Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            <!-- Left Column - Service Details -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- What's Included -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">What's Included</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-lg mt-0.5">check_circle</span>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-900">Brake Pad Replacement</h3>
+                                <p class="text-sm text-gray-600">Installation of new premium brake pads for all four wheels</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-lg mt-0.5">check_circle</span>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-900">Rotor Inspection</h3>
+                                <p class="text-sm text-gray-600">Thorough inspection of brake rotors for wear and damage</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-lg mt-0.5">check_circle</span>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-900">Caliper Check</h3>
+                                <p class="text-sm text-gray-600">Inspection of brake calipers for proper function</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-lg mt-0.5">check_circle</span>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-900">Brake Fluid Check</h3>
+                                <p class="text-sm text-gray-600">Inspection and top-up of brake fluid if needed</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-lg mt-0.5">check_circle</span>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-900">Test Drive</h3>
+                                <p class="text-sm text-gray-600">Road test to ensure proper brake function</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add-Ons -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Available Add-Ons</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 p-3 border border-gray-200 rounded-lg">
+                            <span class="material-icons-round text-orange-500 text-lg mt-0.5">add_circle</span>
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Rotor Resurfacing</h3>
+                                <p class="text-sm text-gray-600 mb-2">Resurface brake rotors to ensure smooth braking</p>
+                                <div class="text-lg font-bold text-orange-600">+₱800</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 border border-gray-200 rounded-lg">
+                            <span class="material-icons-round text-orange-500 text-lg mt-0.5">add_circle</span>
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Brake Fluid Flush</h3>
+                                <p class="text-sm text-gray-600 mb-2">Complete brake fluid replacement for optimal performance</p>
+                                <div class="text-lg font-bold text-orange-600">+₱1,200</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 border border-gray-200 rounded-lg">
+                            <span class="material-icons-round text-orange-500 text-lg mt-0.5">add_circle</span>
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900">Caliper Cleaning</h3>
+                                <p class="text-sm text-gray-600 mb-2">Deep cleaning of brake calipers and components</p>
+                                <div class="text-lg font-bold text-orange-600">+₱500</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shop Information -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Shop Providing This Service</h2>
+                    <div class="flex items-center gap-4">
+                        <div class="relative">
+                            <img src="../../../imgs/service_deafault_2.png" alt="Shop" class="w-16 h-16 bg-gray-200 rounded-full">
+                            <div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1 border-2 border-white">
+                                <span class="material-icons-round text-white text-xs">check</span>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h3 class="text-lg font-semibold text-gray-900">AutoCare Pro Shop</h3>
+                                <span class="shop-badge text-xs font-bold px-2 py-1 rounded-full text-white">CERTIFIED</span>
+                            </div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="status-active text-xs font-medium px-2 py-1 rounded-full">OPEN</span>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.7</span>
+                                    <span class="text-xs text-gray-500">(342 reviews)</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">Established 2015 • ASE Certified • 5 mechanics</p>
+                            <div class="flex items-center gap-2 mt-2 text-sm text-gray-600">
+                                <span class="material-icons-round text-base">location_on</span>
+                                <span>Zamboanga City</span>
+                            </div>
+                        </div>
+                        <button class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                            View Shop
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mechanics Assigned to This Service -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Mechanics Assigned to This Service</h2>
+                    <div class="space-y-4">
+                        <!-- Mechanic 1 -->
+                        <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg">
+                            <div class="relative">
+                                <img src="../../../imgs/mechanic_default_2.png" alt="Mechanic" class="w-14 h-14 bg-gray-200 rounded-full">
+                                <div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1 border-2 border-white">
+                                    <span class="material-icons-round text-white text-xs">check</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="text-base font-semibold text-gray-900">Rodriguez, Mike</h3>
+                                    <span class="gold-rank text-xs font-bold px-2 py-0.5 rounded-full text-white">GOLD</span>
+                                </div>
+                                <div class="flex items-center gap-1 mb-2">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.8</span>
+                                    <span class="text-xs text-gray-500">(128 reviews)</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Specializes in brake systems with 8 years of experience</p>
+                            </div>
+                            <button class="border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors">
+                                View Profile
+                            </button>
+                        </div>
+                        
+                        <!-- Mechanic 2 -->
+                        <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg">
+                            <div class="relative">
+                                <img src="../../../imgs/mechanic_default_1.png" alt="Mechanic" class="w-14 h-14 bg-gray-200 rounded-full">
+                                <div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1 border-2 border-white">
+                                    <span class="material-icons-round text-white text-xs">check</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="text-base font-semibold text-gray-900">Sarah Johnson</h3>
+                                    <span class="silver-rank text-xs font-bold px-2 py-0.5 rounded-full text-white">SILVER</span>
+                                </div>
+                                <div class="flex items-center gap-1 mb-2">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.6</span>
+                                    <span class="text-xs text-gray-500">(89 reviews)</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Electrical systems specialist with 6 years of experience</p>
+                            </div>
+                            <button class="border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors">
+                                View Profile
+                            </button>
+                        </div>
+                        
+                        <!-- Mechanic 3 -->
+                        <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-lg">
+                            <div class="relative">
+                                <img src="../../../imgs/mechanic_default_2.png" alt="Mechanic" class="w-14 h-14 bg-gray-200 rounded-full">
+                                <div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1 border-2 border-white">
+                                    <span class="material-icons-round text-white text-xs">check</span>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="text-base font-semibold text-gray-900">David Chen</h3>
+                                    <span class="bronze-rank text-xs font-bold px-2 py-0.5 rounded-full text-white">BRONZE</span>
+                                </div>
+                                <div class="flex items-center gap-1 mb-2">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.5</span>
+                                    <span class="text-xs text-gray-500">(67 reviews)</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Transmission and suspension expert with 5 years of experience</p>
+                            </div>
+                            <button class="border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors">
+                                View Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reviews Section -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-900">Customer Reviews</h2>
+                        <div class="text-sm text-gray-500">47 reviews</div>
+                    </div>
+                    
+                    <!-- Review Stats -->
+                    <div class="flex items-center gap-6 mb-6">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gray-900">4.9</div>
+                            <div class="flex items-center justify-center">
+                                <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">Based on 47 reviews</div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs text-gray-600 w-8">5 stars</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-yellow-400 h-2 rounded-full" style="width: 90%"></div>
+                                </div>
+                                <span class="text-xs text-gray-600 w-8">42</span>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs text-gray-600 w-8">4 stars</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-yellow-400 h-2 rounded-full" style="width: 8%"></div>
+                                </div>
+                                <span class="text-xs text-gray-600 w-8">4</span>
+                            </div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs text-gray-600 w-8">3 stars</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-yellow-400 h-2 rounded-full" style="width: 2%"></div>
+                                </div>
+                                <span class="text-xs text-gray-600 w-8">1</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-gray-600 w-8">2 stars</span>
+                                <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-yellow-400 h-2 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <span class="text-xs text-gray-600 w-8">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Review List -->
+                    <div class="space-y-6">
+                        <!-- Review 1 -->
+                        <div class="border-b border-gray-100 pb-6">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h3 class="text-base font-semibold text-gray-900">Maria Santos</h3>
+                                    <div class="flex items-center gap-1 mt-1">
+                                        <div class="flex">
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                        </div>
+                                        <span class="text-xs text-gray-500">2 weeks ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-3">
+                                Mike did an excellent job with my brake pad replacement. He was thorough in explaining 
+                                the process and even showed me the old pads. The braking is now smooth and quiet. 
+                                Highly recommend!
+                            </p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500">
+                                <span class="material-icons-round text-base text-green-500">thumb_up</span>
+                                <span>Helpful (12)</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Review 2 -->
+                        <div class="border-b border-gray-100 pb-6">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h3 class="text-base font-semibold text-gray-900">James Wilson</h3>
+                                    <div class="flex items-center gap-1 mt-1">
+                                        <div class="flex">
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                        </div>
+                                        <span class="text-xs text-gray-500">1 month ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-3">
+                                Professional service from start to finish. My car's brakes were making noise, and Mike 
+                                diagnosed the issue quickly. The replacement was done efficiently, and the price was 
+                                fair. Will definitely return for future services.
+                            </p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500">
+                                <span class="material-icons-round text-base text-green-500">thumb_up</span>
+                                <span>Helpful (8)</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Review 3 -->
+                        <div class="pb-2">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h3 class="text-base font-semibold text-gray-900">Lisa Garcia</h3>
+                                    <div class="flex items-center gap-1 mt-1">
+                                        <div class="flex">
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                            <span class="material-icons-round text-gray-300 text-sm">star</span>
+                                        </div>
+                                        <span class="text-xs text-gray-500">2 months ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-3">
+                                Good service overall. The brake replacement was done properly, but there was a slight 
+                                delay in completion. Mike was apologetic and professional about it. Would still 
+                                recommend for the quality of work.
+                            </p>
+                            <div class="flex items-center gap-2 text-xs text-gray-500">
+                                <span class="material-icons-round text-base text-green-500">thumb_up</span>
+                                <span>Helpful (5)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Load More Reviews -->
+                    <div class="text-center mt-6">
+                        <button class="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                            Load More Reviews
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column - Booking Summary -->
+            <div class="space-y-6">
+                <!-- Booking Card -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Service Details</h2>
+                    
+                    <!-- Service Price -->
+                    <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
+                        <span class="text-gray-600">Brake Pad Replacement</span>
+                        <span class="font-medium text-gray-900">₱2,500</span>
+                    </div>
+                    
+                    <!-- Service Duration -->
+                    <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
+                        <span class="text-gray-600">Estimated Time</span>
+                        <span class="font-medium text-gray-900">2-3 hours</span>
+                    </div>
+                    
+                    <!-- Shop -->
+                    <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
+                        <span class="text-gray-600">Shop</span>
+                        <span class="font-medium text-gray-900">AutoCare Pro</span>
+                    </div>
+                    
+                    <!-- Mechanics -->
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-gray-600">Available Mechanics</span>
+                        <span class="font-medium text-gray-900">3</span>
+                    </div>
+                    
+                    <!-- Book Now Button -->
+                    <button id="confirmBookingBtn" class="w-full bg-orange-500 text-white px-4 py-3 rounded-lg text-base font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2">
+                        <span class="material-icons-round text-base">event_available</span>
+                        <span>Book This Service</span>
+                    </button>
+                    
+                    <!-- Additional Info -->
+                    <div class="mt-4 text-center text-xs text-gray-500">
+                        <p>Free cancellation up to 24 hours before appointment</p>
+                    </div>
+                </div>
+                
+                <!-- Service Guarantee -->
+                <div class="bg-blue-50 rounded-2xl p-5 border border-blue-100">
+                    <div class="flex items-start gap-3">
+                        <span class="material-icons-round text-blue-500 text-lg mt-0.5">verified</span>
+                        <div>
+                            <h3 class="text-base font-semibold text-gray-900 mb-1">Service Guarantee</h3>
+                            <p class="text-sm text-gray-600">90-day warranty on all parts and labor. If you're not satisfied, we'll make it right.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+                    <h3 class="text-base font-semibold text-gray-900 mb-3">Need Help?</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <span class="material-icons-round text-base">phone</span>
+                            <span>(082) 123-4567</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <span class="material-icons-round text-base">mail</span>
+                            <span>support@autocarepro.com</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <span class="material-icons-round text-base">schedule</span>
+                            <span>Mon-Sat: 8AM-6PM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Favorite functionality
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            const favoriteIcon = document.getElementById('favoriteIcon');
+            let isFavorite = false;
+            
+            favoriteBtn.addEventListener('click', function() {
+                isFavorite = !isFavorite;
+                
+                if (isFavorite) {
+                    favoriteIcon.textContent = 'favorite';
+                    favoriteIcon.classList.remove('text-gray-400');
+                    favoriteIcon.classList.add('text-orange-500');
+                    
+                    showMessage('Added to favorites!', 'success');
+                } else {
+                    favoriteIcon.textContent = 'favorite_border';
+                    favoriteIcon.classList.remove('text-orange-500');
+                    favoriteIcon.classList.add('text-gray-400');
+                    
+                    showMessage('Removed from favorites', 'info');
+                }
+            });
+            
+            // Photo gallery functionality
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainPhoto = document.getElementById('mainPhoto');
+            
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked thumbnail
+                    this.classList.add('active');
+                    
+                    // Update main photo
+                    const newSrc = this.getAttribute('data-src');
+                    mainPhoto.src = newSrc;
+                });
+            });
+            
+            // Book Now buttons
+            const bookNowBtn = document.getElementById('bookNowBtn');
+            const confirmBookingBtn = document.getElementById('confirmBookingBtn');
+            
+            bookNowBtn.addEventListener('click', function() {
+                document.getElementById('confirmBookingBtn').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            });
+            
+            confirmBookingBtn.addEventListener('click', function() {
+                showMessage('Booking request submitted! We will contact you shortly.', 'success');
+                
+                // Reset button state after a delay
+                this.disabled = true;
+                this.innerHTML = '<span class="material-icons-round text-base animate-spin">refresh</span><span>Processing...</span>';
+                
+                setTimeout(() => {
+                    this.disabled = false;
+                    this.innerHTML = '<span class="material-icons-round text-base">event_available</span><span>Book This Service</span>';
+                }, 3000);
+            });
+            
+            function showMessage(message, type) {
+                const messageEl = document.createElement('div');
+                messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                    type === 'success' ? 'bg-green-500 text-white' : 'bg-blue-500 text-white'
+                }`;
+                messageEl.innerHTML = `<div class="flex items-center gap-2"><span class="material-icons-round">${type === 'success' ? 'check_circle' : 'info'}</span> ${message}</div>`;
+                document.body.appendChild(messageEl);
+                
+                setTimeout(() => {
+                    messageEl.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

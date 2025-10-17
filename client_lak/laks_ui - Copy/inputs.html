@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Checkbox Styles */
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.25rem;
+            background: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox:checked {
+            background: #000;
+            border-color: #000;
+        }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-checkbox:hover {
+            border-color: #9ca3af;
+        }
+
+        .custom-checkbox:focus {
+            outline: none;
+            ring: 2px solid black;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom Radio Styles */
+        .custom-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .custom-radio:checked {
+            border-color: #000;
+        }
+
+        .custom-radio:checked::after {
+            content: "";
+            position: absolute;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #000;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-radio:hover {
+            border-color: #9ca3af;
+        }
+
+        .custom-radio:focus {
+            outline: none;
+            ring: 2px solid black;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8 max-w-2xl mx-auto font-sans">
+    <div class="space-y-8">
+        <h1 class="text-2xl font-bold text-gray-900">Input Styles with Geist & Rounded Icons</h1>
+
+        <!-- Basic Inputs -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Basic Inputs</h2>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none transition" placeholder="Enter your full name">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none transition" placeholder="your@email.com">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none transition" placeholder="••••••••">
+                </div>
+            </div>
+        </section>
+
+        <!-- Inputs with Icons -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Inputs with Icons</h2>
+            
+            <div class="space-y-3">
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                    <div class="relative">
+                        <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">search</span>
+                        <input type="text" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none transition" placeholder="Search...">
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <div class="relative">
+                        <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">mail</span>
+                        <input type="email" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none transition" placeholder="your@email.com">
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                    <div class="relative">
+                        <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">phone</span>
+                        <input type="tel" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none transition" placeholder="+1 (555) 000-0000">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Textarea -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Textarea</h2>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none transition resize-none" placeholder="Enter your message..."></textarea>
+            </div>
+        </section>
+
+        <!-- Select Dropdowns -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Select Dropdowns</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Country</label>
+                    <div class="relative">
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none appearance-none bg-white transition">
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>United Kingdom</option>
+                            <option>Australia</option>
+                        </select>
+                        <span class="material-icons-round absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg pointer-events-none">arrow_drop_down</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <div class="relative">
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none appearance-none bg-white transition">
+                            <option>Design</option>
+                            <option>Development</option>
+                            <option>Marketing</option>
+                            <option>Support</option>
+                        </select>
+                        <span class="material-icons-round absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg pointer-events-none">arrow_drop_down</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkboxes & Radio -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Checkboxes & Radio Buttons</h2>
+            
+            <div class="space-y-4">
+                <div class="space-y-3">
+                    <label class="text-sm font-medium text-gray-700">Preferences</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                            <input type="checkbox" class="custom-checkbox">
+                            <span>Email notifications</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                            <input type="checkbox" class="custom-checkbox">
+                            <span>Push notifications</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                            <input type="checkbox" class="custom-checkbox" checked>
+                            <span>Weekly newsletter</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <label class="text-sm font-medium text-gray-700">Subscription Plan</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="plan" class="custom-radio" checked>
+                            <span>Basic - $9/month</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="plan" class="custom-radio">
+                            <span>Pro - $29/month</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="plan" class="custom-radio">
+                            <span>Enterprise - $99/month</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Input -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">File Input</h2>
+            
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition cursor-pointer">
+                <span class="material-icons-round text-3xl text-gray-400 mb-2">cloud_upload</span>
+                <p class="text-sm text-gray-600">Drag and drop your files here or</p>
+                <label class="inline-block mt-2">
+                    <span class="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition cursor-pointer">
+                        Browse Files
+                    </span>
+                    <input type="file" class="hidden">
+                </label>
+            </div>
+        </section>
+
+        <!-- Input States -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Input States</h2>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Valid Input</label>
+                    <input type="text" class="w-full px-4 py-3 border border-green-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition bg-green-50" value="Correct value">
+                    <p class="text-xs text-green-600 mt-1 flex items-center gap-1">
+                        <span class="material-icons-round text-sm">check_circle</span>
+                        Looks good!
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Error Input</label>
+                    <input type="text" class="w-full px-4 py-3 border border-red-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition bg-red-50" value="Invalid input">
+                    <p class="text-xs text-red-600 mt-1 flex items-center gap-1">
+                        <span class="material-icons-round text-sm">error</span>
+                        Please enter a valid value
+                    </p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Disabled Input</label>
+                    <input type="text" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm bg-gray-100 text-gray-500 cursor-not-allowed" placeholder="Disabled field" disabled>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

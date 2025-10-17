@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Complete Booking - AutoCare Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Geist Sans", "system-ui", "sans-serif"],
+            },
+            fontSize: {
+              xs: ["0.75rem", { lineHeight: "1rem" }],
+              sm: ["0.875rem", { lineHeight: "1.25rem" }],
+              base: ["1rem", { lineHeight: "1.5rem" }],
+              lg: ["1.125rem", { lineHeight: "1.75rem" }],
+            },
+            colors: {
+              orange: {
+                500: "#f97316",
+                600: "#ea580c",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .booking-card {
+        transition: all 0.3s ease;
+      }
+
+      .timeline-step {
+        transition: all 0.3s ease;
+      }
+
+      .timeline-step.active {
+        transform: scale(1.05);
+      }
+
+      .photo-gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      .photo-item {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .photo-item:hover {
+        transform: scale(1.05);
+      }
+
+      .static-map {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .static-map::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 30px 30px;
+      }
+
+      .road {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+      }
+
+      .road-horizontal {
+        width: 80%;
+        height: 8px;
+        top: 40%;
+        left: 10%;
+      }
+
+      .road-vertical {
+        width: 8px;
+        height: 60%;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .building {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+
+      .map-marker {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .status-badge {
+        transition: all 0.3s ease;
+      }
+
+      .action-btn {
+        transition: all 0.3s ease;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .completion-badge {
+        background: linear-gradient(135deg, #10b981, #059669);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Back Button -->
+          <button
+            onclick="window.history.back()"
+            class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group"
+          >
+            <span
+              class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform"
+              >arrow_back</span
+            >
+            <span class="text-sm font-medium hidden sm:inline">Back</span>
+          </button>
+
+          <!-- Page Title -->
+          <div class="flex items-center gap-3">
+            <h1 class="text-lg font-semibold text-gray-900">Complete Booking</h1>
+          </div>
+
+          <!-- Placeholder for alignment -->
+          <div class="w-10"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Booking Header -->
+      <div
+        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8"
+      >
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <h1 class="text-2xl font-bold text-gray-900">
+                Brake Pad Replacement
+              </h1>
+              <span
+                class="status-badge bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full font-medium"
+                >COMPLETED</span
+              >
+            </div>
+            <div class="flex items-center gap-4 text-sm text-gray-600">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">handyman</span>
+                <span
+                  >Mechanic:
+                  <span class="font-medium text-gray-900"
+                    >Mike Rodriguez</span
+                  ></span
+                >
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">schedule</span>
+                <span
+                  >Booking ID:
+                  <span class="font-mono font-medium text-gray-900"
+                    >BK-2024-001</span
+                  ></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="text-lg font-bold text-orange-600">₱3,030</div>
+            <div class="text-sm text-gray-500">Paid in Full</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Completion Banner -->
+      <div class="completion-badge text-white rounded-2xl p-6 mb-8 flex items-center gap-4 shadow-md">
+        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+          <span class="material-icons-round text-2xl">check_circle</span>
+        </div>
+        <div>
+          <div class="font-semibold text-lg">Service Completed Successfully!</div>
+          <div class="text-white/90 text-sm">Thank you for choosing AutoCare Pro. Your vehicle is now ready.</div>
+        </div>
+      </div>
+
+      <!-- Timeline Section -->
+      <div
+        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8"
+      >
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Service Timeline</h2>
+
+        <div class="relative">
+          <!-- Timeline Progress Bar -->
+          <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200 z-0">
+            <div
+              class="h-1 bg-green-500 transition-all duration-500"
+              style="width: 100%"
+              id="timelineProgress"
+            ></div>
+          </div>
+
+          <!-- Timeline Steps -->
+          <div class="relative z-10 grid grid-cols-6 gap-4">
+            <!-- Step 1: In Process -->
+            <div class="timeline-step text-center">
+              <div
+                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+              >
+                <span class="material-icons-round text-white text-sm"
+                  >pending_actions</span
+                >
+              </div>
+              <div class="text-xs font-medium text-gray-900">In Process</div>
+              <div class="text-xs text-gray-500">10:00 AM</div>
+            </div>
+
+            <!-- Step 2: On the Way -->
+            <div class="timeline-step text-center">
+              <div
+                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+              >
+                <span class="material-icons-round text-white text-sm"
+                  >directions_car</span
+                >
+              </div>
+              <div class="text-xs font-medium text-gray-900">On the Way</div>
+              <div class="text-xs text-gray-500">10:30 AM</div>
+            </div>
+
+            <!-- Step 3: Arrived -->
+            <div class="timeline-step text-center">
+              <div
+                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+              >
+                <span class="material-icons-round text-white text-sm"
+                  >location_on</span
+                >
+              </div>
+              <div class="text-xs font-medium text-gray-900">Arrived</div>
+              <div class="text-xs text-gray-500">11:15 AM</div>
+            </div>
+
+            <!-- Step 4: Working -->
+            <div class="timeline-step text-center">
+              <div
+                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+              >
+                <span class="material-icons-round text-white text-sm"
+                  >build</span
+                >
+              </div>
+              <div class="text-xs font-medium text-gray-900">Working</div>
+              <div class="text-xs text-gray-500">11:30 AM</div>
+            </div>
+
+            <!-- Step 5: Finished -->
+            <div class="timeline-step text-center">
+              <div
+                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+              >
+                <span class="material-icons-round text-white text-sm"
+                  >check_circle</span
+                >
+              </div>
+              <div class="text-xs font-medium text-gray-900">Finished</div>
+              <div class="text-xs text-gray-500">1:45 PM</div>
+            </div>
+
+            <!-- Step 6: Payment -->
+            <div class="timeline-step text-center">
+              <div
+                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+              >
+                <span class="material-icons-round text-white text-sm"
+                  >payments</span
+                >
+              </div>
+              <div class="text-xs font-medium text-gray-900">Payment</div>
+              <div class="text-xs text-gray-500">2:00 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Completion Info -->
+        <div class="mt-8 bg-green-50 rounded-xl p-4 border border-green-200">
+          <div class="flex items-start gap-3">
+            <span class="material-icons-round text-green-500 mt-0.5"
+              >check_circle</span
+            >
+            <div>
+              <div class="text-sm font-medium text-green-900 mb-1">
+                Service & Payment Complete
+              </div>
+              <p class="text-sm text-green-700">
+                Your brake pad replacement has been successfully completed and payment has been processed. 
+                Thank you for trusting AutoCare Pro with your vehicle maintenance.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left Column -->
+        <div class="space-y-8">
+          <!-- Service Summary -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2
+              class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+            >
+              <span class="material-icons-round text-orange-500">receipt</span>
+              Service Summary
+            </h2>
+
+            <!-- Service Breakdown -->
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-900 mb-3">
+                Service Breakdown
+              </h3>
+              <div class="space-y-3">
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700"
+                    >Brake Pad Replacement (Labor)</span
+                  >
+                  <span class="font-medium text-gray-900">₱1,200</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Brake Pads (Front)</span>
+                  <span class="font-medium text-gray-900">₱800</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Brake Fluid</span>
+                  <span class="font-medium text-gray-900">₱250</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Wheel Alignment</span>
+                  <span class="font-medium text-gray-900">₱300</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Air Filter Replacement</span>
+                  <span class="font-medium text-gray-900">₱200</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Air Filter</span>
+                  <span class="font-medium text-gray-900">₱180</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Service Fee</span>
+                  <span class="font-medium text-gray-900">₱100</span>
+                </div>
+                <div class="border-t border-gray-300 pt-3 mt-2">
+                  <div class="flex justify-between items-center">
+                    <span class="text-base font-semibold text-gray-900"
+                      >Total Paid</span
+                    >
+                    <span class="text-xl font-bold text-orange-600"
+                      >₱3,030</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Confirmation -->
+            <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+              <div class="flex items-center gap-3">
+                <span class="material-icons-round text-green-500">check_circle</span>
+                <div>
+                  <div class="text-sm font-medium text-green-900">Payment Confirmed</div>
+                  <div class="text-xs text-green-700">Transaction ID: TXN-2024-001</div>
+                  <div class="text-xs text-green-700">Paid via GCash • Jan 16, 2024 2:00 PM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Photos -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2
+              class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+            >
+              <span class="material-icons-round text-orange-500"
+                >photo_library</span
+              >
+              Service Documentation
+            </h2>
+
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-900 mb-3">
+                Before Service
+              </h3>
+              <div class="photo-gallery">
+                <div
+                  class="photo-item bg-gray-100 rounded-lg overflow-hidden aspect-square"
+                >
+                  <img
+                    src="../../../imgs/service_deafault_2.png"
+                    alt="Before service 1"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div
+                  class="photo-item bg-gray-100 rounded-lg overflow-hidden aspect-square"
+                >
+                  <img
+                    src="../../../imgs/service_deafault_2.png"
+                    alt="Before service 2"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div
+                  class="photo-item bg-gray-100 rounded-lg overflow-hidden aspect-square"
+                >
+                  <img
+                    src="../../../imgs/service_deafault_2.png"
+                    alt="Before service 3"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-medium text-gray-900 mb-3">
+                After Service
+              </h3>
+              <div class="photo-gallery">
+                <div
+                  class="photo-item bg-gray-100 rounded-lg overflow-hidden aspect-square"
+                >
+                  <img
+                    src="../../../imgs/service_deafault_2.png"
+                    alt="After service 1"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div
+                  class="photo-item bg-gray-100 rounded-lg overflow-hidden aspect-square"
+                >
+                  <img
+                    src="../../../imgs/service_deafault_2.png"
+                    alt="After service 2"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div
+                  class="photo-item bg-gray-100 rounded-lg overflow-hidden aspect-square"
+                >
+                  <img
+                    src="../../../imgs/service_deafault_2.png"
+                    alt="After service 3"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center mt-3">
+              <button
+                class="text-sm text-orange-600 font-medium hover:text-orange-700 transition-colors"
+              >
+                Download All Service Photos
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-8">
+          <!-- Service Location -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2
+              class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+            >
+              <span class="material-icons-round text-orange-500"
+                >location_on</span
+              >
+              Service Location
+            </h2>
+
+            <div class="static-map rounded-xl h-64 relative mb-4">
+              <!-- Roads -->
+              <div class="road road-horizontal"></div>
+              <div class="road road-vertical"></div>
+
+              <!-- Buildings -->
+              <div
+                class="building"
+                style="width: 60px; height: 80px; bottom: 20%; left: 20%"
+              ></div>
+              <div
+                class="building"
+                style="width: 70px; height: 100px; bottom: 20%; right: 20%"
+              ></div>
+              <div
+                class="building"
+                style="width: 50px; height: 60px; top: 20%; left: 30%"
+              ></div>
+              <div
+                class="building"
+                style="width: 80px; height: 90px; top: 20%; right: 30%"
+              ></div>
+
+              <!-- Marker -->
+              <div
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              >
+                <div
+                  class="map-marker bg-red-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <span class="material-icons-round">location_on</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 rounded-lg p-4 border border-blue-200 mb-4">
+              <div class="text-sm text-blue-700">
+                <div class="font-medium">123 Main Street</div>
+                <div class="text-xs mt-1">Barangay Zone 4, Zamboanga City</div>
+                <div class="text-xs">Region IX - Zamboanga Peninsula</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Receipt -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+              Service Receipt
+            </h2>
+
+            <div class="space-y-4">
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Service Date</span>
+                <span class="font-medium text-gray-900">Jan 16, 2024</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Service Time</span>
+                <span class="font-medium text-gray-900">10:00 AM - 2:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Mechanic</span>
+                <span class="font-medium text-gray-900">Mike Rodriguez</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Booking ID</span>
+                <span class="font-medium text-gray-900">BK-2024-001</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Transaction ID</span>
+                <span class="font-medium text-gray-900">TXN-2024-001</span>
+              </div>
+              
+              <div class="border-t border-gray-300 pt-4 mt-2">
+                <button
+                  onclick="downloadReceipt()"
+                  class="w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+                >
+                  <span class="material-icons-round text-base">download</span>
+                  Download Receipt
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+
+            <div class="space-y-3">
+              <button
+                onclick="rateService()"
+                class="action-btn w-full bg-orange-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons-round text-base">star</span>
+                Rate This Service
+              </button>
+              <button
+                onclick="bookAgain()"
+                class="action-btn w-full bg-blue-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons-round text-base">repeat</span>
+                Book Same Service Again
+              </button>
+              <button
+                onclick="contactSupport()"
+                class="action-btn w-full bg-gray-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons-round text-base"
+                  >support_agent</span
+                >
+                Contact Support
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Photo gallery functionality
+        const photoItems = document.querySelectorAll(".photo-item");
+        photoItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            const imgSrc = this.querySelector("img")?.src;
+            if (imgSrc) {
+              openImageModal(imgSrc);
+            }
+          });
+        });
+      });
+
+      function rateService() {
+        // Show rating modal or redirect to rating page
+        showMessage('Redirecting to rating page...', 'success');
+        setTimeout(() => {
+          // In a real app, this would navigate to the rating page
+          alert('Please rate your experience with Mike Rodriguez and the brake pad replacement service.');
+        }, 1000);
+      }
+
+      function bookAgain() {
+        if (confirm('Would you like to book the same service again?')) {
+          // Show loading state
+          const button = event.target;
+          const originalText = button.innerHTML;
+          button.innerHTML =
+            '<span class="material-icons-round animate-spin">refresh</span><span>Processing...</span>';
+          button.disabled = true;
+
+          // Simulate API call
+          setTimeout(() => {
+            showMessage(
+              "Service booked successfully! We'll contact you to schedule the appointment.",
+              "success"
+            );
+
+            // Reset button
+            button.innerHTML =
+              '<span class="material-icons-round text-base">repeat</span><span>Book Same Service Again</span>';
+            button.disabled = false;
+          }, 1500);
+        }
+      }
+
+      function downloadReceipt() {
+        // Show loading state
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML =
+          '<span class="material-icons-round animate-spin">refresh</span><span>Generating...</span>';
+        button.disabled = true;
+
+        // Simulate receipt generation
+        setTimeout(() => {
+          showMessage(
+            "Receipt downloaded successfully!",
+            "success"
+          );
+
+          // Reset button
+          button.innerHTML =
+            '<span class="material-icons-round text-base">download</span><span>Download Receipt</span>';
+          button.disabled = false;
+        }, 1500);
+      }
+
+      function contactSupport() {
+        window.location.href = "tel:+639123456789";
+      }
+
+      function openImageModal(src) {
+        const modal = document.createElement("div");
+        modal.className =
+          "fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50";
+        modal.innerHTML = `
+                <div class="relative max-w-4xl max-h-full">
+                    <img src="${src}" alt="Enlarged view" class="max-w-full max-h-full object-contain">
+                    <button class="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all"
+                            onclick="this.closest('.fixed').remove()">
+                        <span class="material-icons-round">close</span>
+                    </button>
+                </div>
+            `;
+        document.body.appendChild(modal);
+
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) {
+            modal.remove();
+          }
+        });
+      }
+
+      function showMessage(message, type) {
+        const messageEl = document.createElement("div");
+        messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+          type === "success"
+            ? "bg-green-500 text-white"
+            : "bg-red-500 text-white"
+        }`;
+        messageEl.innerHTML = `<div class="flex items-center gap-2"><span class="material-icons-round">${
+          type === "success" ? "check_circle" : "error"
+        }</span> ${message}</div>`;
+        document.body.appendChild(messageEl);
+
+        setTimeout(() => {
+          messageEl.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

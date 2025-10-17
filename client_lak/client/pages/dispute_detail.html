@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Pro - Dispute Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .detail-card {
+            transition: all 0.3s ease;
+        }
+        
+        .detail-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-step {
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-step.active {
+            transform: scale(1.05);
+        }
+        
+        .photo-preview {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .photo-preview:hover {
+            transform: scale(1.05);
+        }
+        
+        .message-bubble {
+            transition: all 0.3s ease;
+        }
+        
+        .message-bubble:hover {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header with Back Button Only -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Dispute Details</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-6">
+        <!-- Dispute Header -->
+        <div class="detail-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <h1 class="text-2xl font-bold text-gray-900">Brake Pad Replacement Issue</h1>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-medium">UNDER REVIEW</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm text-gray-600">
+                        <div class="flex items-center gap-1">
+                            <span class="material-icons-round text-base">receipt</span>
+                            <span>Case ID: <span class="font-mono font-medium text-gray-900">DP-2024-001</span></span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="material-icons-round text-base">schedule</span>
+                            <span>Filed: <span class="font-medium text-gray-900">Jan 12, 2024 • 2:30 PM</span></span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="material-icons-round text-base">handyman</span>
+                            <span>Mechanic: <span class="font-medium text-gray-900">Mike Rodriguez</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <div class="text-lg font-bold text-orange-600">₱3,030</div>
+                    <div class="text-sm text-gray-500">Disputed Amount</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dispute Timeline -->
+        <div class="detail-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-6">Dispute Timeline</h2>
+
+            <div class="relative">
+                <!-- Timeline Progress Bar -->
+                <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200 z-0">
+                    <div class="h-1 bg-orange-500 transition-all duration-500" style="width: 50%" id="timelineProgress"></div>
+                </div>
+
+                <!-- Timeline Steps -->
+                <div class="relative z-10 grid grid-cols-4 gap-4">
+                    <!-- Step 1: Filed -->
+                    <div class="timeline-step active text-center">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md">
+                            <span class="material-icons-round text-white text-sm">gavel</span>
+                        </div>
+                        <div class="text-xs font-medium text-gray-900">Filed</div>
+                        <div class="text-xs text-gray-500">Jan 12</div>
+                    </div>
+
+                    <!-- Step 2: Under Review -->
+                    <div class="timeline-step active text-center">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md">
+                            <span class="material-icons-round text-white text-sm">search</span>
+                        </div>
+                        <div class="text-xs font-medium text-gray-900">Under Review</div>
+                        <div class="text-xs text-gray-500">Current</div>
+                    </div>
+
+                    <!-- Step 3: Resolution -->
+                    <div class="timeline-step text-center">
+                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="material-icons-round text-white text-sm">balance</span>
+                        </div>
+                        <div class="text-xs font-medium text-gray-900">Resolution</div>
+                        <div class="text-xs text-gray-500">Pending</div>
+                    </div>
+
+                    <!-- Step 4: Closed -->
+                    <div class="timeline-step text-center">
+                        <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <span class="material-icons-round text-white text-sm">check_circle</span>
+                        </div>
+                        <div class="text-xs font-medium text-gray-900">Closed</div>
+                        <div class="text-xs text-gray-500">Pending</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Status Info -->
+            <div class="mt-8 bg-blue-50 rounded-xl p-4 border border-blue-200">
+                <div class="flex items-start gap-3">
+                    <span class="material-icons-round text-blue-500 mt-0.5">info</span>
+                    <div>
+                        <div class="text-sm font-medium text-blue-900 mb-1">
+                            Case Under Review
+                        </div>
+                        <p class="text-sm text-blue-700">
+                            Our support team is currently reviewing your dispute. We'll contact you within 24-48 hours with an update.
+                            Expected resolution date: <span class="font-medium">January 16, 2024</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column -->
+            <div class="space-y-8">
+                <!-- Dispute Details -->
+                <div class="detail-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500">description</span>
+                        Dispute Details
+                    </h2>
+
+                    <div class="space-y-4">
+                        <!-- Issue Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Issue Type</label>
+                            <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                                <div class="text-sm text-gray-900">Poor Service Quality</div>
+                            </div>
+                        </div>
+
+                        <!-- Booking Reference -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Booking Reference</label>
+                            <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                                <div class="text-sm text-gray-900">BK-2024-001 - Brake Pad Replacement</div>
+                                <div class="text-xs text-gray-500 mt-1">Completed on Jan 10, 2024 • ₱3,030</div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                <p class="text-sm text-gray-700">
+                                    Brake pads were replaced by Mike Rodriguez on January 10, 2024. However, the grinding noise that was supposed to be fixed persists and has actually gotten worse. 
+                                    The mechanic claimed the issue was resolved during the service, but the problem continues and the braking performance has decreased noticeably. 
+                                    The brake pedal now feels softer and requires more pressure to stop the vehicle, which is a safety concern.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Desired Resolution -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Desired Resolution</label>
+                            <div class="bg-orange-50 rounded-lg p-3 border border-orange-200">
+                                <div class="text-sm text-orange-900">Free rework/service correction</div>
+                                <div class="text-xs text-orange-700 mt-1">Proper brake pad replacement with warranty</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Evidence -->
+                <div class="detail-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500">photo_library</span>
+                        Photo Evidence
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="photo-preview bg-gray-100 rounded-lg overflow-hidden aspect-square" onclick="openImageModal('photo1')">
+                            <img src="../../../imgs/service_deafault_2.png" alt="Brake issue photo 1" class="w-full h-full object-cover">
+                        </div>
+                        <div class="photo-preview bg-gray-100 rounded-lg overflow-hidden aspect-square" onclick="openImageModal('photo2')">
+                            <img src="../../../imgs/service_deafault_2.png" alt="Brake issue photo 2" class="w-full h-full object-cover">
+                        </div>
+                        <div class="photo-preview bg-gray-100 rounded-lg overflow-hidden aspect-square" onclick="openImageModal('photo3')">
+                            <img src="../../../imgs/service_deafault_2.png" alt="Brake issue photo 3" class="w-full h-full object-cover">
+                        </div>
+                        <div class="photo-preview bg-gray-100 rounded-lg overflow-hidden aspect-square flex items-center justify-center text-gray-400">
+                            <span class="material-icons-round text-2xl">add</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-8">
+                <!-- Communication -->
+                <div class="detail-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500">chat</span>
+                        Communication
+                    </h2>
+
+                    <div class="space-y-4 max-h-96 overflow-y-auto">
+                        <!-- Message 1 -->
+                        <div class="message-bubble bg-blue-50 rounded-xl p-4 border border-blue-100">
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="material-icons-round text-white text-sm">support_agent</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-sm font-medium text-gray-900">AutoCare Support</span>
+                                        <span class="text-xs text-gray-500">Jan 12, 2:45 PM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-700">
+                                        Thank you for filing a dispute. We've received your case and assigned it to our support team. 
+                                        We'll review the details and get back to you within 24-48 hours.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message 2 -->
+                        <div class="message-bubble bg-gray-50 rounded-xl p-4 border border-gray-200">
+                            <div class="flex items-start gap-3">
+                                <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="material-icons-round text-white text-sm">person</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-sm font-medium text-gray-900">You</span>
+                                        <span class="text-xs text-gray-500">Jan 12, 2:30 PM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-700">
+                                        I need to dispute the brake pad replacement service. The problem wasn't fixed and the mechanic isn't responding to my messages.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Message Input -->
+                        <div class="border-t border-gray-200 pt-4">
+                            <textarea 
+                                rows="3" 
+                                placeholder="Type your message..."
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition resize-none"
+                            ></textarea>
+                            <div class="flex justify-between items-center mt-2">
+                                <button class="text-gray-500 hover:text-gray-700">
+                                    <span class="material-icons-round">attach_file</span>
+                                </button>
+                                <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mechanic Information -->
+                <div class="detail-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">
+                        Mechanic Information
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <img src="../../../imgs/mechanic_default_1.png" alt="Mike Rodriguez" class="w-12 h-12 bg-gray-200 rounded-full">
+                            <div>
+                                <div class="text-base font-semibold text-gray-900">
+                                    Mike Rodriguez
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    Gold Mechanic • 8 years experience
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 text-sm text-gray-700">
+                            <span class="material-icons-round text-yellow-400 text-base">star</span>
+                            <span>4.8 rating (128 reviews)</span>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Brake Systems</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Engine Repair</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">Diagnostics</span>
+                        </div>
+
+                        <!-- Contact Info -->
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                            <div class="text-xs text-gray-600">
+                                <div class="font-medium mb-1">Contact Information</div>
+                                <div class="flex items-center gap-2 text-sm text-gray-700">
+                                    <span class="material-icons-round text-gray-500 text-base">phone</span>
+                                    <span>+63 912 345 6789</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="detail-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+
+                    <div class="space-y-3">
+                        <button onclick="contactSupport()" class="w-full bg-blue-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-icons-round text-base">support_agent</span>
+                            Contact Support
+                        </button>
+                        <button onclick="addEvidence()" class="w-full bg-gray-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-icons-round text-base">add_photo_alternate</span>
+                            Add More Evidence
+                        </button>
+                        <button onclick="withdrawDispute()" class="w-full bg-red-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-icons-round text-base">cancel</span>
+                            Withdraw Dispute
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Image Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="relative max-w-4xl max-h-full">
+            <img id="modal-image" src="" alt="Enlarged view" class="max-w-full max-h-full object-contain">
+            <button class="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all"
+                    onclick="closeImageModal()">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function openImageModal(photoId) {
+            const modal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            
+            // In a real app, you would set the actual image source based on photoId
+            modalImage.src = '../../../imgs/service_deafault_2.png';
+            modal.classList.remove('hidden');
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeImageModal();
+                }
+            });
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+
+        function contactSupport() {
+            alert('Opening support contact options...');
+        }
+
+        function addEvidence() {
+            alert('Opening file upload to add more evidence...');
+        }
+
+        function withdrawDispute() {
+            if (confirm('Are you sure you want to withdraw this dispute? This action cannot be undone.')) {
+                alert('Dispute withdrawal request submitted.');
+            }
+        }
+    </script>
+</body>
+</html>

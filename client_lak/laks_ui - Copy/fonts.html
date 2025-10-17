@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Font Scale Test - Geist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+                        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white p-8 max-w-2xl mx-auto font-sans">
+    <div class="space-y-8">
+        <!-- Headers -->
+        <div class="border-b pb-4">
+            <h1 class="text-2xl font-semibold mb-2">Main Heading</h1>
+            <h2 class="text-xl font-medium mb-2">Section Heading</h2>
+            <h3 class="text-lg font-medium mb-2">Subheading</h3>
+        </div>
+
+        <!-- Body Text -->
+        <div class="space-y-4">
+            <p class="text-base">This is regular body text. Perfect for paragraphs and main content that needs to be comfortable to read.</p>
+            
+            <p class="text-lg">This is larger body text. Great for lead paragraphs or important content you want to emphasize.</p>
+            
+            <p class="text-sm">This is smaller text. Ideal for secondary information, captions, or less important details.</p>
+            
+            <p class="text-xs">This is extra small text. Use for labels, timestamps, or legal text.</p>
+        </div>
+
+        <!-- UI Elements -->
+        <div class="space-y-4 border-t pt-4">
+            <button class="bg-black text-white px-4 py-2 rounded text-base font-medium">
+                Primary Button
+            </button>
+            
+            <button class="border border-gray-300 px-4 py-2 rounded text-sm font-medium">
+                Secondary Button
+            </button>
+
+            <div class="text-xs text-gray-500">
+                Form label • Help text • Metadata
+            </div>
+        </div>
+
+        <!-- Sample Card -->
+        <div class="border rounded-lg p-6 space-y-3">
+            <h3 class="text-lg font-semibold">Card Title</h3>
+            <p class="text-base text-gray-600">This is a sample card with different text sizes working together harmoniously.</p>
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-500">Category</span>
+                <button class="text-xs bg-gray-100 px-2 py-1 rounded">Action</button>
+            </div>
+        </div>
+
+        <!-- Font Weight Demo -->
+        <div class="border-t pt-4">
+            <h3 class="text-lg font-semibold mb-3">Geist Font Weights</h3>
+            <div class="space-y-2 text-base">
+                <p class="font-thin">Geist Thin - So sleek</p>
+                <p class="font-light">Geist Light - So elegant</p>
+                <p class="font-normal">Geist Normal - Perfect body</p>
+                <p class="font-medium">Geist Medium - Great for buttons</p>
+                <p class="font-semibold">Geist Semibold - Strong headers</p>
+                <p class="font-bold">Geist Bold - Maximum impact</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

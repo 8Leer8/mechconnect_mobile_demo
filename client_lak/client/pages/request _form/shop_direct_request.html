@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Request - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .service-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .addon-card {
+            transition: all 0.3s ease;
+        }
+        
+        .addon-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.375rem;
+            background: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .custom-checkbox:checked {
+            background: #f97316;
+            border-color: #f97316;
+        }
+        
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .summary-card {
+            transition: all 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .request-card {
+            transition: all 0.3s ease;
+        }
+        
+        .request-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mechanic-card {
+            transition: all 0.3s ease;
+        }
+        
+        .mechanic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .urgent-badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .scheduled-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .form-input {
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+        }
+        
+        .shop-header {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../../../imgs/shop_banner_1.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .pre-selected-service {
+            background-color: #fff7ed;
+            border-color: #fdba74;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Shop Request</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Shop Display Section -->
+            <div class="shop-header text-white rounded-2xl shadow-sm p-6 mb-6">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                    <!-- Shop Logo -->
+                    <div class="relative">
+                        <img src="../../../imgs/service_deafault_2.png" alt="" class="w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center">
+                    </div>
+                    
+                    <!-- Shop Info -->
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="flex flex-col md:flex-row md:items-center gap-3 mb-3">
+                            <h1 class="text-2xl font-bold">AutoCare Pro Shop</h1>
+                            <div class="flex items-center gap-2 justify-center md:justify-start">
+                                <span class="bg-green-500 text-white text-xs font-medium px-2 py-1 rounded-full">OPEN</span>
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium">4.7</span>
+                                    <span class="text-xs text-white/80">(342 reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-4 text-sm text-white/90 justify-center md:justify-start mb-4">
+                            <div class="flex items-center gap-1">
+                                <span class="material-icons-round text-base">location_on</span>
+                                <span>Zamboanga City</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-icons-round text-base">verified</span>
+                                <span>ASE Certified</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="material-icons-round text-base">groups</span>
+                                <span>5 Mechanics</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Info -->
+                        <div class="flex items-center gap-2 text-sm text-white/80">
+                            <span class="material-icons-round text-base text-orange-300">info</span>
+                            <span>Select a specific mechanic or let the shop assign the best one for your needs.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - Services, Add-ons, Location & Time -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Mechanic Selection -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="material-icons-round text-orange-500 text-lg">engineering</span>
+                            Choose Your Mechanic
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Auto-assign Option -->
+                            <div class="mechanic-card bg-white rounded-xl border border-gray-200 p-4 cursor-pointer" id="autoAssignCard">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                        <span class="material-icons-round text-white text-xl">auto_awesome</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <div>
+                                                <h4 class="text-base font-semibold text-gray-900">Auto-Assign</h4>
+                                                <p class="text-sm text-gray-600 mt-1">Let the shop assign the best available mechanic for your service</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-sm text-green-600 font-medium">Recommended</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mechanic Options -->
+                            <div class="space-y-4" id="mechanicOptions">
+                                <!-- Mechanic 1 -->
+                                <div class="mechanic-card bg-white rounded-xl border border-gray-200 p-4 cursor-pointer" data-mechanic-id="mike">
+                                    <div class="flex items-center gap-4">
+                                        <img src="../../../imgs/mechanic_default_2.png" alt="Mike Rodriguez" class="w-14 h-14 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <h4 class="text-base font-semibold text-gray-900">Mike Rodriguez</h4>
+                                                    <div class="flex items-center gap-1 mb-1">
+                                                        <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                                        <span class="text-sm font-medium text-gray-700">4.8</span>
+                                                        <span class="text-xs text-gray-500">(128 reviews)</span>
+                                                    </div>
+                                                    <div class="flex flex-wrap gap-1">
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Brakes</span>
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Engine</span>
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Transmission</span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xs text-gray-500">Available Today</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Mechanic 2 -->
+                                <div class="mechanic-card bg-white rounded-xl border border-gray-200 p-4 cursor-pointer" data-mechanic-id="sarah">
+                                    <div class="flex items-center gap-4">
+                                        <img src="../../../imgs/mechanic_default_1.png" alt="Sarah Johnson" class="w-14 h-14 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <h4 class="text-base font-semibold text-gray-900">Sarah Johnson</h4>
+                                                    <div class="flex items-center gap-1 mb-1">
+                                                        <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                                        <span class="text-sm font-medium text-gray-700">4.9</span>
+                                                        <span class="text-xs text-gray-500">(95 reviews)</span>
+                                                    </div>
+                                                    <div class="flex flex-wrap gap-1">
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Electrical</span>
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">AC Systems</span>
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Diagnostics</span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xs text-gray-500">Available Tomorrow</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Mechanic 3 -->
+                                <div class="mechanic-card bg-white rounded-xl border border-gray-200 p-4 cursor-pointer" data-mechanic-id="carlos">
+                                    <div class="flex items-center gap-4">
+                                        <img src="../../../imgs/mechanic_default_3.png" alt="Carlos Santos" class="w-14 h-14 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <div>
+                                                    <h4 class="text-base font-semibold text-gray-900">Carlos Santos</h4>
+                                                    <div class="flex items-center gap-1 mb-1">
+                                                        <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                                        <span class="text-sm font-medium text-gray-700">4.7</span>
+                                                        <span class="text-xs text-gray-500">(203 reviews)</span>
+                                                    </div>
+                                                    <div class="flex flex-wrap gap-1">
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Suspension</span>
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Alignment</span>
+                                                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Tires</span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xs text-gray-500">Available Today</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Services -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="material-icons-round text-orange-500 text-lg">build</span>
+                            Selected Service
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Service 1 (Pre-selected) -->
+                            <div class="service-card pre-selected-service rounded-xl border border-orange-200 p-4">
+                                <div class="flex items-start gap-4">
+                                    <input type="checkbox" class="custom-checkbox mt-1" id="service1" data-price="1200" checked disabled>
+                                    <div class="flex-1">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <label for="service1" class="text-base font-semibold text-gray-900 cursor-pointer">Brake Pad Replacement</label>
+                                                <p class="text-sm text-gray-600 mt-1">Complete brake pad replacement with inspection of rotors and calipers</p>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-lg font-bold text-orange-600">₱1,200</div>
+                                                <div class="text-xs text-gray-500">1-2 hours</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                                            <span class="material-icons-round text-base text-green-500">check_circle</span>
+                                            <span>Includes brake fluid check</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add-ons -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="material-icons-round text-orange-500 text-lg">add_circle</span>
+                            Additional Services (Add-ons)
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Add-on 1 -->
+                            <div class="addon-card bg-white rounded-xl border border-gray-200 p-4">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" class="custom-checkbox mt-0.5" id="addon1" data-price="300">
+                                    <div class="flex-1">
+                                        <label for="addon1" class="text-sm font-semibold text-gray-900 cursor-pointer">Wheel Alignment</label>
+                                        <p class="text-xs text-gray-600 mt-1 mb-2">Precision wheel alignment for better handling</p>
+                                        <div class="text-sm font-bold text-orange-600">₱300</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Add-on 2 -->
+                            <div class="addon-card bg-white rounded-xl border border-gray-200 p-4">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" class="custom-checkbox mt-0.5" id="addon2" data-price="200">
+                                    <div class="flex-1">
+                                        <label for="addon2" class="text-sm font-semibold text-gray-900 cursor-pointer">Air Filter Replacement</label>
+                                        <p class="text-xs text-gray-600 mt-1 mb-2">New air filter for better engine performance</p>
+                                        <div class="text-sm font-bold text-orange-600">₱200</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Add-on 3 -->
+                            <div class="addon-card bg-white rounded-xl border border-gray-200 p-4">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" class="custom-checkbox mt-0.5" id="addon3" data-price="400">
+                                    <div class="flex-1">
+                                        <label for="addon3" class="text-sm font-semibold text-gray-900 cursor-pointer">AC System Cleaning</label>
+                                        <p class="text-xs text-gray-600 mt-1 mb-2">Complete AC system cleaning and sanitization</p>
+                                        <div class="text-sm font-bold text-orange-600">₱400</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Add-on 4 -->
+                            <div class="addon-card bg-white rounded-xl border border-gray-200 p-4">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" class="custom-checkbox mt-0.5" id="addon4" data-price="250">
+                                    <div class="flex-1">
+                                        <label for="addon4" class="text-sm font-semibold text-gray-900 cursor-pointer">Battery Check</label>
+                                        <p class="text-xs text-gray-600 mt-1 mb-2">Comprehensive battery health inspection</p>
+                                        <div class="text-sm font-bold text-orange-600">₱250</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="material-icons-round text-orange-500 text-lg">location_on</span>
+                            Service Location
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Street Address</label>
+                                <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="House number and street name">
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Barangay</label>
+                                    <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Barangay name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Municipality/City</label>
+                                    <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Municipality or city">
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Region</label>
+                                    <select class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition appearance-none bg-white">
+                                        <option>Select Region</option>
+                                        <option>NCR - National Capital Region</option>
+                                        <option>Region I - Ilocos Region</option>
+                                        <option>Region II - Cagayan Valley</option>
+                                        <option>Region III - Central Luzon</option>
+                                        <option>Region IV-A - CALABARZON</option>
+                                        <option selected>Region IX - Zamboanga Peninsula</option>
+                                        <option>Region V - Bicol Region</option>
+                                        <option>Region VI - Western Visayas</option>
+                                        <option>Region VII - Central Visayas</option>
+                                        <option>Region VIII - Eastern Visayas</option>
+                                        <option>Region X - Northern Mindanao</option>
+                                        <option>Region XI - Davao Region</option>
+                                        <option>Region XII - SOCCSKSARGEN</option>
+                                        <option>Region XIII - Caraga</option>
+                                        <option>CAR - Cordillera Admin Region</option>
+                                        <option>BARMM - Bangsamoro</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">ZIP Code</label>
+                                    <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="ZIP code">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Timing -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="material-icons-round text-orange-500 text-lg">schedule</span>
+                            Service Timing
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Urgent Card -->
+                            <div class="request-card bg-white rounded-xl shadow-sm border border-gray-200 p-5 cursor-pointer" id="urgentCard">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                        <span class="material-icons-round text-red-600 text-xl">emergency</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <h4 class="text-lg font-semibold text-gray-900">Urgent Service</h4>
+                                            <span class="urgent-badge text-xs font-medium px-2 py-1 rounded-full">+20% FEE</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mb-3">
+                                            Get immediate assistance for critical issues. The shop will prioritize your request.
+                                        </p>
+                                        <div class="flex items-center gap-1 text-sm text-red-600">
+                                            <span class="material-icons-round text-base">warning</span>
+                                            <span>Available within 2-4 hours</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Scheduled Card -->
+                            <div class="request-card bg-white rounded-xl shadow-sm border border-gray-200 p-5 cursor-pointer" id="scheduledCard">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <span class="material-icons-round text-green-600 text-xl">calendar_today</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <h4 class="text-lg font-semibold text-gray-900">Schedule Service</h4>
+                                            <span class="scheduled-badge text-xs font-medium px-2 py-1 rounded-full">REGULAR FEE</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mb-3">
+                                            Book a convenient time for your service. Choose your preferred date and time.
+                                        </p>
+                                        <div class="flex items-center gap-1 text-sm text-green-600">
+                                            <span class="material-icons-round text-base">event_available</span>
+                                            <span>Choose your preferred time</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Date & Time Selection (Hidden by default) -->
+                        <div class="hidden" id="scheduleSection">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2 mt-6">
+                                <span class="material-icons-round text-orange-500 text-lg">date_range</span>
+                                Select Date & Time
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Date</label>
+                                    <input type="date" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Time</label>
+                                    <select class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition">
+                                        <option>Select Time</option>
+                                        <option>8:00 AM</option>
+                                        <option>9:00 AM</option>
+                                        <option>10:00 AM</option>
+                                        <option>11:00 AM</option>
+                                        <option>1:00 PM</option>
+                                        <option>2:00 PM</option>
+                                        <option>3:00 PM</option>
+                                        <option>4:00 PM</option>
+                                        <option>5:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Summary -->
+                <div class="space-y-6">
+                    <!-- Summary Card -->
+                    <div class="summary-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <span class="material-icons-round text-orange-500 text-lg">receipt</span>
+                            Order Summary
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <!-- Selected Mechanic -->
+                            <div id="selectedMechanic" class="mb-4">
+                                <div class="text-xs font-medium text-gray-700 mb-2">Mechanic:</div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                                    <span id="mechanicName">Auto-Assign (Recommended)</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Selected Services -->
+                            <div id="selectedServices" class="space-y-3">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-700">Brake Pad Replacement</span>
+                                    <span class="font-medium text-orange-600">₱1,200</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Add-ons -->
+                            <div id="selectedAddons" class="space-y-2 hidden">
+                                <div class="text-xs font-medium text-gray-700 mb-2">Add-ons:</div>
+                            </div>
+                            
+                            <!-- Total -->
+                            <div class="border-t border-gray-200 pt-4 space-y-2">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Subtotal:</span>
+                                    <span class="font-medium" id="subtotal">₱1,200</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Service Fee:</span>
+                                    <span class="font-medium">₱100</span>
+                                </div>
+                                <div class="flex justify-between text-lg font-bold border-t border-gray-200 pt-2">
+                                    <span class="text-gray-900">Total:</span>
+                                    <span class="text-orange-600" id="total">₱1,300</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Estimated Time -->
+                            <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                                <div class="flex items-center gap-2 text-sm text-blue-700">
+                                    <span class="material-icons-round text-base">schedule</span>
+                                    <span>Estimated time: <span id="estimatedTime">1-2 hours</span></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Send Request Button -->
+                            <button class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-xl text-base font-medium hover:from-orange-600 hover:to-orange-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg mt-4">
+                                <span class="material-icons-round text-base">send</span>
+                                Send Request to AutoCare Pro Shop
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Service Guarantee -->
+                    <div class="bg-green-50 rounded-2xl border border-green-200 p-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-green-500 text-lg">verified</span>
+                            <div>
+                                <h4 class="text-sm font-semibold text-green-900 mb-1">Quality Guarantee</h4>
+                                <p class="text-xs text-green-700">All services come with a 30-day warranty on parts and labor</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Shop Info -->
+                    <div class="bg-blue-50 rounded-2xl border border-blue-200 p-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-icons-round text-blue-500 text-lg">store</span>
+                            <div>
+                                <h4 class="text-sm font-semibold text-blue-900 mb-1">About AutoCare Pro Shop</h4>
+                                <p class="text-xs text-blue-700">ASE Certified mechanics with over 15 years of experience. Specializing in all major automotive repairs and maintenance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            const selectedServices = document.getElementById('selectedServices');
+            const selectedAddons = document.getElementById('selectedAddons');
+            const selectedMechanic = document.getElementById('selectedMechanic');
+            const mechanicName = document.getElementById('mechanicName');
+            const subtotalElement = document.getElementById('subtotal');
+            const totalElement = document.getElementById('total');
+            const estimatedTimeElement = document.getElementById('estimatedTime');
+            
+            const serviceTimes = {
+                'service1': 90, // 1.5 hours in minutes
+                'service2': 45, // 45 minutes
+                'service3': 75, // 1.25 hours in minutes
+                'addon1': 30,
+                'addon2': 15,
+                'addon3': 45,
+                'addon4': 20
+            };
+            
+            let subtotal = 1200; // Starting with the pre-selected service
+            let total = 1300; // Base service fee + pre-selected service
+            let totalTime = 90; // Pre-selected service time
+            let selectedMechanicId = 'auto';
+            
+            // Mechanic Selection
+            const autoAssignCard = document.getElementById('autoAssignCard');
+            const mechanicCards = document.querySelectorAll('.mechanic-card[data-mechanic-id]');
+            
+            autoAssignCard.addEventListener('click', function() {
+                selectMechanic('auto', 'Auto-Assign (Recommended)');
+            });
+            
+            mechanicCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const mechanicId = this.getAttribute('data-mechanic-id');
+                    const name = this.querySelector('h4').textContent;
+                    selectMechanic(mechanicId, name);
+                });
+            });
+            
+            function selectMechanic(id, name) {
+                selectedMechanicId = id;
+                mechanicName.textContent = name;
+                
+                // Update UI
+                autoAssignCard.classList.remove('border-orange-500', 'bg-orange-50');
+                mechanicCards.forEach(card => {
+                    card.classList.remove('border-orange-500', 'bg-orange-50');
+                });
+                
+                if (id === 'auto') {
+                    autoAssignCard.classList.add('border-orange-500', 'bg-orange-50');
+                } else {
+                    document.querySelector(`[data-mechanic-id="${id}"]`).classList.add('border-orange-500', 'bg-orange-50');
+                }
+            }
+            
+            // Service Type Selection
+            const urgentCard = document.getElementById('urgentCard');
+            const scheduledCard = document.getElementById('scheduledCard');
+            const scheduleSection = document.getElementById('scheduleSection');
+            
+            urgentCard.addEventListener('click', function() {
+                urgentCard.classList.add('border-orange-500', 'bg-orange-50');
+                scheduledCard.classList.remove('border-orange-500', 'bg-orange-50');
+                scheduleSection.classList.add('hidden');
+            });
+            
+            scheduledCard.addEventListener('click', function() {
+                scheduledCard.classList.add('border-orange-500', 'bg-orange-50');
+                urgentCard.classList.remove('border-orange-500', 'bg-orange-50');
+                scheduleSection.classList.remove('hidden');
+            });
+            
+            function updateSummary() {
+                // Clear current selections (except pre-selected service)
+                selectedServices.innerHTML = `
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-700">Brake Pad Replacement</span>
+                        <span class="font-medium text-orange-600">₱1,200</span>
+                    </div>
+                `;
+                selectedAddons.innerHTML = '';
+                
+                let hasAddons = false;
+                
+                // Update add-ons
+                serviceCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked && checkbox.id.startsWith('addon')) {
+                        const serviceElement = checkbox.closest('.addon-card');
+                        const serviceName = serviceElement.querySelector('label').textContent;
+                        const servicePrice = parseInt(checkbox.dataset.price);
+                        
+                        if (!hasAddons) {
+                            selectedAddons.innerHTML = '<div class="text-xs font-medium text-gray-700 mb-2">Add-ons:</div>';
+                            selectedAddons.classList.remove('hidden');
+                            hasAddons = true;
+                        }
+                        
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'flex justify-between items-center text-sm';
+                        itemElement.innerHTML = `
+                            <span class="text-gray-700">${serviceName}</span>
+                            <span class="font-medium text-orange-600">₱${servicePrice}</span>
+                        `;
+                        
+                        selectedAddons.appendChild(itemElement);
+                    }
+                });
+                
+                if (!hasAddons) {
+                    selectedAddons.classList.add('hidden');
+                }
+                
+                // Update totals
+                subtotalElement.textContent = `₱${subtotal}`;
+                totalElement.textContent = `₱${total}`;
+                
+                // Update estimated time
+                const hours = Math.floor(totalTime / 60);
+                const minutes = totalTime % 60;
+                
+                if (hours > 0) {
+                    estimatedTimeElement.textContent = `${hours} hour${hours > 1 ? 's' : ''} ${minutes > 0 ? `${minutes} minutes` : ''}`;
+                } else {
+                    estimatedTimeElement.textContent = `${minutes} minutes`;
+                }
+            }
+            
+            // Add event listeners to all checkboxes
+            serviceCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const price = parseInt(this.dataset.price);
+                    const time = serviceTimes[this.id] || 0;
+                    
+                    if (this.checked) {
+                        subtotal += price;
+                        total += price;
+                        totalTime += time;
+                    } else {
+                        subtotal -= price;
+                        total -= price;
+                        totalTime -= time;
+                    }
+                    
+                    updateSummary();
+                });
+            });
+            
+            // Send request button
+            const sendButton = document.querySelector('button.bg-gradient-to-r');
+            sendButton.addEventListener('click', function() {
+                const mechanicText = selectedMechanicId === 'auto' 
+                    ? 'AutoCare Pro Shop will assign the best mechanic for your needs' 
+                    : `Your request has been sent to ${mechanicName.textContent}`;
+                
+                alert(`Request sent to AutoCare Pro Shop! ${mechanicText}. They will confirm your booking shortly.`);
+            });
+            
+            // Initialize summary
+            updateSummary();
+            selectMechanic('auto', 'Auto-Assign (Recommended)');
+        });
+    </script>
+</body>
+</html>

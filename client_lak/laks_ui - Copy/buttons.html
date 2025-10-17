@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 p-8 max-w-4xl mx-auto font-sans">
+    <div class="space-y-8">
+        <h1 class="text-2xl font-bold text-gray-900">Button Styles with Geist & Rounded Icons</h1>
+
+        <!-- Primary Buttons -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Primary Buttons</h2>
+            <div class="flex flex-wrap gap-4">
+                <button class="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-800 transition">
+                    <span class="material-icons-round text-base">shopping_cart</span>
+                    Add to Cart
+                </button>
+                
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-blue-700 transition">
+                    <span class="material-icons-round text-base">download</span>
+                    Download
+                </button>
+
+                <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-green-700 transition">
+                    <span class="material-icons-round text-base">check_circle</span>
+                    Confirm
+                </button>
+            </div>
+        </section>
+
+        <!-- Secondary Buttons -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Secondary Buttons</h2>
+            <div class="flex flex-wrap gap-4">
+                <button class="border border-gray-300 bg-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition">
+                    <span class="material-icons-round text-base">edit</span>
+                    Edit
+                </button>
+                
+                <button class="border border-gray-300 bg-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition">
+                    <span class="material-icons-round text-base">share</span>
+                    Share
+                </button>
+
+                <button class="border border-gray-300 bg-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition">
+                    <span class="material-icons-round text-base">favorite</span>
+                    Save
+                </button>
+            </div>
+        </section>
+
+        <!-- Icon-Only Buttons -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Icon-Only Buttons</h2>
+            <div class="flex flex-wrap gap-3">
+                <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">
+                    <span class="material-icons-round text-lg text-gray-600">menu</span>
+                </button>
+                
+                <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">
+                    <span class="material-icons-round text-lg text-gray-600">search</span>
+                </button>
+
+                <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">
+                    <span class="material-icons-round text-lg text-gray-600">notifications</span>
+                </button>
+
+                <button class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center hover:bg-red-200 transition">
+                    <span class="material-icons-round text-lg text-red-600">delete</span>
+                </button>
+
+                <button class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center hover:bg-blue-200 transition">
+                    <span class="material-icons-round text-lg text-blue-600">add</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Small Buttons -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">Small Buttons</h2>
+            <div class="flex flex-wrap gap-3">
+                <button class="bg-black text-white px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 hover:bg-gray-800 transition">
+                    <span class="material-icons-round text-sm">play_arrow</span>
+                    Play
+                </button>
+                
+                <button class="border border-gray-300 bg-white px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 hover:bg-gray-50 transition">
+                    <span class="material-icons-round text-sm">pause</span>
+                    Pause
+                </button>
+
+                <button class="bg-purple-600 text-white px-3 py-1.5 rounded text-xs font-medium flex items-center gap-1 hover:bg-purple-700 transition">
+                    <span class="material-icons-round text-sm">star</span>
+                    Rate
+                </button>
+            </div>
+        </section>
+
+        <!-- Loading & State Buttons -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-semibold text-gray-700">State Buttons</h2>
+            <div class="flex flex-wrap gap-4">
+                <button class="bg-gray-400 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 cursor-not-allowed" disabled>
+                    <span class="material-icons-round text-base">lock</span>
+                    Disabled
+                </button>
+                
+                <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-orange-600 transition">
+                    <span class="material-icons-round text-base animate-spin">refresh</span>
+                    Loading...
+                </button>
+
+                <button class="border border-green-500 text-green-600 bg-green-50 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-green-100 transition">
+                    <span class="material-icons-round text-base">check_circle</span>
+                    Success
+                </button>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

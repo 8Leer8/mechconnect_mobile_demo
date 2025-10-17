@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cancelled Booking - AutoCare Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Geist Sans", "system-ui", "sans-serif"],
+            },
+            fontSize: {
+              xs: ["0.75rem", { lineHeight: "1rem" }],
+              sm: ["0.875rem", { lineHeight: "1.25rem" }],
+              base: ["1rem", { lineHeight: "1.5rem" }],
+              lg: ["1.125rem", { lineHeight: "1.75rem" }],
+            },
+            colors: {
+              orange: {
+                500: "#f97316",
+                600: "#ea580c",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .booking-card {
+        transition: all 0.3s ease;
+      }
+
+      .photo-gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      .photo-item {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .photo-item:hover {
+        transform: scale(1.05);
+      }
+
+      .static-map {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .static-map::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 30px 30px;
+      }
+
+      .road {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+      }
+
+      .road-horizontal {
+        width: 80%;
+        height: 8px;
+        top: 40%;
+        left: 10%;
+      }
+
+      .road-vertical {
+        width: 8px;
+        height: 60%;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .building {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+
+      .map-marker {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .status-badge {
+        transition: all 0.3s ease;
+      }
+
+      .action-btn {
+        transition: all 0.3s ease;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .cancelled-badge {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+      }
+
+      .cancellation-reason {
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        border: 1px solid #fecaca;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Back Button -->
+          <button
+            onclick="window.history.back()"
+            class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group"
+          >
+            <span
+              class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform"
+              >arrow_back</span
+            >
+            <span class="text-sm font-medium hidden sm:inline">Back</span>
+          </button>
+
+          <!-- Page Title -->
+          <div class="flex items-center gap-3">
+            <h1 class="text-lg font-semibold text-gray-900">Cancelled Booking</h1>
+          </div>
+
+          <!-- Placeholder for alignment -->
+          <div class="w-10"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Booking Header -->
+      <div
+        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8"
+      >
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <h1 class="text-2xl font-bold text-gray-900">
+                Brake Pad Replacement
+              </h1>
+              <span
+                class="status-badge bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full font-medium"
+                >CANCELLED</span
+              >
+            </div>
+            <div class="flex items-center gap-4 text-sm text-gray-600">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">handyman</span>
+                <span
+                  >Mechanic:
+                  <span class="font-medium text-gray-900"
+                    >Mike Rodriguez</span
+                  ></span
+                >
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">schedule</span>
+                <span
+                  >Booking ID:
+                  <span class="font-mono font-medium text-gray-900"
+                    >BK-2024-001</span
+                  ></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="text-lg font-bold text-gray-500 line-through">₱3,030</div>
+            <div class="text-sm text-gray-500">Cancelled</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cancellation Banner -->
+      <div class="cancelled-badge text-white rounded-2xl p-6 mb-8 flex items-center gap-4 shadow-md">
+        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+          <span class="material-icons-round text-2xl">cancel</span>
+        </div>
+        <div>
+          <div class="font-semibold text-lg">Booking Cancelled</div>
+          <div class="text-white/90 text-sm">This service booking has been cancelled. See details below.</div>
+        </div>
+      </div>
+
+      <!-- Cancellation Details -->
+      <div
+        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8"
+      >
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Cancellation Details</h2>
+
+        <div class="space-y-6">
+          <!-- Cancellation Reason -->
+          <div class="cancellation-reason rounded-xl p-4">
+            <div class="flex items-start gap-3">
+              <span class="material-icons-round text-red-500 mt-0.5">info</span>
+              <div>
+                <div class="text-sm font-medium text-red-900 mb-1">
+                  Cancellation Reason
+                </div>
+                <p class="text-sm text-red-700">
+                  Customer requested cancellation due to schedule conflict. The vehicle is no longer available for service at the scheduled time.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cancellation Timeline -->
+          <div>
+            <h3 class="text-sm font-medium text-gray-900 mb-3">Cancellation Timeline</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Booking Created</span>
+                <span class="font-medium text-gray-900">Jan 15, 2024 • 2:30 PM</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Cancellation Requested</span>
+                <span class="font-medium text-gray-900">Jan 16, 2024 • 9:15 AM</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Cancellation Confirmed</span>
+                <span class="font-medium text-gray-900">Jan 16, 2024 • 9:30 AM</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-600">Cancelled By</span>
+                <span class="font-medium text-gray-900">Customer (Maria Santos)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Refund Status -->
+          <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
+            <div class="flex items-start gap-3">
+              <span class="material-icons-round text-blue-500 mt-0.5">payments</span>
+              <div>
+                <div class="text-sm font-medium text-blue-900 mb-1">
+                  Refund Status
+                </div>
+                <p class="text-sm text-blue-700">
+                  <span class="font-medium">Full refund processed.</span> The amount of ₱3,030 has been refunded to your original payment method. 
+                  Refund may take 3-5 business days to appear in your account.
+                </p>
+                <div class="text-xs text-blue-600 mt-2">
+                  Refund ID: REF-2024-001 • Processed on Jan 16, 2024
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left Column -->
+        <div class="space-y-8">
+          <!-- Original Service Details -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2
+              class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+            >
+              <span class="material-icons-round text-orange-500">description</span>
+              Original Service Details
+            </h2>
+
+            <!-- Service Breakdown -->
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-900 mb-3">
+                Service Breakdown
+              </h3>
+              <div class="space-y-3 opacity-60">
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700"
+                    >Brake Pad Replacement (Labor)</span
+                  >
+                  <span class="font-medium text-gray-900">₱1,200</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Brake Pads (Front)</span>
+                  <span class="font-medium text-gray-900">₱800</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Brake Fluid</span>
+                  <span class="font-medium text-gray-900">₱250</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Wheel Alignment</span>
+                  <span class="font-medium text-gray-900">₱300</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Air Filter Replacement</span>
+                  <span class="font-medium text-gray-900">₱200</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Air Filter</span>
+                  <span class="font-medium text-gray-900">₱180</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Service Fee</span>
+                  <span class="font-medium text-gray-900">₱100</span>
+                </div>
+                <div class="border-t border-gray-300 pt-3 mt-2">
+                  <div class="flex justify-between items-center">
+                    <span class="text-base font-semibold text-gray-900"
+                      >Total (Refunded)</span
+                    >
+                    <span class="text-xl font-bold text-gray-500 line-through"
+                      >₱3,030</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Photos (if any were uploaded) -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2
+              class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+            >
+              <span class="material-icons-round text-orange-500"
+                >photo_library</span
+              >
+              Submitted Photos
+            </h2>
+
+            <div class="text-center py-8">
+              <div class="text-gray-400 mb-3">
+                <span class="material-icons-round text-4xl">no_photography</span>
+              </div>
+              <p class="text-sm text-gray-500">No photos were submitted for this cancelled booking.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-8">
+          <!-- Service Location -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2
+              class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+            >
+              <span class="material-icons-round text-orange-500"
+                >location_on</span
+              >
+              Service Location
+            </h2>
+
+            <div class="static-map rounded-xl h-64 relative mb-4 opacity-50">
+              <!-- Roads -->
+              <div class="road road-horizontal"></div>
+              <div class="road road-vertical"></div>
+
+              <!-- Buildings -->
+              <div
+                class="building"
+                style="width: 60px; height: 80px; bottom: 20%; left: 20%"
+              ></div>
+              <div
+                class="building"
+                style="width: 70px; height: 100px; bottom: 20%; right: 20%"
+              ></div>
+              <div
+                class="building"
+                style="width: 50px; height: 60px; top: 20%; left: 30%"
+              ></div>
+              <div
+                class="building"
+                style="width: 80px; height: 90px; top: 20%; right: 30%"
+              ></div>
+
+              <!-- Marker -->
+              <div
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              >
+                <div
+                  class="map-marker bg-gray-400 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <span class="material-icons-round">location_off</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 mb-4 opacity-60">
+              <div class="text-sm text-gray-600">
+                <div class="font-medium">123 Main Street</div>
+                <div class="text-xs mt-1">Barangay Zone 4, Zamboanga City</div>
+                <div class="text-xs">Region IX - Zamboanga Peninsula</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cancellation Policy -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+              Cancellation Policy
+            </h2>
+
+            <div class="space-y-4 text-sm text-gray-600">
+              <div class="flex items-start gap-3">
+                <span class="material-icons-round text-green-500 text-sm mt-0.5">check_circle</span>
+                <div>
+                  <span class="font-medium text-gray-900">Free Cancellation</span>
+                  <p class="mt-1">Cancellations made 24 hours before service are fully refundable with no fees.</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-3">
+                <span class="material-icons-round text-yellow-500 text-sm mt-0.5">schedule</span>
+                <div>
+                  <span class="font-medium text-gray-900">Late Cancellation</span>
+                  <p class="mt-1">Cancellations within 24 hours may incur a 20% service fee.</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-3">
+                <span class="material-icons-round text-red-500 text-sm mt-0.5">close</span>
+                <div>
+                  <span class="font-medium text-gray-900">No-Show</span>
+                  <p class="mt-1">No-shows are charged 50% of the service cost.</p>
+                </div>
+              </div>
+
+              <div class="bg-green-50 rounded-lg p-3 border border-green-200 mt-4">
+                <div class="text-xs text-green-700">
+                  <span class="font-medium">Good news!</span> You cancelled within the free cancellation period and received a full refund.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+
+            <div class="space-y-3">
+              <button
+                onclick="bookAgain()"
+                class="action-btn w-full bg-orange-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons-round text-base">add_circle</span>
+                Book New Service
+              </button>
+              <button
+                onclick="rebookSameService()"
+                class="action-btn w-full bg-blue-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons-round text-base">schedule</span>
+                Rebook Same Service
+              </button>
+              <button
+                onclick="contactSupport()"
+                class="action-btn w-full bg-gray-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons-round text-base"
+                  >support_agent</span
+                >
+                Contact Support
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Any initialization code for cancelled booking page
+      });
+
+      function bookAgain() {
+        // Redirect to services page
+        showMessage('Redirecting to available services...', 'success');
+        setTimeout(() => {
+          // In a real app, this would navigate to the services page
+          window.location.href = 'services.html';
+        }, 1000);
+      }
+
+      function rebookSameService() {
+        // Rebook the same service
+        showMessage('Setting up same service booking...', 'success');
+        setTimeout(() => {
+          // In a real app, this would pre-fill the booking form with same service
+          window.location.href = 'booking.html?service=brake-pad-replacement';
+        }, 1000);
+      }
+
+      function contactSupport() {
+        window.location.href = "tel:+639123456789";
+      }
+
+      function showMessage(message, type) {
+        const messageEl = document.createElement("div");
+        messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+          type === "success"
+            ? "bg-green-500 text-white"
+            : "bg-red-500 text-white"
+        }`;
+        messageEl.innerHTML = `<div class="flex items-center gap-2"><span class="material-icons-round">${
+          type === "success" ? "check_circle" : "error"
+        }</span> ${message}</div>`;
+        document.body.appendChild(messageEl);
+
+        setTimeout(() => {
+          messageEl.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

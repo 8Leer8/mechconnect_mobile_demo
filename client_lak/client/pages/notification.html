@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .notification-card {
+            transition: all 0.3s ease;
+        }
+        
+        .notification-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .unread-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Notifications</h1>
+                    <span class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full" id="notificationCount">8</span>
+                </div>
+                
+                <!-- Mark All as Read -->
+                <button onclick="markAllAsRead()" class="text-orange-500 text-sm font-medium hover:text-orange-600 transition-colors">
+                    Mark all as read
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="space-y-4">
+            <!-- Service Completed -->
+            <div class="notification-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span class="material-icons-round text-green-600 text-xl">check_circle</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-base font-semibold text-gray-900">Service Completed</h3>
+                            <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+                            <span class="text-sm text-gray-500 ml-auto">2 min ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">
+                            <strong>John Mechanic</strong> has finished servicing your Toyota Camry. Your vehicle is ready for pickup.
+                        </p>
+                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                            <span class="material-icons-round text-base">directions_car</span>
+                            <span>Booking #CAM-2024-001</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mechanic Arrived -->
+            <div class="notification-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span class="material-icons-round text-blue-600 text-xl">location_on</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-base font-semibold text-gray-900">Mechanic Arrived</h3>
+                            <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+                            <span class="text-sm text-gray-500 ml-auto">15 min ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">
+                            <strong>Mike Rodriguez</strong> has arrived at your location for the scheduled maintenance.
+                        </p>
+                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                            <span class="material-icons-round text-base">schedule</span>
+                            <span>Estimated completion: 45 minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Quote -->
+            <div class="notification-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span class="material-icons-round text-purple-600 text-xl">request_quote</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-base font-semibold text-gray-900">New Quote Received</h3>
+                            <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+                            <span class="text-sm text-gray-500 ml-auto">1 hour ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            <strong>AutoCare Pro</strong> has sent you a quote for your brake service request.
+                        </p>
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <div class="flex justify-between items-center text-sm mb-2">
+                                <span class="text-gray-600">Brake Pad Replacement</span>
+                                <span class="font-semibold text-gray-900">₱2,500</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-600">Labor Cost</span>
+                                <span class="font-semibold text-gray-900">₱800</span>
+                            </div>
+                            <div class="border-t border-gray-200 mt-3 pt-3 flex justify-between items-center">
+                                <span class="text-base font-medium text-gray-900">Total</span>
+                                <span class="text-lg font-bold text-orange-600">₱3,300</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <button class="accept-quote bg-orange-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+                                <span class="material-icons-round text-base">check</span>
+                                Accept Quote
+                            </button>
+                            <button class="decline-quote border border-gray-300 text-gray-700 px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+                                <span class="material-icons-round text-base">close</span>
+                                Decline
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Update -->
+            <div class="notification-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span class="material-icons-round text-gray-600 text-xl">info</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-base font-semibold text-gray-900">System Update</h3>
+                            <span class="text-sm text-gray-500 ml-auto">3 hours ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">
+                            Your account security has been enhanced with new authentication measures.
+                        </p>
+                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                            <span class="material-icons-round text-base">security</span>
+                            <span>Security update completed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote Updated -->
+            <div class="notification-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span class="material-icons-round text-purple-600 text-xl">request_quote</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-base font-semibold text-gray-900">Quote Updated</h3>
+                            <span class="text-sm text-gray-500 ml-auto">5 hours ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            <strong>QuickFix Garage</strong> updated their quote for your engine diagnostics.
+                        </p>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="border-t border-gray-200 pt-2 flex justify-between items-center">
+                                <span class="text-base font-medium text-gray-900">New Total</span>
+                                <span class="text-lg font-bold text-orange-600">₱3,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Reminder -->
+            <div class="notification-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span class="material-icons-round text-orange-600 text-xl">notification_important</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-base font-semibold text-gray-900">Service Reminder</h3>
+                            <span class="text-sm text-gray-500 ml-auto">1 day ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">
+                            Your Honda Civic is due for its 6-month maintenance service next week.
+                        </p>
+                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                            <span class="material-icons-round text-base">calendar_today</span>
+                            <span>Due date: Oct 23, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Confirmed -->
+            <div class="notification-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span class="material-icons-round text-green-600 text-xl">payments</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h3 class="text-base font-semibold text-gray-900">Payment Confirmed</h3>
+                            <span class="text-sm text-gray-500 ml-auto">2 days ago</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">
+                            Your payment of ₱3,300 for brake service has been confirmed.
+                        </p>
+                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                            <span class="material-icons-round text-base">receipt</span>
+                            <span>Transaction #TX-789123</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-8">
+            <button class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                Load More Notifications
+            </button>
+        </div>
+
+        <!-- Empty State (Hidden) -->
+        <div id="emptyState" class="hidden text-center py-16">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons-round text-gray-400 text-3xl">notifications_off</span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">No notifications yet</h3>
+            <p class="text-gray-600 max-w-sm mx-auto">
+                When you have new notifications about your services, quotes, or system updates, they'll appear here.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // Notification functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mark as read functionality
+            const notifications = document.querySelectorAll('.notification-card');
+            
+            notifications.forEach(notification => {
+                notification.addEventListener('click', function(e) {
+                    // Don't mark as read if clicking action buttons
+                    if (e.target.closest('button')) return;
+                    
+                    const dot = this.querySelector('.unread-dot');
+                    if (dot) {
+                        dot.remove();
+                        updateNotificationCount();
+                    }
+                });
+            });
+            
+            // Quote action buttons
+            document.querySelectorAll('.accept-quote').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const notification = this.closest('.notification-card');
+                    showSuccessState(notification, 'Quote Accepted', 'The mechanic will contact you soon to schedule the service.');
+                    updateNotificationCount();
+                });
+            });
+            
+            document.querySelectorAll('.decline-quote').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const notification = this.closest('.notification-card');
+                    showSuccessState(notification, 'Quote Declined', 'You have declined this service quote.');
+                    updateNotificationCount();
+                });
+            });
+            
+            function showSuccessState(notification, title, message) {
+                notification.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="material-icons-round text-green-600 text-xl">check_circle</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-2">
+                                <h3 class="text-base font-semibold text-gray-900">${title}</h3>
+                                <span class="text-sm text-gray-500 ml-auto">Just now</span>
+                            </div>
+                            <p class="text-gray-600">${message}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function updateNotificationCount() {
+                const unreadCount = document.querySelectorAll('.unread-dot').length;
+                const countElement = document.getElementById('notificationCount');
+                countElement.textContent = unreadCount;
+                
+                if (unreadCount === 0) {
+                    countElement.classList.remove('bg-orange-500');
+                    countElement.classList.add('bg-gray-400');
+                }
+            }
+            
+            // Mark all as read
+            window.markAllAsRead = function() {
+                document.querySelectorAll('.unread-dot').forEach(dot => dot.remove());
+                updateNotificationCount();
+                
+                // Show temporary success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                successMsg.innerHTML = '<div class="flex items-center gap-2"><span class="material-icons-round">check_circle</span> All notifications marked as read</div>';
+                document.body.appendChild(successMsg);
+                
+                setTimeout(() => {
+                    successMsg.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Pro - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .profile-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Page Title -->
+                <h1 class="text-xl font-bold text-gray-900">Profile</h1>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Profile Picture -->
+                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        JS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <!-- User Profile Header -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+            <div class="flex items-center gap-4">
+                <div class="w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                    JS
+                </div>
+                <div class="flex-1">
+                    <h2 class="text-xl font-bold text-gray-900">John Smith</h2>
+                    <p class="text-gray-600 mb-2">john.smith@example.com</p>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">Verified</span>
+                        <span class="text-xs text-gray-500">Member since 2023</span>
+                    </div>
+                </div>
+                <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                    Edit Profile
+                </button>
+            </div>
+        </div>
+
+        <!-- Profile Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Account Settings Card -->
+            <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-blue-600">settings</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base">Account Settings</h3>
+                        <p class="text-sm text-gray-600">Manage your account preferences, personal information, and security settings</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favorites Card -->
+            <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-red-600">favorite</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base">Favorites</h3>
+                        <p class="text-sm text-gray-600">View and manage your saved mechanics, services, and auto shops</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms of Use Card -->
+            <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-purple-600">description</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base">Terms of Use</h3>
+                        <p class="text-sm text-gray-600">Review the terms and conditions for using AutoCare Pro services</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Policy Card -->
+            <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-green-600">privacy_tip</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base">Privacy Policy</h3>
+                        <p class="text-sm text-gray-600">Learn how we collect, use, and protect your personal information</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Us Card -->
+            <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-indigo-600">info</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base">Dispute Resolution</h3>
+                        <p class="text-sm text-gray-600">View your dispute resolution options and processes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity History Card -->
+            <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-amber-600">history</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base">Activity History</h3>
+                        <p class="text-sm text-gray-600">View your past bookings, services, and interactions with mechanics</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refund Policy Card -->
+            <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:col-span-2">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center">
+                        <span class="material-icons-round text-rose-600">assignment_return</span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 text-base">Refund Policy</h3>
+                        <p class="text-sm text-gray-600">Understand our policies regarding refunds, cancellations, and service disputes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Booking -->
+            <a href="../bookings/bookings.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">calendar_today</span>
+                <span class="text-xs mt-1">Booking</span>
+            </a>
+            
+            <!-- Discover -->
+            <a href="../discover/discover.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">explore</span>
+                <span class="text-xs mt-1">Discover</span>
+            </a>
+            
+            <!-- Home -->
+            <a href="../home/home.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">home</span>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            
+            <!-- Request -->
+            <a href="../request_form/custom_request.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">add_circle</span>
+                <span class="text-xs mt-1">Request</span>
+            </a>
+            
+            <!-- Profile -->
+            <a href="../profile/profile.html" class="flex flex-col items-center text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">person</span>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click functionality to profile cards
+            const profileCards = document.querySelectorAll('.profile-card');
+            
+            profileCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const cardTitle = this.querySelector('h3').textContent;
+                    alert(`Opening: ${cardTitle}`);
+                });
+            });
+            
+            // Edit profile button
+            const editProfileButton = document.querySelector('.bg-gray-100');
+            editProfileButton.addEventListener('click', function() {
+                alert('Opening profile editor');
+            });
+            
+            // Contact support button
+            const supportButton = document.querySelector('.bg-gray-100:last-child');
+            supportButton.addEventListener('click', function() {
+                alert('Opening support contact options');
+            });
+        });
+    </script>
+</body>
+</html>

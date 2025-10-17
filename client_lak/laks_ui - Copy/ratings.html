@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rating Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .rating-star {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .rating-star:hover {
+            transform: scale(1.2);
+        }
+        
+        .rating-star.active {
+            color: #fbbf24;
+        }
+        
+        .rating-smiley {
+            transition: all 0.3s ease;
+        }
+        
+        .rating-smiley:hover {
+            transform: scale(1.1);
+        }
+        
+        .rating-smiley.active {
+            transform: scale(1.2);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8 max-w-4xl mx-auto font-sans">
+    <div class="space-y-12">
+        <h1 class="text-3xl font-bold text-gray-900">Rating Styles with Geist</h1>
+
+        <!-- Simple Star Rating -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Simple Star Rating</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Rate Your Experience</h3>
+                    <p class="text-sm text-gray-600">How would you rate our service?</p>
+                </div>
+                
+                <div class="flex justify-center gap-1 mb-4">
+                    <span class="rating-star material-icons-round text-4xl text-gray-300" data-rating="1">star</span>
+                    <span class="rating-star material-icons-round text-4xl text-gray-300" data-rating="2">star</span>
+                    <span class="rating-star material-icons-round text-4xl text-gray-300" data-rating="3">star</span>
+                    <span class="rating-star material-icons-round text-4xl text-gray-300" data-rating="4">star</span>
+                    <span class="rating-star material-icons-round text-4xl text-gray-300" data-rating="5">star</span>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 mb-4">Your rating: <span class="font-medium text-gray-900" id="current-rating">0</span> out of 5</p>
+                    <button class="bg-black text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Submit Rating
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Star Rating -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Interactive Star Rating</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Product Rating</h3>
+                    <p class="text-sm text-gray-600">Click on the stars to rate this product</p>
+                </div>
+                
+                <div class="flex justify-center gap-2 mb-6">
+                    <span class="rating-star material-icons-round text-5xl text-gray-300 hover:text-yellow-300" data-rating="1">star</span>
+                    <span class="rating-star material-icons-round text-5xl text-gray-300 hover:text-yellow-300" data-rating="2">star</span>
+                    <span class="rating-star material-icons-round text-5xl text-gray-300 hover:text-yellow-300" data-rating="3">star</span>
+                    <span class="rating-star material-icons-round text-5xl text-gray-300 hover:text-yellow-300" data-rating="4">star</span>
+                    <span class="rating-star material-icons-round text-5xl text-gray-300 hover:text-yellow-300" data-rating="5">star</span>
+                </div>
+                
+                <div class="text-center space-y-3">
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="text-2xl font-bold text-gray-900" id="interactive-rating">0.0</span>
+                        <div class="flex">
+                            <span class="material-icons-round text-yellow-400 text-lg">star</span>
+                            <span class="material-icons-round text-yellow-400 text-lg">star</span>
+                            <span class="material-icons-round text-yellow-400 text-lg">star</span>
+                            <span class="material-icons-round text-yellow-400 text-lg">star</span>
+                            <span class="material-icons-round text-yellow-400 text-lg">star_half</span>
+                        </div>
+                        <span class="text-sm text-gray-600">(24 reviews)</span>
+                    </div>
+                    <p class="text-sm text-gray-600" id="rating-text">Share your experience with others</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smiley Rating -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Smiley Rating</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">How was your experience?</h3>
+                    <p class="text-sm text-gray-600">Select a face that best describes your experience</p>
+                </div>
+                
+                <div class="flex justify-center gap-6 mb-6">
+                    <div class="rating-smiley text-center cursor-pointer" data-rating="1">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-icons-round text-red-500 text-3xl">sentiment_very_dissatisfied</span>
+                        </div>
+                        <span class="text-xs text-gray-600">Poor</span>
+                    </div>
+                    <div class="rating-smiley text-center cursor-pointer" data-rating="2">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-icons-round text-orange-500 text-3xl">sentiment_dissatisfied</span>
+                        </div>
+                        <span class="text-xs text-gray-600">Fair</span>
+                    </div>
+                    <div class="rating-smiley text-center cursor-pointer" data-rating="3">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-icons-round text-yellow-500 text-3xl">sentiment_neutral</span>
+                        </div>
+                        <span class="text-xs text-gray-600">Good</span>
+                    </div>
+                    <div class="rating-smiley text-center cursor-pointer" data-rating="4">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-icons-round text-blue-500 text-3xl">sentiment_satisfied</span>
+                        </div>
+                        <span class="text-xs text-gray-600">Very Good</span>
+                    </div>
+                    <div class="rating-smiley text-center cursor-pointer" data-rating="5">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                            <span class="material-icons-round text-green-500 text-3xl">sentiment_very_satisfied</span>
+                        </div>
+                        <span class="text-xs text-gray-600">Excellent</span>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 mb-4">Selected: <span class="font-medium text-gray-900" id="smiley-rating">None</span></p>
+                    <button class="bg-black text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Submit Feedback
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Numeric Rating -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Numeric Rating</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Rate from 1 to 10</h3>
+                    <p class="text-sm text-gray-600">How likely are you to recommend us to a friend?</p>
+                </div>
+                
+                <div class="flex justify-center gap-2 mb-6 flex-wrap">
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="1">1</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="2">2</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="3">3</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="4">4</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="5">5</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="6">6</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="7">7</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="8">8</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="9">9</span>
+                    <span class="rating-numeric w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center text-lg font-medium text-gray-600 cursor-pointer hover:border-black hover:text-black transition" data-rating="10">10</span>
+                </div>
+                
+                <div class="text-center space-y-3">
+                    <div class="flex items-center justify-center gap-4">
+                        <span class="text-sm text-gray-600">Not likely</span>
+                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 70%"></div>
+                        </div>
+                        <span class="text-sm text-gray-600">Very likely</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Selected: <span class="font-medium text-gray-900" id="numeric-rating">0</span>/10</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Review Card with Rating -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Review Card with Rating</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Review 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 text-sm font-medium">SJ</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                <div class="text-xs text-gray-500">2 days ago</div>
+                            </div>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Absolutely loved the product! The quality exceeded my expectations and the customer service was exceptional.</p>
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <span class="material-icons-round text-sm">thumb_up</span>
+                        <span>24</span>
+                        <span>•</span>
+                        <span>Was this helpful?</span>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 text-sm font-medium">AK</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">Alex Kumar</div>
+                                <div class="text-xs text-gray-500">1 week ago</div>
+                            </div>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star_half</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Good product overall. The delivery was fast and the packaging was secure. Would recommend to others.</p>
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <span class="material-icons-round text-sm">thumb_up</span>
+                        <span>18</span>
+                        <span>•</span>
+                        <span>Was this helpful?</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rating Summary -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Rating Summary</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Overall Rating -->
+                    <div class="text-center">
+                        <div class="text-5xl font-bold text-gray-900 mb-2">4.8</div>
+                        <div class="flex justify-center mb-2">
+                            <span class="material-icons-round text-yellow-400 text-xl">star</span>
+                            <span class="material-icons-round text-yellow-400 text-xl">star</span>
+                            <span class="material-icons-round text-yellow-400 text-xl">star</span>
+                            <span class="material-icons-round text-yellow-400 text-xl">star</span>
+                            <span class="material-icons-round text-yellow-400 text-xl">star_half</span>
+                        </div>
+                        <p class="text-sm text-gray-600">Based on 127 reviews</p>
+                    </div>
+
+                    <!-- Rating Breakdown -->
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm text-gray-600 w-16">5 stars</span>
+                            <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 w-8">75%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm text-gray-600 w-16">4 stars</span>
+                            <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-400 h-2 rounded-full" style="width: 15%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 w-8">15%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm text-gray-600 w-16">3 stars</span>
+                            <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-400 h-2 rounded-full" style="width: 6%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 w-8">6%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm text-gray-600 w-16">2 stars</span>
+                            <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                <div class="bg-orange-400 h-2 rounded-full" style="width: 3%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 w-8">3%</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm text-gray-600 w-16">1 star</span>
+                            <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-400 h-2 rounded-full" style="width: 1%"></div>
+                            </div>
+                            <span class="text-sm text-gray-600 w-8">1%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rating with Comments -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Rating with Comments</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Write a Review</h3>
+                    <p class="text-sm text-gray-600">Share your experience with others</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- Rating -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">Your Rating</label>
+                        <div class="flex gap-1 mb-2">
+                            <span class="rating-write material-icons-round text-3xl text-gray-300 cursor-pointer" data-rating="1">star</span>
+                            <span class="rating-write material-icons-round text-3xl text-gray-300 cursor-pointer" data-rating="2">star</span>
+                            <span class="rating-write material-icons-round text-3xl text-gray-300 cursor-pointer" data-rating="3">star</span>
+                            <span class="rating-write material-icons-round text-3xl text-gray-300 cursor-pointer" data-rating="4">star</span>
+                            <span class="rating-write material-icons-round text-3xl text-gray-300 cursor-pointer" data-rating="5">star</span>
+                        </div>
+                        <p class="text-sm text-gray-600">Selected: <span class="font-medium text-gray-900" id="write-rating">0</span> stars</p>
+                    </div>
+                    
+                    <!-- Title -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Review Title</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none" placeholder="Summarize your experience">
+                    </div>
+                    
+                    <!-- Comment -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Your Review</label>
+                        <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent outline-none resize-none" rows="4" placeholder="Share details of your experience..."></textarea>
+                        <div class="flex justify-between mt-1">
+                            <p class="text-xs text-gray-500">Be honest and specific</p>
+                            <p class="text-xs text-gray-500"><span class="font-medium">0</span>/500</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit -->
+                    <button class="w-full bg-black text-white py-3 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+                        Submit Review
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Rating functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simple star rating
+            const simpleStars = document.querySelectorAll('.rating-star');
+            const currentRating = document.getElementById('current-rating');
+            
+            simpleStars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.getAttribute('data-rating');
+                    
+                    // Update all stars
+                    simpleStars.forEach(s => {
+                        const starRating = s.getAttribute('data-rating');
+                        if (starRating <= rating) {
+                            s.classList.add('active');
+                            s.style.color = '#fbbf24';
+                        } else {
+                            s.classList.remove('active');
+                            s.style.color = '#d1d5db';
+                        }
+                    });
+                    
+                    currentRating.textContent = rating;
+                });
+            });
+
+            // Interactive star rating
+            const interactiveStars = document.querySelectorAll('.rating-star[data-rating]');
+            const interactiveRating = document.getElementById('interactive-rating');
+            const ratingText = document.getElementById('rating-text');
+            
+            const ratingTexts = {
+                1: "Poor - We're sorry to hear that",
+                2: "Fair - Thanks for your feedback",
+                3: "Good - We appreciate your rating",
+                4: "Very Good - Thank you!",
+                5: "Excellent - We're thrilled!"
+            };
+            
+            interactiveStars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.getAttribute('data-rating');
+                    
+                    // Update all stars
+                    interactiveStars.forEach(s => {
+                        const starRating = s.getAttribute('data-rating');
+                        if (starRating <= rating) {
+                            s.style.color = '#fbbf24';
+                        } else {
+                            s.style.color = '#d1d5db';
+                        }
+                    });
+                    
+                    interactiveRating.textContent = rating + '.0';
+                    ratingText.textContent = ratingTexts[rating];
+                });
+            });
+
+            // Smiley rating
+            const smileys = document.querySelectorAll('.rating-smiley');
+            const smileyRating = document.getElementById('smiley-rating');
+            
+            const smileyLabels = {
+                1: "Poor",
+                2: "Fair", 
+                3: "Good",
+                4: "Very Good",
+                5: "Excellent"
+            };
+            
+            smileys.forEach(smiley => {
+                smiley.addEventListener('click', function() {
+                    const rating = this.getAttribute('data-rating');
+                    
+                    // Remove active class from all
+                    smileys.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked
+                    this.classList.add('active');
+                    
+                    smileyRating.textContent = smileyLabels[rating];
+                });
+            });
+
+            // Numeric rating
+            const numericRatings = document.querySelectorAll('.rating-numeric');
+            const numericRating = document.getElementById('numeric-rating');
+            
+            numericRatings.forEach(rating => {
+                rating.addEventListener('click', function() {
+                    const value = this.getAttribute('data-rating');
+                    
+                    // Remove active state from all
+                    numericRatings.forEach(r => {
+                        r.style.borderColor = '#d1d5db';
+                        r.style.color = '#6b7280';
+                        r.style.backgroundColor = 'transparent';
+                    });
+                    
+                    // Add active state to clicked
+                    this.style.borderColor = '#000';
+                    this.style.color = '#000';
+                    this.style.backgroundColor = '#f3f4f6';
+                    
+                    numericRating.textContent = value;
+                });
+            });
+
+            // Write review rating
+            const writeStars = document.querySelectorAll('.rating-write');
+            const writeRating = document.getElementById('write-rating');
+            
+            writeStars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = this.getAttribute('data-rating');
+                    
+                    // Update all stars
+                    writeStars.forEach(s => {
+                        const starRating = s.getAttribute('data-rating');
+                        if (starRating <= rating) {
+                            s.style.color = '#fbbf24';
+                        } else {
+                            s.style.color = '#d1d5db';
+                        }
+                    });
+                    
+                    writeRating.textContent = rating;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

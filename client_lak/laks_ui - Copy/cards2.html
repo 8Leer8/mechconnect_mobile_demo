@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Card Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 p-8 max-w-7xl mx-auto font-sans">
+    <div class="space-y-12">
+        <h1 class="text-3xl font-bold text-gray-900">More Card Styles with Geist</h1>
+
+        <!-- Blog Cards -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Blog Cards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Blog Card 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
+                    <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-600 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition"></div>
+                        <span class="material-icons-round text-white text-6xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">article</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span>Design</span>
+                            <span>•</span>
+                            <span>Mar 12, 2024</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition">The Future of UI Design in 2024</h3>
+                        <p class="text-sm text-gray-600 line-clamp-2">Exploring the latest trends and innovations that are shaping user interface design this year.</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+                                <span class="text-xs text-gray-600">Sarah Chen</span>
+                            </div>
+                            <button class="text-xs text-blue-600 font-medium hover:text-blue-700 transition flex items-center gap-1">
+                                Read More
+                                <span class="material-icons-round text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Card 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
+                    <div class="h-48 bg-gradient-to-br from-green-500 to-green-600 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition"></div>
+                        <span class="material-icons-round text-white text-6xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">code</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span>Development</span>
+                            <span>•</span>
+                            <span>Mar 10, 2024</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition">Building Scalable React Applications</h3>
+                        <p class="text-sm text-gray-600 line-clamp-2">Best practices and patterns for creating maintainable and scalable React codebases.</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+                                <span class="text-xs text-gray-600">Alex Kumar</span>
+                            </div>
+                            <button class="text-xs text-green-600 font-medium hover:text-green-700 transition flex items-center gap-1">
+                                Read More
+                                <span class="material-icons-round text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Card 3 -->
+                <div class="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition group relative">
+                    <div class="absolute top-4 right-4 bg-black text-white px-2 py-1 rounded text-xs font-medium">Featured</div>
+                    <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-600 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition"></div>
+                        <span class="material-icons-round text-white text-6xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">trending_up</span>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span>Business</span>
+                            <span>•</span>
+                            <span>Mar 8, 2024</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 group-hover:text-purple-600 transition">Startup Growth Strategies That Work</h3>
+                        <p class="text-sm text-gray-600 line-clamp-2">Proven methods for accelerating your startup's growth in competitive markets.</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+                                <span class="text-xs text-gray-600">Maria Rodriguez</span>
+                            </div>
+                            <button class="text-xs text-purple-600 font-medium hover:text-purple-700 transition flex items-center gap-1">
+                                Read More
+                                <span class="material-icons-round text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Cards -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Feature Cards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center hover:shadow-md transition group">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-200 transition">
+                        <span class="material-icons-round text-3xl text-blue-600">security</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Enterprise Security</h3>
+                    <p class="text-sm text-gray-600 mb-6">Bank-level encryption and security protocols to keep your data safe and protected.</p>
+                    <ul class="space-y-2 text-sm text-gray-600 text-left">
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>End-to-end encryption</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>GDPR compliant</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>24/7 monitoring</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center hover:shadow-md transition group">
+                    <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-green-200 transition">
+                        <span class="material-icons-round text-3xl text-green-600">speed</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Lightning Fast</h3>
+                    <p class="text-sm text-gray-600 mb-6">Optimized for performance with global CDN and advanced caching techniques.</p>
+                    <ul class="space-y-2 text-sm text-gray-600 text-left">
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Global CDN</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>99.9% uptime</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Auto scaling</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center hover:shadow-md transition group">
+                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-200 transition">
+                        <span class="material-icons-round text-3xl text-purple-600">support_agent</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">24/7 Support</h3>
+                    <p class="text-sm text-gray-600 mb-6">Dedicated support team available around the clock to help you succeed.</p>
+                    <ul class="space-y-2 text-sm text-gray-600 text-left">
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Live chat support</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Phone & email</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Dedicated manager</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Cards -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Pricing Cards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Basic Plan -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-lg transition group text-center">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Starter</h3>
+                    <p class="text-sm text-gray-600 mb-6">Perfect for small teams and individuals</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$19</span>
+                        <span class="text-gray-600">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Up to 5 projects</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>10GB storage</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Basic analytics</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <span class="material-icons-round text-base">remove</span>
+                            <span>Advanced features</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-400">
+                            <span class="material-icons-round text-base">remove</span>
+                            <span>Priority support</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gray-100 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-200 transition">Get Started</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-white rounded-2xl shadow-xl border-2 border-black p-8 hover:shadow-2xl transition group text-center relative">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white px-4 py-1 rounded-full text-sm font-medium">Most Popular</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Professional</h3>
+                    <p class="text-sm text-gray-600 mb-6">Ideal for growing businesses</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$49</span>
+                        <span class="text-gray-600">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Unlimited projects</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>100GB storage</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Advanced analytics</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Custom domains</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Priority support</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition">Get Started</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 hover:shadow-lg transition group text-center">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Enterprise</h3>
+                    <p class="text-sm text-gray-600 mb-6">For large organizations</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$99</span>
+                        <span class="text-gray-600">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Unlimited everything</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>1TB storage</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Advanced security</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Custom solutions</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="material-icons-round text-green-500 text-base">check_circle</span>
+                            <span>Dedicated manager</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gray-100 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-200 transition">Contact Sales</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonial Cards -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Testimonial Cards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+                    <div class="flex items-center gap-2 text-yellow-400 mb-4">
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                    </div>
+                    <p class="text-sm text-gray-600 italic mb-4">"This platform has completely transformed how our team collaborates. The intuitive design and powerful features have boosted our productivity by 40%."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-900">Michael Rodriguez</div>
+                            <div class="text-xs text-gray-500">CTO at TechFlow</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+                    <div class="flex items-center gap-2 text-yellow-400 mb-4">
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                    </div>
+                    <p class="text-sm text-gray-600 italic mb-4">"The customer support is exceptional. They helped us migrate our entire workflow in just two days. Couldn't be happier with the service!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                            <div class="text-xs text-gray-500">Product Manager at InnovateCo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition">
+                    <div class="flex items-center gap-2 text-yellow-400 mb-4">
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star</span>
+                        <span class="material-icons-round text-lg">star_half</span>
+                    </div>
+                    <p class="text-sm text-gray-600 italic mb-4">"The analytics dashboard provides insights we never had before. It's helped us make data-driven decisions that increased our ROI significantly."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-900">David Kim</div>
+                            <div class="text-xs text-gray-500">Marketing Director at GrowthLab</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

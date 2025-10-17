@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Pro - Discover</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .discover-card {
+            transition: all 0.3s ease;
+        }
+        
+        .discover-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-active {
+            background-color: #f97316;
+            color: white;
+        }
+        
+        .tab-inactive {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .mobile-tab {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 8px;
+            border-radius: 8px;
+            margin: 2px;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        
+        .mobile-tab-content {
+            display: none;
+        }
+        
+        .mobile-tab-content.active {
+            display: block;
+        }
+        
+        .status-badge {
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Page Title -->
+                <h1 class="text-xl font-bold text-gray-900">Discover</h1>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Profile Picture -->
+                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        JS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <!-- Search Bar -->
+        <div class="mb-6">
+            <div class="relative">
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <span class="material-icons-round text-lg">search</span>
+                </span>
+                <input 
+                    type="text" 
+                    placeholder="Search mechanics, services, or shops..."
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                >
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 mb-6">
+            <div class="flex">
+                <button id="mechanics-tab" class="mobile-tab tab-active flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">handyman</span>
+                    <span>Mechanics</span>
+                </button>
+                <button id="services-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">miscellaneous_services</span>
+                    <span>Services</span>
+                </button>
+                <button id="shops-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">build_circle</span>
+                    <span>Shops</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Mechanics Tab Content -->
+            <div id="mechanics-content" class="mobile-tab-content active">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Mechanic Card 1 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <img src="../../imgs/mechanic_default_1.png" alt="Mike Rodriguez" class="w-16 h-16 bg-gray-200 rounded-full">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Mike Rodriguez</h3>
+                                    <span class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs px-2 py-0.5 rounded-full">GOLD</span>
+                                </div>
+                                <div class="flex items-center gap-1 mb-2">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.8</span>
+                                    <span class="text-xs text-gray-500">(128 reviews)</span>
+                                </div>
+                                <div class="text-xs text-gray-600 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">location_on</span>
+                                    <span>1.2 km away</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Brakes</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Engine</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Diagnostics</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                8 years experience
+                            </div>
+                            <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mechanic Card 2 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <img src="../../imgs/mechanic_default_2.png" alt="Sarah Johnson" class="w-16 h-16 bg-gray-200 rounded-full">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Sarah Johnson</h3>
+                                    <span class="bg-gradient-to-r from-gray-400 to-gray-600 text-white text-xs px-2 py-0.5 rounded-full">SILVER</span>
+                                </div>
+                                <div class="flex items-center gap-1 mb-2">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.6</span>
+                                    <span class="text-xs text-gray-500">(89 reviews)</span>
+                                </div>
+                                <div class="text-xs text-gray-600 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">location_on</span>
+                                    <span>2.1 km away</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Electrical</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">AC Repair</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Wiring</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                5 years experience
+                            </div>
+                            <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mechanic Card 3 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <img src="../../imgs/mechanic_default_1.png" alt="David Chen" class="w-16 h-16 bg-gray-200 rounded-full">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">David Chen</h3>
+                                    <span class="bg-gradient-to-r from-yellow-700 to-yellow-900 text-white text-xs px-2 py-0.5 rounded-full">BRONZE</span>
+                                </div>
+                                <div class="flex items-center gap-1 mb-2">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="text-sm font-medium text-gray-700">4.5</span>
+                                    <span class="text-xs text-gray-500">(67 reviews)</span>
+                                </div>
+                                <div class="text-xs text-gray-600 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">location_on</span>
+                                    <span>3.5 km away</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1 mb-3">
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Transmission</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Suspension</span>
+                            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded">Brakes</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                4 years experience
+                            </div>
+                            <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Tab Content -->
+            <div id="services-content" class="mobile-tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Service Card 1 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-32 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
+                            <span class="material-icons-round text-orange-400 text-4xl">build</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Complete brake pad replacement with inspection of rotors and calipers.</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1 text-sm text-gray-700">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="font-medium">4.9</span>
+                                    <span class="text-gray-500">(47)</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-orange-600">₱2,500</div>
+                                    <div class="text-xs text-gray-500">Starting price</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 2 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-32 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                            <span class="material-icons-round text-blue-400 text-4xl">oil_barrel</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold text-gray-900">Full Synthetic Oil Change</h3>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Premium synthetic oil change with oil filter replacement and fluid check.</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1 text-sm text-gray-700">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="font-medium">4.7</span>
+                                    <span class="text-gray-500">(32)</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-orange-600">₱1,800</div>
+                                    <div class="text-xs text-gray-500">Fixed price</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 3 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-32 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
+                            <span class="material-icons-round text-green-400 text-4xl">engineering</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold text-gray-900">Engine Diagnostics</h3>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Comprehensive engine diagnostics using advanced scanning tools.</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1 text-sm text-gray-700">
+                                    <span class="material-icons-round text-yellow-400 text-sm">star</span>
+                                    <span class="font-medium">4.8</span>
+                                    <span class="text-gray-500">(28)</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-orange-600">₱1,200</div>
+                                    <div class="text-xs text-gray-500">Starting price</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shops Tab Content -->
+            <div id="shops-content" class="mobile-tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Shop Card 1 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-32 bg-gradient-to-r from-blue-600 to-purple-700 relative">
+                            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <div class="absolute bottom-3 left-4 flex items-end gap-3">
+                                <img src="../../imgs/service_deafault_2.png" alt="AutoCare Pro Shop" class="w-12 h-12 bg-white rounded-lg shadow-lg">
+                                <div class="text-white">
+                                    <h3 class="font-bold">AutoCare Pro Shop</h3>
+                                    <div class="flex items-center gap-1 text-xs">
+                                        <span class="material-icons-round text-yellow-400 text-xs">star</span>
+                                        <span>4.7</span>
+                                        <span>(342 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">OPEN</span>
+                                <span class="text-xs text-gray-600">8:00 AM - 6:00 PM</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Serving the Zamboanga community since 2015 with top-quality automotive repair services.</p>
+                            <div class="flex items-center justify-between text-sm text-gray-600">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">location_on</span>
+                                    <span>1.5 km away</span>
+                                </div>
+                                <button class="text-orange-600 font-medium hover:text-orange-700">View Shop</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shop Card 2 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-32 bg-gradient-to-r from-green-600 to-teal-700 relative">
+                            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <div class="absolute bottom-3 left-4 flex items-end gap-3">
+                                <img src="../../imgs/service_deafault_2.png" alt="Precision Auto Works" class="w-12 h-12 bg-white rounded-lg shadow-lg">
+                                <div class="text-white">
+                                    <h3 class="font-bold">Precision Auto Works</h3>
+                                    <div class="flex items-center gap-1 text-xs">
+                                        <span class="material-icons-round text-yellow-400 text-xs">star</span>
+                                        <span>4.5</span>
+                                        <span>(187 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">OPEN</span>
+                                <span class="text-xs text-gray-600">8:00 AM - 5:00 PM</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Specializing in European and luxury vehicle service and repair with factory-trained technicians.</p>
+                            <div class="flex items-center justify-between text-sm text-gray-600">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">location_on</span>
+                                    <span>2.8 km away</span>
+                                </div>
+                                <button class="text-orange-600 font-medium hover:text-orange-700">View Shop</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shop Card 3 -->
+                    <div class="discover-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="h-32 bg-gradient-to-r from-purple-600 to-pink-700 relative">
+                            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                            <div class="absolute bottom-3 left-4 flex items-end gap-3">
+                                <img src="../../imgs/service_deafault_2.png" alt="Quick Fix Auto" class="w-12 h-12 bg-white rounded-lg shadow-lg">
+                                <div class="text-white">
+                                    <h3 class="font-bold">Quick Fix Auto</h3>
+                                    <div class="flex items-center gap-1 text-xs">
+                                        <span class="material-icons-round text-yellow-400 text-xs">star</span>
+                                        <span>4.3</span>
+                                        <span>(94 reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">OPEN</span>
+                                <span class="text-xs text-gray-600">7:00 AM - 7:00 PM</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Fast and reliable auto repairs with extended hours for your convenience.</p>
+                            <div class="flex items-center justify-between text-sm text-gray-600">
+                                <div class="flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">location_on</span>
+                                    <span>1.1 km away</span>
+                                </div>
+                                <button class="text-orange-600 font-medium hover:text-orange-700">View Shop</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Booking -->
+            <a href="../bookings/bookings.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">calendar_today</span>
+                <span class="text-xs mt-1">Booking</span>
+            </a>
+            
+            <!-- Discover -->
+            <a href="../discover/discover.html" class="flex flex-col items-center text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">explore</span>
+                <span class="text-xs mt-1">Discover</span>
+            </a>
+            
+            <!-- Home -->
+            <a href="../home/home.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">home</span>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            
+            <!-- Request -->
+            <a href="../request_form/custom_request.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">add_circle</span>
+                <span class="text-xs mt-1">Request</span>
+            </a>
+            
+            <!-- Profile -->
+            <a href="../profile/profile.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">person</span>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const mechanicsTab = document.getElementById('mechanics-tab');
+            const servicesTab = document.getElementById('services-tab');
+            const shopsTab = document.getElementById('shops-tab');
+            
+            const mechanicsContent = document.getElementById('mechanics-content');
+            const servicesContent = document.getElementById('services-content');
+            const shopsContent = document.getElementById('shops-content');
+            
+            // Initialize with mechanics tab active
+            updateTabDisplay('mechanics');
+            
+            mechanicsTab.addEventListener('click', () => updateTabDisplay('mechanics'));
+            servicesTab.addEventListener('click', () => updateTabDisplay('services'));
+            shopsTab.addEventListener('click', () => updateTabDisplay('shops'));
+            
+            function updateTabDisplay(activeTab) {
+                // Reset all tabs
+                mechanicsTab.classList.remove('tab-active');
+                servicesTab.classList.remove('tab-active');
+                shopsTab.classList.remove('tab-active');
+                mechanicsTab.classList.add('tab-inactive');
+                servicesTab.classList.add('tab-inactive');
+                shopsTab.classList.add('tab-inactive');
+                
+                // Hide all content
+                mechanicsContent.classList.remove('active');
+                servicesContent.classList.remove('active');
+                shopsContent.classList.remove('active');
+                
+                // Activate selected tab
+                if (activeTab === 'mechanics') {
+                    mechanicsTab.classList.remove('tab-inactive');
+                    mechanicsTab.classList.add('tab-active');
+                    mechanicsContent.classList.add('active');
+                } else if (activeTab === 'services') {
+                    servicesTab.classList.remove('tab-inactive');
+                    servicesTab.classList.add('tab-active');
+                    servicesContent.classList.add('active');
+                } else if (activeTab === 'shops') {
+                    shopsTab.classList.remove('tab-inactive');
+                    shopsTab.classList.add('tab-active');
+                    shopsContent.classList.add('active');
+                }
+            }
+            
+            // Simple interactions
+            const bookButtons = document.querySelectorAll('#mechanics-content button');
+            const serviceButtons = document.querySelectorAll('#services-content button');
+            const shopButtons = document.querySelectorAll('#shops-content button');
+            
+            bookButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const mechanicName = this.closest('.discover-card').querySelector('h3').textContent;
+                    alert(`Booking mechanic: ${mechanicName}`);
+                });
+            });
+            
+            serviceButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const serviceName = this.closest('.discover-card').querySelector('h3').textContent;
+                    alert(`Viewing service: ${serviceName}`);
+                });
+            });
+            
+            shopButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const shopName = this.closest('.discover-card').querySelector('h3').textContent;
+                    alert(`Viewing shop: ${shopName}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - Your Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .settings-card {
+            transition: all 0.3s ease;
+        }
+        
+        .settings-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-input {
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            transform: translateY(-1px);
+        }
+        
+        .profile-avatar {
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .avatar-upload {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-upload:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .save-section {
+            position: sticky;
+            bottom: 24px;
+            z-index: 40;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Account Settings</h1>
+                </div>
+                
+                <!-- Empty space for balance -->
+                <div class="w-20"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column - Profile & Actions -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Profile Card -->
+                <div class="settings-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="text-center">
+                        <!-- Profile Avatar -->
+                        <div class="relative inline-block mb-4">
+                            <img src="../../imgs/client_default_1.png" alt="" class="profile-avatar w-24 h-24 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto">
+                            <label class="avatar-upload absolute bottom-0 right-0 w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer">
+                                <span class="material-icons-round text-white text-sm">edit</span>
+                                <input type="file" class="hidden" accept="image/*">
+                            </label>
+                        </div>
+                        
+                        <h2 class="text-xl font-bold text-gray-900">Lak Jinno</h2>
+                        <p class="text-sm text-gray-600 mb-2">@lakjinno</p>
+                        
+                        <!-- Join Date -->
+                        <div class="flex items-center justify-center gap-2 text-sm text-gray-500 mb-4">
+                            <span class="material-icons-round text-base">calendar_today</span>
+                            <span>Joined October 2024</span>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-gray-900">24</div>
+                                <div class="text-xs text-gray-600">Booking</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-gray-900">12</div>
+                                <div class="text-xs text-gray-600">Reviews</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-gray-900">2</div>
+                                <div class="text-xs text-gray-600">Years</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="settings-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500 text-lg">settings</span>
+                        Quick Actions
+                    </h3>
+                    <div class="space-y-3">
+                        <button onclick="showChangePassword()" class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-blue-600 text-lg">lock</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Change Password</div>
+                                <div class="text-xs text-gray-500">Update your security</div>
+                            </div>
+                        </button>
+                        
+                        <button class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-green-600 text-lg">notifications</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Notification Settings</div>
+                                <div class="text-xs text-gray-500">Manage alerts</div>
+                            </div>
+                        </button>
+                        
+                        <button class="w-full flex items-center gap-3 p-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-purple-600 text-lg">privacy_tip</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Privacy Settings</div>
+                                <div class="text-xs text-gray-500">Control your data</div>
+                            </div>
+                        </button>
+                        
+                        <button onclick="showDeleteAccount()" class="w-full flex items-center gap-3 p-3 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-red-600 text-lg">delete</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Delete Account</div>
+                                <div class="text-xs text-red-500">Permanently remove</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Forms -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Personal Information -->
+                <div class="settings-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500 text-lg">badge</span>
+                        Personal Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                            <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" value="Sarah">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                            <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" value="Johnson">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                        <div class="relative">
+                            <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">alternate_email</span>
+                            <input type="text" class="form-input w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" value="sarahj">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="settings-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500 text-lg">contact_mail</span>
+                        Contact Information
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <div class="relative">
+                                <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">mail</span>
+                                <input type="email" class="form-input w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" value="sarah.johnson@example.com">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <div class="relative">
+                                <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">phone</span>
+                                <input type="tel" class="form-input w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" value="+1 (555) 123-4567">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Information -->
+                <div class="settings-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500 text-lg">home</span>
+                        Address Information
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Street Address</label>
+                            <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="123 Main Street">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Barangay</label>
+                                <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Barangay Name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                                <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="City Name">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Municipality</label>
+                                <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Municipality">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Region</label>
+                                <select class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition appearance-none bg-white">
+                                    <option>Select Region</option>
+                                    <option>NCR - National Capital Region</option>
+                                    <option>Region I - Ilocos Region</option>
+                                    <option>Region II - Cagayan Valley</option>
+                                    <option>Region III - Central Luzon</option>
+                                    <option>Region IV-A - CALABARZON</option>
+                                    <option selected>Region IV-B - MIMAROPA</option>
+                                    <option>Region V - Bicol Region</option>
+                                    <option>Region VI - Western Visayas</option>
+                                    <option>Region VII - Central Visayas</option>
+                                    <option>Region VIII - Eastern Visayas</option>
+                                    <option>Region IX - Zamboanga Peninsula</option>
+                                    <option>Region X - Northern Mindanao</option>
+                                    <option>Region XI - Davao Region</option>
+                                    <option>Region XII - SOCCSKSARGEN</option>
+                                    <option>Region XIII - Caraga</option>
+                                    <option>CAR - Cordillera Admin Region</option>
+                                    <option>BARMM - Bangsamoro</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-1/3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ZIP Code</label>
+                            <input type="text" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="1000">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="settings-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500 text-lg">security</span>
+                        Security Settings
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">Two-Factor Authentication</div>
+                                <div class="text-xs text-gray-500">Add an extra layer of security</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-orange-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">Login Notifications</div>
+                                <div class="text-xs text-gray-500">Get alerts for new logins</div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-orange-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Changes Section -->
+                <div class="save-section bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mt-8">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-center sm:text-left">
+                            <div class="text-sm font-medium text-gray-900">Ready to save your changes?</div>
+                            <div class="text-xs text-gray-500">All modifications will be applied to your account</div>
+                        </div>
+                        <button class="w-full sm:w-auto bg-orange-500 text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-icons-round text-base">save</span>
+                            Save All Changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Change Password</h3>
+                <button onclick="hideChangePassword()" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons-round text-lg">close</span>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                    <div class="relative">
+                        <input type="password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Enter current password">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                    <div class="relative">
+                        <input type="password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Enter new password">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                    <div class="relative">
+                        <input type="password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition" placeholder="Confirm new password">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+                <button class="flex-1 bg-orange-500 text-white py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                    Update Password
+                </button>
+                <button onclick="hideChangePassword()" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div id="deleteAccountModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span class="material-icons-round text-red-600 text-2xl">warning</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900">Delete Account</h3>
+                <p class="text-sm text-gray-600 mt-1">This action cannot be undone. All your data will be permanently removed.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Enter your password to confirm</label>
+                    <input type="password" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition" placeholder="Enter your password">
+                </div>
+                
+                <div class="flex items-center gap-3 p-3 bg-red-50 rounded-lg border border-red-200">
+                    <span class="material-icons-round text-red-500 text-lg">info</span>
+                    <p class="text-sm text-red-700">This will permanently delete your account and all associated data.</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+                <button class="flex-1 bg-red-600 text-white py-3 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">
+                    Delete Account
+                </button>
+                <button onclick="hideDeleteAccount()" class="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function showChangePassword() {
+            document.getElementById('changePasswordModal').classList.remove('hidden');
+        }
+        
+        function hideChangePassword() {
+            document.getElementById('changePasswordModal').classList.add('hidden');
+        }
+        
+        function showDeleteAccount() {
+            document.getElementById('deleteAccountModal').classList.remove('hidden');
+        }
+        
+        function hideDeleteAccount() {
+            document.getElementById('deleteAccountModal').classList.add('hidden');
+        }
+        
+        // Close modals on outside click
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'changePasswordModal') {
+                hideChangePassword();
+            }
+            if (e.target.id === 'deleteAccountModal') {
+                hideDeleteAccount();
+            }
+        });
+        
+        // Profile picture upload preview
+        const avatarUpload = document.querySelector('input[type="file"]');
+        const profileAvatar = document.querySelector('.profile-avatar');
+        
+        avatarUpload?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileAvatar.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Add hover effects to settings cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.settings-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Save button functionality
+            const saveButton = document.querySelector('.save-section button');
+            saveButton.addEventListener('click', function() {
+                // Show saving state
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="material-icons-round text-base animate-spin">refresh</span> Saving...';
+                this.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                    successMsg.innerHTML = '<div class="flex items-center gap-2"><span class="material-icons-round">check_circle</span> Changes saved successfully!</div>';
+                    document.body.appendChild(successMsg);
+                    
+                    setTimeout(() => {
+                        successMsg.remove();
+                    }, 3000);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

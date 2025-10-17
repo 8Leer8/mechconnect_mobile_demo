@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity & History - AutoCare Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tab-active {
+            background-color: #f97316;
+            color: white;
+        }
+        
+        .tab-inactive {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .mobile-tab {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 8px;
+            border-radius: 8px;
+            margin: 2px;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        
+        .mobile-tab-content {
+            display: none;
+        }
+        
+        .mobile-tab-content.active {
+            display: block;
+        }
+        
+        .simple-card {
+            transition: all 0.2s ease;
+        }
+        
+        .simple-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Activity & History</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-4 py-6">
+        <!-- Tabs -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 mb-6">
+            <div class="flex">
+                <button id="mobile-reviews-tab" class="mobile-tab tab-active flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">reviews</span>
+                    <span>Reviews</span>
+                    <span class="bg-white text-orange-600 text-xs px-1.5 py-0.5 rounded-full">5</span>
+                </button>
+                <button id="mobile-payments-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">payments</span>
+                    <span>Payments</span>
+                    <span class="bg-gray-200 text-gray-700 text-xs px-1.5 py-0.5 rounded-full">12</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="space-y-4">
+            <!-- Reviews Tab Content -->
+            <div id="mobile-reviews-content" class="mobile-tab-content active space-y-4">
+                <!-- Review Card 1 -->
+                <div class="simple-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                            <p class="text-sm text-gray-600">Mike Rodriguez • Jan 15, 2024</p>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Mike did an excellent job with my brake pad replacement. He was punctual, professional, and explained everything clearly.</p>
+                    <div class="flex gap-2">
+                        <button class="text-blue-600 text-sm font-medium hover:text-blue-700">Edit</button>
+                        <button class="text-red-600 text-sm font-medium hover:text-red-700">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Review Card 2 -->
+                <div class="simple-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Oil Change</h3>
+                            <p class="text-sm text-gray-600">AutoCare Pro Shop • Jan 8, 2024</p>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star_half</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Good service overall. The oil change was done quickly and the staff was friendly. Comfortable waiting area.</p>
+                    <div class="flex gap-2">
+                        <button class="text-blue-600 text-sm font-medium hover:text-blue-700">Edit</button>
+                        <button class="text-red-600 text-sm font-medium hover:text-red-700">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Review Card 3 -->
+                <div class="simple-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Engine Diagnostics</h3>
+                            <p class="text-sm text-gray-600">Maria Santos • Dec 22, 2023</p>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                            <span class="material-icons-round text-sm">star</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Maria was absolutely fantastic! She quickly identified the issue that two other mechanics couldn't figure out.</p>
+                    <div class="flex gap-2">
+                        <button class="text-blue-600 text-sm font-medium hover:text-blue-700">Edit</button>
+                        <button class="text-red-600 text-sm font-medium hover:text-red-700">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments Tab Content -->
+            <div id="mobile-payments-content" class="mobile-tab-content space-y-4">
+                <!-- Payment Card 1 -->
+                <div class="simple-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                            <p class="text-sm text-gray-600">Mike Rodriguez • Jan 15, 2024</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-semibold text-gray-900">₱2,500</div>
+                            <div class="text-xs text-green-600 font-medium">Completed</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-gray-600">
+                        <span>Cash • External Payment</span>
+                        <button class="text-blue-600 font-medium hover:text-blue-700">View Receipt</button>
+                    </div>
+                </div>
+
+                <!-- Payment Card 2 -->
+                <div class="simple-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Oil Change</h3>
+                            <p class="text-sm text-gray-600">AutoCare Pro Shop • Jan 8, 2024</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-semibold text-gray-900">₱1,800</div>
+                            <div class="text-xs text-green-600 font-medium">Completed</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-gray-600">
+                        <span>Credit Card • External Payment</span>
+                        <button class="text-blue-600 font-medium hover:text-blue-700">View Receipt</button>
+                    </div>
+                </div>
+
+                <!-- Payment Card 3 -->
+                <div class="simple-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Engine Diagnostics</h3>
+                            <p class="text-sm text-gray-600">Maria Santos • Dec 22, 2023</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-semibold text-gray-900 line-through">₱1,200</div>
+                            <div class="text-xs text-purple-600 font-medium">Refunded</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-gray-600">
+                        <span>GCash • External Payment</span>
+                        <button class="text-blue-600 font-medium hover:text-blue-700">View Receipt</button>
+                    </div>
+                </div>
+
+                <!-- Payment Card 4 -->
+                <div class="simple-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Tire Rotation</h3>
+                            <p class="text-sm text-gray-600">David Chen • Nov 30, 2023</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-semibold text-gray-900">₱800</div>
+                            <div class="text-xs text-green-600 font-medium">Completed</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-gray-600">
+                        <span>Cash • External Payment</span>
+                        <button class="text-blue-600 font-medium hover:text-blue-700">View Receipt</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="mobile-empty-state" class="hidden text-center py-12">
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons-round text-orange-500 text-2xl" id="empty-state-icon">reviews</span>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2" id="empty-state-title">No activity yet</h3>
+            <p class="text-gray-600 mb-6 max-w-md mx-auto" id="empty-state-description">
+                Your reviews and payment history will appear here once you start using AutoCare Pro services.
+            </p>
+            <button onclick="window.location.href='../search/search.html'" class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                Book a Service
+            </button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const reviewsTab = document.getElementById('mobile-reviews-tab');
+            const paymentsTab = document.getElementById('mobile-payments-tab');
+            const reviewsContent = document.getElementById('mobile-reviews-content');
+            const paymentsContent = document.getElementById('mobile-payments-content');
+            const emptyState = document.getElementById('mobile-empty-state');
+
+            // Initialize with reviews tab active
+            updateTabDisplay('reviews');
+
+            reviewsTab.addEventListener('click', () => updateTabDisplay('reviews'));
+            paymentsTab.addEventListener('click', () => updateTabDisplay('payments'));
+
+            function updateTabDisplay(activeTab) {
+                // Reset all tabs
+                reviewsTab.classList.remove('tab-active');
+                paymentsTab.classList.remove('tab-active');
+                reviewsTab.classList.add('tab-inactive');
+                paymentsTab.classList.add('tab-inactive');
+                
+                // Hide all content
+                reviewsContent.classList.remove('active');
+                paymentsContent.classList.remove('active');
+                emptyState.classList.add('hidden');
+                
+                // Activate selected tab
+                if (activeTab === 'reviews') {
+                    reviewsTab.classList.remove('tab-inactive');
+                    reviewsTab.classList.add('tab-active');
+                    reviewsContent.classList.add('active');
+                } else if (activeTab === 'payments') {
+                    paymentsTab.classList.remove('tab-inactive');
+                    paymentsTab.classList.add('tab-active');
+                    paymentsContent.classList.add('active');
+                }
+            }
+
+            // Simple button actions
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.textContent.includes('Edit')) {
+                        alert('Edit review functionality would open here');
+                    } else if (this.textContent.includes('Delete')) {
+                        if (confirm('Are you sure you want to delete this review?')) {
+                            this.closest('.simple-card').remove();
+                        }
+                    } else if (this.textContent.includes('View Receipt')) {
+                        alert('Opening receipt...');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

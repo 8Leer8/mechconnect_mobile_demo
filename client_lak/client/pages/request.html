@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCare Pro - Requests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .request-card {
+            transition: all 0.3s ease;
+        }
+        
+        .request-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-active {
+            background-color: #f97316;
+            color: white;
+        }
+        
+        .tab-inactive {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .mobile-tab {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 8px;
+            border-radius: 8px;
+            margin: 2px;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .mobile-tab-content {
+            display: none;
+        }
+        
+        .mobile-tab-content.active {
+            display: block;
+        }
+        
+        .status-badge {
+            font-size: 0.7rem;
+        }
+        
+        .image-preview {
+            transition: all 0.3s ease;
+        }
+        
+        .image-preview:hover {
+            transform: scale(1.05);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(249, 115, 22, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(249, 115, 22, 0.5); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Page Title -->
+                <h1 class="text-xl font-bold text-gray-900">My Requests</h1>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Profile Picture -->
+                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        JS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <!-- Custom Request Button -->
+        <div class="mb-6">
+            <button onclick="createCustomRequest()" class="w-full bg-orange-500 text-white px-6 py-4 rounded-xl text-base font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-3 shadow-md hover:shadow-lg">
+                <span class="material-icons-round text-lg">add_circle</span>
+                <span class="font-semibold">Create Custom Request</span>
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 mb-6">
+            <div class="flex">
+                <button id="pending-tab" class="mobile-tab tab-active flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">pending_actions</span>
+                    <span>Pending</span>
+                </button>
+                <button id="quoted-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">local_offer</span>
+                    <span>Quoted</span>
+                </button>
+                <button id="rejected-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">cancel</span>
+                    <span>Rejected</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Pending Tab Content -->
+            <div id="pending-content" class="mobile-tab-content active">
+                <div class="space-y-4">
+                    <!-- Pending Request Card 1 -->
+                    <div class="request-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 pulse-glow">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                    <span class="status-badge bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">PENDING</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Sent: Jan 15, 2024 • 2:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱1,800</div>
+                                <div class="text-xs text-gray-500">Budget</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Hearing squeaking and grinding noises when applying brakes. The braking performance has decreased noticeably.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Request ID: REQ-2024-001
+                            </div>
+                            <button onclick="viewPendingRequest()" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pending Request Card 2 -->
+                    <div class="request-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">AC Repair</h3>
+                                    <span class="status-badge bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">PENDING</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Sent: Jan 14, 2024 • 10:15 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱2,500</div>
+                                <div class="text-xs text-gray-500">Budget</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                AC not cooling properly, only blowing warm air. Strange noises coming from AC unit when turned on.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Request ID: REQ-2024-002
+                            </div>
+                            <button onclick="viewPendingRequest()" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quoted Tab Content -->
+            <div id="quoted-content" class="mobile-tab-content">
+                <div class="space-y-4">
+                    <!-- Quoted Request Card 1 -->
+                    <div class="request-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">QUOTED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Quoted: Jan 16, 2024 • 10:45 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-orange-600">₱3,030</div>
+                                <div class="text-xs text-gray-500">Final Quote</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Complete brake service with additional wheel alignment and air filter replacement recommended.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Quote ID: QT-2024-001
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="declineQuote()" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                    Decline
+                                </button>
+                                <button onclick="acceptQuote()" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Accept
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quoted Request Card 2 -->
+                    <div class="request-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Engine Diagnostics</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">QUOTED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Quoted: Jan 13, 2024 • 3:20 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-orange-600">₱1,500</div>
+                                <div class="text-xs text-gray-500">Final Quote</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Comprehensive engine diagnostics with scanning and performance testing.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Quote ID: QT-2024-003
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="declineQuote()" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                    Decline
+                                </button>
+                                <button onclick="acceptQuote()" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Accept
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rejected Tab Content -->
+            <div id="rejected-content" class="mobile-tab-content">
+                <div class="space-y-4">
+                    <!-- Rejected Request Card 1 -->
+                    <div class="request-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Transmission Repair</h3>
+                                    <span class="status-badge bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium">REJECTED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Carlos Santos</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Rejected: Jan 12, 2024 • 4:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-500 line-through">₱5,000</div>
+                                <div class="text-xs text-gray-500">Budget</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Transmission slipping and hard shifting. Requires specialized equipment not available.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Request ID: REQ-2024-004
+                            </div>
+                            <button onclick="findNewMechanic()" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Find New Mechanic
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Rejected Request Card 2 -->
+                    <div class="request-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Electrical System Repair</h3>
+                                    <span class="status-badge bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium">REJECTED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Rejected: Jan 10, 2024 • 11:15 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-500 line-through">₱3,200</div>
+                                <div class="text-xs text-gray-500">Budget</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Complex electrical issue requires diagnostic equipment currently unavailable.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Request ID: REQ-2024-005
+                            </div>
+                            <button onclick="findNewMechanic()" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                Find New Mechanic
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Booking -->
+            <a href="../bookings/bookings.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">calendar_today</span>
+                <span class="text-xs mt-1">Booking</span>
+            </a>
+            
+            <!-- Discover -->
+            <a href="../discover/discover.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">explore</span>
+                <span class="text-xs mt-1">Discover</span>
+            </a>
+            
+            <!-- Home -->
+            <a href="../home/home.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">home</span>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            
+            <!-- Request -->
+            <a href="../request_form/custom_request.html" class="flex flex-col items-center text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">add_circle</span>
+                <span class="text-xs mt-1">Request</span>
+            </a>
+            
+            <!-- Profile -->
+            <a href="../profile/profile.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">person</span>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const pendingTab = document.getElementById('pending-tab');
+            const quotedTab = document.getElementById('quoted-tab');
+            const rejectedTab = document.getElementById('rejected-tab');
+            
+            const pendingContent = document.getElementById('pending-content');
+            const quotedContent = document.getElementById('quoted-content');
+            const rejectedContent = document.getElementById('rejected-content');
+            
+            // Initialize with pending tab active
+            updateTabDisplay('pending');
+            
+            pendingTab.addEventListener('click', () => updateTabDisplay('pending'));
+            quotedTab.addEventListener('click', () => updateTabDisplay('quoted'));
+            rejectedTab.addEventListener('click', () => updateTabDisplay('rejected'));
+            
+            function updateTabDisplay(selectedTab) {
+                // Reset all tabs
+                pendingTab.classList.remove('tab-active');
+                quotedTab.classList.remove('tab-active');
+                rejectedTab.classList.remove('tab-active');
+                
+                pendingTab.classList.add('tab-inactive');
+                quotedTab.classList.add('tab-inactive');
+                rejectedTab.classList.add('tab-inactive');
+                
+                // Hide all content
+                pendingContent.classList.remove('active');
+                quotedContent.classList.remove('active');
+                rejectedContent.classList.remove('active');
+                
+                // Activate selected tab
+                if (selectedTab === 'pending') {
+                    pendingTab.classList.remove('tab-inactive');
+                    pendingTab.classList.add('tab-active');
+                    pendingContent.classList.add('active');
+                } else if (selectedTab === 'quoted') {
+                    quotedTab.classList.remove('tab-inactive');
+                    quotedTab.classList.add('tab-active');
+                    quotedContent.classList.add('active');
+                } else if (selectedTab === 'rejected') {
+                    rejectedTab.classList.remove('tab-inactive');
+                    rejectedTab.classList.add('tab-active');
+                    rejectedContent.classList.add('active');
+                }
+            }
+            
+            // Simple interactions
+            const viewButtons = document.querySelectorAll('#pending-content button');
+            const acceptButtons = document.querySelectorAll('#quoted-content button');
+            const declineButtons = document.querySelectorAll('#quoted-content button');
+            const findMechanicButtons = document.querySelectorAll('#rejected-content button');
+            
+            viewButtons.forEach(button => {
+                if (button.textContent.includes('View Details')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.request-card').querySelector('h3').textContent;
+                        alert(`Viewing details for: ${serviceName}`);
+                    });
+                }
+            });
+            
+            acceptButtons.forEach(button => {
+                if (button.textContent.includes('Accept')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.request-card').querySelector('h3').textContent;
+                        alert(`Accepting quote for: ${serviceName}`);
+                    });
+                }
+            });
+            
+            declineButtons.forEach(button => {
+                if (button.textContent.includes('Decline')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.request-card').querySelector('h3').textContent;
+                        alert(`Declining quote for: ${serviceName}`);
+                    });
+                }
+            });
+            
+            findMechanicButtons.forEach(button => {
+                if (button.textContent.includes('Find New Mechanic')) {
+                    button.addEventListener('click', function() {
+                        const serviceName = this.closest('.request-card').querySelector('h3').textContent;
+                        alert(`Finding new mechanic for: ${serviceName}`);
+                    });
+                }
+            });
+        });
+
+        function createCustomRequest() {
+            alert('Creating custom service request...');
+            // In a real app, this would navigate to the custom request form
+            // window.location.href = 'custom_request_form.html';
+        }
+
+        function viewPendingRequest() {
+            alert('Viewing pending request details...');
+            // In a real app, this would navigate to the pending request details page
+            // window.location.href = 'pending_request_details.html';
+        }
+
+        function acceptQuote() {
+            alert('Accepting service quote...');
+            // In a real app, this would navigate to the booking confirmation page
+            // window.location.href = 'booking_confirmation.html';
+        }
+
+        function declineQuote() {
+            if (confirm('Are you sure you want to decline this quote?')) {
+                alert('Quote declined successfully.');
+            }
+        }
+
+        function findNewMechanic() {
+            alert('Finding new mechanics for your service...');
+            // In a real app, this would navigate to the discover page
+            // window.location.href = '../discover/discover.html';
+        }
+    </script>
+</body>
+</html>

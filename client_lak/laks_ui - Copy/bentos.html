@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bento Grid Styles - Geist & Rounded Icons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bento-item {
+            transition: all 0.3s ease;
+        }
+        
+        .bento-item:hover {
+            transform: translateY(-4px);
+        }
+        
+        .gradient-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .gradient-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .gradient-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .gradient-5 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .gradient-6 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8 max-w-7xl mx-auto font-sans">
+    <div class="space-y-12">
+        <h1 class="text-3xl font-bold text-gray-900">Bento Grid Styles with Geist</h1>
+
+        <!-- Dashboard Bento Grid -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Dashboard Bento Grid</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Stats Card 1 -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 col-span-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-gray-900">Total Revenue</h3>
+                        <span class="material-icons-round text-green-500 text-lg">trending_up</span>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900 mb-2">$24,568</div>
+                    <div class="flex items-center gap-1 text-sm text-green-600">
+                        <span class="material-icons-round text-base">arrow_upward</span>
+                        <span>+12.4% from last month</span>
+                    </div>
+                </div>
+
+                <!-- Stats Card 2 -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 col-span-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-gray-900">Active Users</h3>
+                        <span class="material-icons-round text-blue-500 text-lg">people</span>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900 mb-2">18,245</div>
+                    <div class="flex items-center gap-1 text-sm text-green-600">
+                        <span class="material-icons-round text-base">arrow_upward</span>
+                        <span>+8.2% from last week</span>
+                    </div>
+                </div>
+
+                <!-- Stats Card 3 -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 col-span-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-gray-900">Conversion Rate</h3>
+                        <span class="material-icons-round text-purple-500 text-lg">insights</span>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900 mb-2">4.8%</div>
+                    <div class="flex items-center gap-1 text-sm text-red-600">
+                        <span class="material-icons-round text-base">arrow_downward</span>
+                        <span>-2.1% from last month</span>
+                    </div>
+                </div>
+
+                <!-- Chart Area -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 col-span-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Revenue Overview</h3>
+                        <button class="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                            <span>Last 30 days</span>
+                            <span class="material-icons-round text-base">arrow_drop_down</span>
+                        </button>
+                    </div>
+                    <div class="h-48 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl flex items-center justify-center">
+                        <span class="text-gray-400">Chart visualization area</span>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 col-span-1">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons-round text-green-600 text-sm">shopping_cart</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">New order received</div>
+                                <div class="text-xs text-gray-500">2 min ago</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons-round text-blue-600 text-sm">person_add</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">New user registered</div>
+                                <div class="text-xs text-gray-500">1 hour ago</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <span class="material-icons-round text-purple-600 text-sm">star</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">Product review added</div>
+                                <div class="text-xs text-gray-500">3 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Bento Grid -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Feature Bento Grid</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="bento-item gradient-1 rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <span class="material-icons-round text-white text-2xl">bolt</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Lightning Fast</h3>
+                    <p class="text-white/80 text-sm">Blazing fast performance with optimized loading times.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bento-item gradient-2 rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <span class="material-icons-round text-white text-2xl">security</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Secure & Safe</h3>
+                    <p class="text-white/80 text-sm">Enterprise-grade security to protect your data.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bento-item gradient-3 rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <span class="material-icons-round text-white text-2xl">devices</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Multi-Platform</h3>
+                    <p class="text-white/80 text-sm">Works seamlessly across all your devices.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bento-item gradient-4 rounded-2xl p-6 text-white">
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <span class="material-icons-round text-white text-2xl">support_agent</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">24/7 Support</h3>
+                    <p class="text-white/80 text-sm">Round-the-clock customer support team.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Bento Grid -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Content Bento Grid</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Blog Post -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden md:col-span-2">
+                    <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-600 relative">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/20 text-white px-3 py-1 rounded-full text-sm">Design</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">The Future of UI Design in 2024</h3>
+                        <p class="text-gray-600 mb-4">Exploring the latest trends and innovations that are shaping user interface design this year and beyond.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+                                <span class="text-sm text-gray-600">Sarah Chen</span>
+                            </div>
+                            <span class="text-sm text-gray-500">Mar 15, 2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bento-item bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 text-white">
+                    <h3 class="text-lg font-semibold mb-4">Weekly Progress</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Tasks Completed</span>
+                                <span>24/30</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Projects</span>
+                                <span>8/10</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Team Goals</span>
+                                <span>6/8</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full mt-6 bg-white text-gray-900 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-100 transition">
+                        View Details
+                    </button>
+                </div>
+
+                <!-- Team Members -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Team Members</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span class="text-blue-600 text-sm font-medium">SJ</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                <div class="text-xs text-gray-500">Product Designer</div>
+                            </div>
+                            <span class="material-icons-round text-green-500 text-sm">circle</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition">
+                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                <span class="text-green-600 text-sm font-medium">AK</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">Alex Kumar</div>
+                                <div class="text-xs text-gray-500">Frontend Developer</div>
+                            </div>
+                            <span class="material-icons-round text-green-500 text-sm">circle</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                <span class="text-purple-600 text-sm font-medium">MC</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">Maria Chen</div>
+                                <div class="text-xs text-gray-500">UX Researcher</div>
+                            </div>
+                            <span class="material-icons-round text-yellow-500 text-sm">circle</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Events -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Upcoming Events</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-blue-600">event</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">Team Meeting</div>
+                                <div class="text-xs text-gray-500">Today, 2:00 PM</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-green-600">video_call</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">Client Call</div>
+                                <div class="text-xs text-gray-500">Tomorrow, 10:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
+                                <span class="material-icons-round text-purple-600">cake</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900">Team Lunch</div>
+                                <div class="text-xs text-gray-500">Friday, 12:30 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <span class="material-icons-round text-gray-600 text-xl">add</span>
+                            <span class="text-xs text-gray-700">New Project</span>
+                        </button>
+                        <button class="flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <span class="material-icons-round text-gray-600 text-xl">upload</span>
+                            <span class="text-xs text-gray-700">Upload File</span>
+                        </button>
+                        <button class="flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <span class="material-icons-round text-gray-600 text-xl">share</span>
+                            <span class="text-xs text-gray-700">Share</span>
+                        </button>
+                        <button class="flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <span class="material-icons-round text-gray-600 text-xl">settings</span>
+                            <span class="text-xs text-gray-700">Settings</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Bento Grid -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Portfolio Bento Grid</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project 1 -->
+                <div class="bento-item bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">Website Redesign</h3>
+                        <span class="material-icons-round text-white/80">open_in_new</span>
+                    </div>
+                    <p class="text-white/80 text-sm mb-4">Complete overhaul of company website with modern design system.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">UI/UX</span>
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">Development</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bento-item bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-white">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">Mobile App</h3>
+                        <span class="material-icons-round text-white/80">phone_iphone</span>
+                    </div>
+                    <p class="text-white/80 text-sm mb-4">Cross-platform mobile application for iOS and Android.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">React Native</span>
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">Firebase</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="bento-item bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">E-commerce</h3>
+                        <span class="material-icons-round text-white/80">shopping_cart</span>
+                    </div>
+                    <p class="text-white/80 text-sm mb-4">Online store with payment integration and inventory management.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">Shopify</span>
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">Payment</span>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="bento-item bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl p-6 text-white md:col-span-2">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold">Brand Identity</h3>
+                        <span class="material-icons-round text-white/80">palette</span>
+                    </div>
+                    <p class="text-white/80 text-sm mb-4">Complete brand identity system including logo, colors, and typography.</p>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">Branding</span>
+                        <span class="bg-white/20 px-2 py-1 rounded text-xs">Illustration</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics Bento Grid -->
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-gray-800">Metrics Bento Grid</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Metric 1 -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span class="material-icons-round text-blue-600 text-2xl">visibility</span>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900 mb-1">245K</div>
+                    <div class="text-sm text-gray-600">Page Views</div>
+                </div>
+
+                <!-- Metric 2 -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span class="material-icons-round text-green-600 text-2xl">person</span>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900 mb-1">18.2K</div>
+                    <div class="text-sm text-gray-600">Active Users</div>
+                </div>
+
+                <!-- Metric 3 -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span class="material-icons-round text-purple-600 text-2xl">download</span>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900 mb-1">45.7K</div>
+                    <div class="text-sm text-gray-600">Downloads</div>
+                </div>
+
+                <!-- Metric 4 -->
+                <div class="bento-item bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span class="material-icons-round text-orange-600 text-2xl">thumb_up</span>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900 mb-1">92%</div>
+                    <div class="text-sm text-gray-600">Satisfaction</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Add hover effects and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const bentoItems = document.querySelectorAll('.bento-item');
+            
+            bentoItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Add click handlers for buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

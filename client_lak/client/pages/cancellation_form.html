@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cancel Booking - AutoCare Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Geist Sans", "system-ui", "sans-serif"],
+            },
+            fontSize: {
+              xs: ["0.75rem", { lineHeight: "1rem" }],
+              sm: ["0.875rem", { lineHeight: "1.25rem" }],
+              base: ["1rem", { lineHeight: "1.5rem" }],
+              lg: ["1.125rem", { lineHeight: "1.75rem" }],
+            },
+            colors: {
+              orange: {
+                500: "#f97316",
+                600: "#ea580c",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .booking-card {
+        transition: all 0.3s ease;
+      }
+
+      .timeline-step {
+        transition: all 0.3s ease;
+      }
+
+      .timeline-step.active {
+        transform: scale(1.05);
+      }
+
+      .static-map {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .static-map::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 30px 30px;
+      }
+
+      .road {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+      }
+
+      .road-horizontal {
+        width: 80%;
+        height: 8px;
+        top: 40%;
+        left: 10%;
+      }
+
+      .road-vertical {
+        width: 8px;
+        height: 60%;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .building {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+
+      .map-marker {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .status-badge {
+        transition: all 0.3s ease;
+      }
+
+      .action-btn {
+        transition: all 0.3s ease;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .cancellation-badge {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+      }
+
+      .fee-notice {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border-left: 4px solid #f59e0b;
+      }
+
+      .refund-notice {
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        border-left: 4px solid #10b981;
+      }
+
+      .reason-option {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .reason-option:hover {
+        background-color: #f9fafb;
+      }
+
+      .reason-option.selected {
+        border-color: #3b82f6;
+        background-color: #eff6ff;
+      }
+
+      .cancellation-card {
+        transition: all 0.3s ease;
+      }
+
+      .cancellation-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Back Button -->
+          <button
+            onclick="window.history.back()"
+            class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group"
+          >
+            <span
+              class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform"
+              >arrow_back</span
+            >
+            <span class="text-sm font-medium hidden sm:inline">Back</span>
+          </button>
+
+          <!-- Page Title -->
+          <div class="flex items-center gap-3">
+            <h1 class="text-lg font-semibold text-gray-900">Cancel Booking</h1>
+          </div>
+
+          <!-- Placeholder for alignment -->
+          <div class="w-10"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Booking Header -->
+      <div
+        class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8"
+      >
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <h1 class="text-2xl font-bold text-gray-900">
+                Brake Pad Replacement
+              </h1>
+              <span
+                class="status-badge bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full font-medium"
+                >CANCELLING</span
+              >
+            </div>
+            <div class="flex items-center gap-4 text-sm text-gray-600">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">handyman</span>
+                <span
+                  >Mechanic:
+                  <span class="font-medium text-gray-900"
+                    >Mike Rodriguez</span
+                  ></span
+                >
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">schedule</span>
+                <span
+                  >Scheduled:
+                  <span class="font-medium text-gray-900"
+                    >Jan 20, 2024 • 10:00 AM</span
+                  ></span
+                >
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">receipt</span>
+                <span
+                  >Booking ID:
+                  <span class="font-mono font-medium text-gray-900"
+                    >BK-2024-001</span
+                  ></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="text-lg font-bold text-gray-900">₱3,030</div>
+            <div class="text-sm text-gray-500">Service Cost</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cancellation Banner -->
+      <div class="cancellation-badge text-white rounded-2xl p-6 mb-8 flex items-center gap-4 shadow-md">
+        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+          <span class="material-icons-round text-2xl">cancel</span>
+        </div>
+        <div>
+          <div class="font-semibold text-lg">Cancel Your Booking</div>
+          <div class="text-white/90 text-sm">Please provide a reason for cancellation. Your refund will be processed according to our policy.</div>
+        </div>
+      </div>
+
+      <!-- Cancellation Fee Notice -->
+      <div class="fee-notice rounded-2xl p-6 mb-8 flex items-start gap-4">
+        <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+          <span class="material-icons-round text-white text-lg">warning</span>
+        </div>
+        <div>
+          <div class="font-semibold text-yellow-900 text-lg mb-2">Cancellation Fee Applied</div>
+          <p class="text-yellow-800 text-sm mb-3">
+            You're cancelling within 12 hours of your service time. A 20% cancellation fee (₱606) will be deducted from your refund.
+          </p>
+          <div class="text-xs text-yellow-700">
+            <span class="font-medium">Note:</span> Free cancellation is available up to 12 hours before service time.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Left Column - Cancellation Form -->
+        <div class="space-y-8">
+          <!-- Cancellation Reason -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-6">Cancellation Reason</h2>
+            
+            <div class="space-y-3 mb-6">
+              <!-- Reason Options -->
+              <div class="reason-option border-2 border-gray-200 rounded-xl p-4" onclick="selectReason('schedule')">
+                <div class="flex items-start gap-3">
+                  <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">Schedule Conflict</div>
+                    <div class="text-sm text-gray-600 mt-1">I need to reschedule for a different time</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reason-option border-2 border-gray-200 rounded-xl p-4" onclick="selectReason('vehicle')">
+                <div class="flex items-start gap-3">
+                  <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">Vehicle Unavailable</div>
+                    <div class="text-sm text-gray-600 mt-1">My vehicle is not available for service</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reason-option border-2 border-gray-200 rounded-xl p-4" onclick="selectReason('financial')">
+                <div class="flex items-start gap-3">
+                  <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">Financial Reasons</div>
+                    <div class="text-sm text-gray-600 mt-1">I need to postpone due to budget constraints</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reason-option border-2 border-gray-200 rounded-xl p-4" onclick="selectReason('found-alternative')">
+                <div class="flex items-start gap-3">
+                  <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">Found Alternative</div>
+                    <div class="text-sm text-gray-600 mt-1">I found another service provider</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reason-option border-2 border-gray-200 rounded-xl p-4" onclick="selectReason('other')">
+                <div class="flex items-start gap-3">
+                  <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-900">Other Reason</div>
+                    <div class="text-sm text-gray-600 mt-1">Another reason not listed above</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Comments -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Additional Comments (Optional)
+              </label>
+              <textarea 
+                id="cancellation-comments" 
+                placeholder="Please provide any additional details about your cancellation..."
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                rows="4"
+              ></textarea>
+              <div class="text-xs text-gray-500 mt-1">
+                Your feedback helps us improve our service
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Details -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 opacity-75"
+          >
+            <h2
+              class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+            >
+              <span class="material-icons-round text-orange-500">description</span>
+              Service Details
+            </h2>
+
+            <!-- Service Breakdown -->
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-900 mb-3">
+                Service Breakdown
+              </h3>
+              <div class="space-y-3">
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700"
+                    >Brake Pad Replacement (Labor)</span
+                  >
+                  <span class="font-medium text-gray-900">₱1,200</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Brake Pads (Front)</span
+                  >
+                  <span class="font-medium text-gray-900">₱800</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Brake Fluid</span
+                  >
+                  <span class="font-medium text-gray-900">₱250</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Wheel Alignment</span
+                  >
+                  <span class="font-medium text-gray-900">₱300</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Air Filter Replacement</span
+                  >
+                  <span class="font-medium text-gray-900">₱200</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Air Filter</span
+                  >
+                  <span class="font-medium text-gray-900">₱180</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-700">Service Fee</span
+                  >
+                  <span class="font-medium text-gray-900">₱100</span>
+                </div>
+                <div class="border-t border-gray-300 pt-3 mt-2">
+                  <div class="flex justify-between items-center">
+                    <span class="text-base font-semibold text-gray-900"
+                      >Total</span
+                    >
+                    <span class="text-xl font-bold text-gray-900"
+                      >₱3,030</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-8">
+          <!-- Cancellation Summary -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Cancellation Summary</h2>
+
+            <div class="space-y-4">
+              <!-- Service Info -->
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <div class="text-sm text-gray-600">
+                  <div class="font-medium mb-1">Service Being Cancelled</div>
+                  <div>Brake Pad Replacement</div>
+                  <div class="text-xs mt-1">Jan 20, 2024 • 10:00 AM</div>
+                  <div class="text-xs">Mike Rodriguez • Home Service</div>
+                </div>
+              </div>
+
+              <!-- Selected Reason -->
+              <div id="selected-reason-display" class="hidden">
+                <h3 class="text-sm font-medium text-gray-900 mb-2">Cancellation Reason</h3>
+                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                  <div id="reason-text" class="text-sm text-blue-700"></div>
+                </div>
+              </div>
+
+              <!-- Confirm Cancellation -->
+              <button
+                id="confirm-cancellation"
+                class="w-full bg-red-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center justify-center gap-2 mt-4"
+                disabled
+              >
+                <span class="material-icons-round text-base">cancel</span>
+                Confirm Cancellation
+              </button>
+
+              <div class="text-center">
+                <button
+                  onclick="rescheduleInstead()"
+                  class="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors"
+                >
+                  Reschedule instead of cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mechanic Information -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 opacity-75"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+              Mechanic Information
+            </h2>
+
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
+                  <span class="material-icons-round text-gray-600">person</span>
+                </div>
+                <div>
+                  <div class="text-base font-semibold text-gray-900">
+                    Mike Rodriguez
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    Gold Mechanic • 8 years experience
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 text-sm text-gray-700">
+                <span class="material-icons-round text-yellow-400 text-base"
+                  >star</span
+                >
+                <span>4.8 rating (128 reviews)</span>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded"
+                  >Brake Systems</span
+                >
+                <span
+                  class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded"
+                  >Engine Repair</span
+                >
+                <span
+                  class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded"
+                  >Diagnostics</span
+                >
+              </div>
+
+              <!-- Cancellation Impact -->
+              <div class="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
+                <div class="flex items-center gap-2 text-sm text-yellow-700">
+                  <span class="material-icons-round text-yellow-500 text-base">info</span>
+                  <span>Cancelling affects mechanic's schedule</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cancellation Policy -->
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+          >
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+              Cancellation Policy
+            </h2>
+
+            <div class="space-y-4 text-sm text-gray-600">
+              <div class="flex items-start gap-3">
+                <span class="material-icons-round text-green-500 text-sm mt-0.5">check_circle</span>
+                <div>
+                  <span class="font-medium text-gray-900">Free Cancellation</span>
+                  <p class="mt-1">Up to 12 hours before service - Full refund</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-3">
+                <span class="material-icons-round text-yellow-500 text-sm mt-0.5">schedule</span>
+                <div>
+                  <span class="font-medium text-gray-900">Late Cancellation</span>
+                  <p class="mt-1">Within 12 hours of service - 80% refund (20% fee)</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start gap-3">
+                <span class="material-icons-round text-red-500 text-sm mt-0.5">close</span>
+                <div>
+                  <span class="font-medium text-gray-900">No-Show</span>
+                  <p class="mt-1">No refund for missed appointments</p>
+                </div>
+              </div>
+
+              <div class="bg-blue-50 rounded-lg p-3 border border-blue-200 mt-4">
+                <div class="text-xs text-blue-700">
+                  <span class="font-medium">Current Status:</span> Late cancellation (20% fee applies)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="material-icons-round text-red-500 text-3xl">check_circle</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Booking Cancelled!</h3>
+          <p class="text-sm text-gray-600">Your service appointment has been cancelled and refund processed.</p>
+        </div>
+
+        <div class="flex gap-3">
+          <button
+            id="view-refund-btn"
+            class="flex-1 bg-orange-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+          >
+            View Refund
+          </button>
+          <button
+            id="close-modal-btn"
+            class="flex-1 bg-gray-200 text-gray-800 px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-300 transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedReason = null;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set up event listeners
+        document.getElementById('confirm-cancellation').addEventListener('click', confirmCancellation);
+        document.getElementById('view-refund-btn').addEventListener('click', viewRefund);
+        document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+      });
+
+      function selectReason(reason) {
+        // Remove selection from all reason options
+        document.querySelectorAll('.reason-option').forEach(option => {
+          option.classList.remove('selected');
+          const radio = option.querySelector('.bg-gray-100');
+          const dot = option.querySelector('.bg-gray-400');
+          radio.classList.remove('bg-blue-100');
+          dot.classList.remove('bg-blue-500');
+        });
+        
+        // Add selection to clicked option
+        const selectedOption = event.currentTarget;
+        selectedOption.classList.add('selected');
+        const radio = selectedOption.querySelector('.bg-gray-100');
+        const dot = selectedOption.querySelector('.bg-gray-400');
+        radio.classList.add('bg-blue-100');
+        dot.classList.add('bg-blue-500');
+        
+        selectedReason = reason;
+        
+        // Update reason display
+        updateReasonDisplay();
+        
+        // Enable confirm button
+        document.getElementById('confirm-cancellation').disabled = false;
+      }
+
+      function updateReasonDisplay() {
+        const reasonDisplay = document.getElementById('selected-reason-display');
+        const reasonText = document.getElementById('reason-text');
+        
+        let reasonDescription = '';
+        switch (selectedReason) {
+          case 'schedule':
+            reasonDescription = 'Schedule Conflict - I need to reschedule for a different time';
+            break;
+          case 'vehicle':
+            reasonDescription = 'Vehicle Unavailable - My vehicle is not available for service';
+            break;
+          case 'financial':
+            reasonDescription = 'Financial Reasons - I need to postpone due to budget constraints';
+            break;
+          case 'found-alternative':
+            reasonDescription = 'Found Alternative - I found another service provider';
+            break;
+          case 'other':
+            reasonDescription = 'Other Reason';
+            break;
+        }
+        
+        reasonText.textContent = reasonDescription;
+        reasonDisplay.classList.remove('hidden');
+      }
+
+      function confirmCancellation() {
+        if (!selectedReason) {
+          showMessage('Please select a cancellation reason', 'error');
+          return;
+        }
+        
+        // Show loading state
+        const button = document.getElementById('confirm-cancellation');
+        const originalText = button.innerHTML;
+        button.innerHTML =
+          '<span class="material-icons-round animate-spin">refresh</span><span>Processing...</span>';
+        button.disabled = true;
+
+        // Simulate API call
+        setTimeout(() => {
+          const confirmationModal = document.getElementById('confirmation-modal');
+          confirmationModal.classList.remove('hidden');
+          
+          // Reset button (though it will be hidden by modal)
+          button.innerHTML =
+            '<span class="material-icons-round text-base">cancel</span><span>Confirm Cancellation</span>';
+          button.disabled = false;
+        }, 2000);
+      }
+
+      function rescheduleInstead() {
+        if (confirm("Would you like to reschedule this service instead of cancelling?")) {
+          showMessage('Redirecting to reschedule form...', 'success');
+          setTimeout(() => {
+            window.location.href = 'reschedule_form.html';
+          }, 1000);
+        }
+      }
+
+      function viewRefund() {
+        showMessage('Redirecting to refund details...', 'success');
+        setTimeout(() => {
+          window.location.href = 'refunded_booking.html';
+        }, 1000);
+      }
+
+      function closeModal() {
+        const confirmationModal = document.getElementById('confirmation-modal');
+        confirmationModal.classList.add('hidden');
+      }
+
+      function showMessage(message, type) {
+        const messageEl = document.createElement("div");
+        messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+          type === "success"
+            ? "bg-green-500 text-white"
+            : "bg-red-500 text-white"
+        }`;
+        messageEl.innerHTML = `<div class="flex items-center gap-2"><span class="material-icons-round">${
+          type === "success" ? "check_circle" : "error"
+        }</span> ${message}</div>`;
+        document.body.appendChild(messageEl);
+
+        setTimeout(() => {
+          messageEl.remove();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

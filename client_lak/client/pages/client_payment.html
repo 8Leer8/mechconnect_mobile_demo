@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .payment-card {
+            transition: all 0.3s ease;
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .payment-method {
+            transition: all 0.2s ease;
+        }
+        
+        .payment-method.selected {
+            border-color: #f97316;
+            background-color: #fff7ed;
+        }
+        
+        .ticket-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Complete Payment</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column - Payment Details -->
+            <div class="space-y-6">
+                <!-- Booking Number -->
+                <div class="payment-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Booking Details</h2>
+                        <div class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
+                            #CAM-2024-001
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Service Type</span>
+                            <span class="font-medium text-gray-900">Brake Service</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Mechanic</span>
+                            <span class="font-medium text-gray-900">John Rodriguez</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Date & Time</span>
+                            <span class="font-medium text-gray-900">Oct 18, 2024 • 10:00 AM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Summary -->
+                <div class="payment-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Payment Summary</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Brake Pad Replacement</span>
+                            <span class="font-medium text-gray-900">₱2,500</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Labor Cost</span>
+                            <span class="font-medium text-gray-900">₱800</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Parts & Materials</span>
+                            <span class="font-medium text-gray-900">₱450</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Service Fee</span>
+                            <span class="font-medium text-gray-900">₱150</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Subtotal</span>
+                                <span class="font-medium text-gray-900">₱3,900</span>
+                            </div>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <div class="flex justify-between items-center text-lg">
+                                <span class="font-semibold text-gray-900">Total Amount</span>
+                                <span class="font-bold text-orange-600">₱3,900</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="payment-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Choose Payment Method</h2>
+                    <div class="space-y-3">
+                        <!-- E-Wallet -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="ewallet">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-purple-600 text-xl">account_balance_wallet</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-gray-900">E-Wallet</div>
+                                    <div class="text-sm text-gray-600">GCash, Maya, GrabPay</div>
+                                </div>
+                                <div class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                                    <div class="w-3 h-3 bg-orange-500 rounded-full hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cash -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="cash">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-green-600 text-xl">payments</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-gray-900">Cash</div>
+                                    <div class="text-sm text-gray-600">Pay in cash to the mechanic</div>
+                                </div>
+                                <div class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                                    <div class="w-3 h-3 bg-orange-500 rounded-full hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Transfer -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4 cursor-pointer" data-method="bank">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <span class="material-icons-round text-blue-600 text-xl">account_balance</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-gray-900">Bank Transfer</div>
+                                    <div class="text-sm text-gray-600">BPI, BDO, Metrobank</div>
+                                </div>
+                                <div class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                                    <div class="w-3 h-3 bg-orange-500 rounded-full hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Ticket & Payment -->
+            <div class="space-y-6">
+                <!-- Service Ticket -->
+                <div class="payment-card ticket-section rounded-2xl shadow-lg p-6 text-white">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="material-icons-round text-white text-2xl">confirmation_number</span>
+                        </div>
+                        <h2 class="text-xl font-bold mb-2">Service Ticket</h2>
+                        <p class="text-white/80">Your service confirmation</p>
+                    </div>
+                    
+                    <div class="bg-white/10 rounded-xl p-4 mb-4">
+                        <div class="text-center mb-3">
+                            <div class="text-2xl font-bold tracking-widest">#CAM-2024-001</div>
+                            <div class="text-sm text-white/80">Booking Reference</div>
+                        </div>
+                        
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-white/80">Service:</span>
+                                <span class="font-medium">Brake Service</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-white/80">Date:</span>
+                                <span class="font-medium">Oct 18, 2024</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-white/80">Time:</span>
+                                <span class="font-medium">10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <button onclick="downloadTicket()" class="bg-white text-purple-600 px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors flex items-center gap-2">
+                            <span class="material-icons-round text-base">download</span>
+                            Download Ticket
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Payment Action -->
+                <div class="payment-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="text-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Ready to Complete Payment</h3>
+                        <p class="text-gray-600 text-sm">Review your details and proceed with payment</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex justify-between items-center text-sm mb-2">
+                                <span class="text-gray-600">Selected Method</span>
+                                <span class="font-medium text-gray-900" id="selectedMethod">Not selected</span>
+                            </div>
+                            <div class="flex justify-between items-center text-lg">
+                                <span class="font-semibold text-gray-900">Total to Pay</span>
+                                <span class="font-bold text-orange-600">₱3,900</span>
+                            </div>
+                        </div>
+                        
+                        <button id="proceedButton" disabled class="w-full bg-gray-400 text-white py-4 rounded-xl text-base font-semibold transition-colors cursor-not-allowed flex items-center justify-center gap-2">
+                            <span class="material-icons-round text-lg">lock</span>
+                            Select Payment Method First
+                        </button>
+                        
+                        <div class="text-center">
+                            <p class="text-xs text-gray-500">
+                                By proceeding, you agree to our 
+                                <a href="#" class="text-orange-500 hover:text-orange-600">Terms of Service</a> 
+                                and 
+                                <a href="#" class="text-orange-500 hover:text-orange-600">Privacy Policy</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support -->
+                <div class="payment-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="material-icons-round text-orange-600 text-xl">support_agent</span>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">Need Help?</h3>
+                            <p class="text-sm text-gray-600">Contact our support team for assistance</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="material-icons-round text-gray-400 text-sm">phone</span>
+                                <span class="text-sm text-gray-600">+63 912 345 6789</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Processing Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md text-center">
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons-round text-orange-600 text-2xl">payments</span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Processing Payment</h3>
+            <p class="text-gray-600 mb-6" id="processingText">Please wait while we process your payment...</p>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-6">
+                <div class="bg-orange-500 h-2 rounded-full transition-all duration-3000" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Payment method selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const proceedButton = document.getElementById('proceedButton');
+            const selectedMethodText = document.getElementById('selectedMethod');
+            
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    // Remove selection from all methods
+                    paymentMethods.forEach(m => {
+                        m.classList.remove('selected');
+                        m.querySelector('.bg-orange-500').classList.add('hidden');
+                    });
+                    
+                    // Add selection to clicked method
+                    this.classList.add('selected');
+                    this.querySelector('.bg-orange-500').classList.remove('hidden');
+                    
+                    // Update selected method text
+                    const methodType = this.getAttribute('data-method');
+                    let methodName = '';
+                    switch(methodType) {
+                        case 'ewallet':
+                            methodName = 'E-Wallet';
+                            break;
+                        case 'cash':
+                            methodName = 'Cash';
+                            break;
+                        case 'bank':
+                            methodName = 'Bank Transfer';
+                            break;
+                    }
+                    selectedMethodText.textContent = methodName;
+                    
+                    // Enable proceed button
+                    proceedButton.disabled = false;
+                    proceedButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    proceedButton.classList.add('bg-orange-500', 'hover:bg-orange-600', 'cursor-pointer');
+                    proceedButton.innerHTML = '<span class="material-icons-round text-lg">lock_open</span>Proceed to Pay ₱3,900';
+                });
+            });
+            
+            // Proceed to payment
+            proceedButton.addEventListener('click', function() {
+                if (!this.disabled) {
+                    processPayment();
+                }
+            });
+        });
+        
+        function processPayment() {
+            const modal = document.getElementById('paymentModal');
+            const progressBar = document.getElementById('progressBar');
+            const processingText = document.getElementById('processingText');
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            
+            // Simulate payment processing
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+                
+                if (progress === 30) {
+                    processingText.textContent = 'Verifying payment details...';
+                } else if (progress === 60) {
+                    processingText.textContent = 'Processing transaction...';
+                } else if (progress === 90) {
+                    processingText.textContent = 'Finalizing payment...';
+                } else if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        showPaymentSuccess();
+                    }, 500);
+                }
+            }, 200);
+        }
+        
+        function showPaymentSuccess() {
+            // Create success message
+            const successMsg = document.createElement('div');
+            successMsg.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            successMsg.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="material-icons-round">check_circle</span>
+                    Payment successful! Redirecting...
+                </div>
+            `;
+            document.body.appendChild(successMsg);
+            
+            // Redirect to confirmation page after 2 seconds
+            setTimeout(() => {
+                window.location.href = 'client_payment_proof.html';
+            }, 2000);
+        }
+        
+        function downloadTicket() {
+            // Simulate ticket download
+            const successMsg = document.createElement('div');
+            successMsg.className = 'fixed top-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            successMsg.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="material-icons-round">download</span>
+                    Service ticket downloaded
+                </div>
+            `;
+            document.body.appendChild(successMsg);
+            
+            setTimeout(() => {
+                successMsg.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
