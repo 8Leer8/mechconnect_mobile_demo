@@ -85,15 +85,17 @@
                 <!-- Right Icons -->
                 <div class="flex items-center gap-4">
                     <!-- Notification Bell -->
+                     <a href="../../client/pages/notification.html">
                     <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
                         <span class="material-icons-round">notifications</span>
                         <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
-                    
+                    </a>
                     <!-- Profile Picture -->
-                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                    <a href="../../client/pages/profile.html"><button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
                         JS
                     </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -102,31 +104,40 @@
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-4 py-6">
         <!-- Tabs -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 mb-6">
-            <div class="flex">
-                <button id="active-tab" class="mobile-tab tab-active flex items-center justify-center gap-2 whitespace-nowrap">
-                    <span class="material-icons-round text-sm">pending_actions</span>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-2 mb-6">
+            <div class="flex flex-wrap sm:flex-nowrap overflow-x-auto scrollbar-hide gap-1">
+                <button id="active-tab"
+                    class="mobile-tab tab-active flex items-center justify-center gap-2 px-3 py-2 rounded-lg whitespace-nowrap flex-1 sm:flex-none min-w-[90px] text-sm">
+                    <span class="material-icons-round text-base sm:text-sm">pending_actions</span>
                     <span>Active</span>
                 </button>
-                <button id="completed-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
-                    <span class="material-icons-round text-sm">check_circle</span>
+        
+                <button id="completed-tab"
+                    class="mobile-tab tab-inactive flex items-center justify-center gap-2 px-3 py-2 rounded-lg whitespace-nowrap flex-1 sm:flex-none min-w-[90px] text-sm">
+                    <span class="material-icons-round text-base sm:text-sm">check_circle</span>
                     <span>Completed</span>
                 </button>
-                <button id="rescheduled-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
-                    <span class="material-icons-round text-sm">calendar_today</span>
+        
+                <button id="rescheduled-tab"
+                    class="mobile-tab tab-inactive flex items-center justify-center gap-2 px-3 py-2 rounded-lg whitespace-nowrap flex-1 sm:flex-none min-w-[110px] text-sm">
+                    <span class="material-icons-round text-base sm:text-sm">calendar_today</span>
                     <span>Rescheduled</span>
                 </button>
-                <button id="cancelled-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
-                    <span class="material-icons-round text-sm">cancel</span>
+        
+                <button id="cancelled-tab"
+                    class="mobile-tab tab-inactive flex items-center justify-center gap-2 px-3 py-2 rounded-lg whitespace-nowrap flex-1 sm:flex-none min-w-[100px] text-sm">
+                    <span class="material-icons-round text-base sm:text-sm">cancel</span>
                     <span>Cancelled</span>
                 </button>
-                <button id="refunded-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
-                    <span class="material-icons-round text-sm">payments</span>
+        
+                <button id="refunded-tab"
+                    class="mobile-tab tab-inactive flex items-center justify-center gap-2 px-3 py-2 rounded-lg whitespace-nowrap flex-1 sm:flex-none min-w-[100px] text-sm">
+                    <span class="material-icons-round text-base sm:text-sm">payments</span>
                     <span>Refunded</span>
                 </button>
             </div>
         </div>
-
+        
         <!-- Tab Content -->
         <div>
             <!-- Active Tab Content -->
@@ -159,7 +170,7 @@
                             <div class="text-xs text-gray-500">
                                 Booking ID: BK-2024-001
                             </div>
-                            <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                            <a href="../../client/pages/client_payment.html"><button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
                                 Pay Now
                             </button>
                         </div>
@@ -556,31 +567,31 @@
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
             <!-- Booking -->
-            <a href="../bookings/bookings.html" class="flex flex-col items-center text-orange-500 transition-colors">
+            <a href="../../client/pages/booking.html" class="flex flex-col items-center text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">calendar_today</span>
                 <span class="text-xs mt-1">Booking</span>
             </a>
             
             <!-- Discover -->
-            <a href="../discover/discover.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/discover.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">explore</span>
                 <span class="text-xs mt-1">Discover</span>
             </a>
             
             <!-- Home -->
-            <a href="../home/home.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/home.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">home</span>
                 <span class="text-xs mt-1">Home</span>
             </a>
             
             <!-- Request -->
-            <a href="../request_form/custom_request.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/request.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">add_circle</span>
                 <span class="text-xs mt-1">Request</span>
             </a>
             
             <!-- Profile -->
-            <a href="../profile/profile.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/profile.html" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">person</span>
                 <span class="text-xs mt-1">Profile</span>
             </a>
