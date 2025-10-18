@@ -42,7 +42,6 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans pb-20">
     <!-- Top Bar -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
         
@@ -92,15 +91,13 @@
                         <span class="text-xs text-gray-500">Member since 2023</span>
                     </div>
                 </div>
-                <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
-                    Edit Profile
-                </button>
             </div>
         </div>
 
         <!-- Profile Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Account Settings Card -->
+            <a href="../../client/pages/account_settings.html">
             <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -112,8 +109,9 @@
                     </div>
                 </div>
             </div>
-
+            </a>
             <!-- Favorites Card -->
+            <a href="../pages/favorite.html">
             <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
@@ -125,8 +123,9 @@
                     </div>
                 </div>
             </div>
-
+            </a>
             <!-- Terms of Use Card -->
+            <a href="../../client/pages/terms_of_use.html">
             <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -138,8 +137,9 @@
                     </div>
                 </div>
             </div>
-
+            </a>
             <!-- Privacy Policy Card -->
+            <a href="../pages/privacy_policy.html">
             <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
@@ -151,8 +151,9 @@
                     </div>
                 </div>
             </div>
-
+            </a>
             <!-- About Us Card -->
+            <a href="../pages/dispute.html">
             <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
@@ -164,7 +165,7 @@
                     </div>
                 </div>
             </div>
-
+            </a>
             <!-- Activity History Card -->
             <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div class="flex items-center gap-3 mb-3">
@@ -179,6 +180,7 @@
             </div>
 
             <!-- Refund Policy Card -->
+        <a href="../../client/pages/refund_policy.html">
             <div class="profile-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 md:col-span-2">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-rose-100 rounded-lg flex items-center justify-center">
@@ -190,6 +192,7 @@
                     </div>
                 </div>
             </div>
+        </a>   
         </div>
     </main>
 
@@ -197,38 +200,38 @@
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4 z-50">
         <div class="flex items-center justify-between w-full max-w-full">
             <!-- Booking -->
-            <a href="../bookings/bookings.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/booking.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">calendar_today</span>
                 <span class="text-xs mt-1">Booking</span>
             </a>
     
             <!-- Discover -->
-            <a href="../discover/discover.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/discover.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">explore</span>
                 <span class="text-xs mt-1">Discover</span>
             </a>
     
             <!-- Home -->
-            <a href="../home/home.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/home.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">home</span>
                 <span class="text-xs mt-1">Home</span>
             </a>
     
             <!-- Request -->
-            <a href="../request_form/custom_request.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
+            <a href="../../client/pages/request.html" class="flex flex-col items-center flex-1 text-gray-600 hover:text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">add_circle</span>
                 <span class="text-xs mt-1">Request</span>
             </a>
     
             <!-- Profile -->
-            <a href="../profile/profile.html" class="flex flex-col items-center flex-1 text-orange-500 transition-colors">
+            <a href="../../client/pages/profile.html" class="flex flex-col items-center flex-1 text-orange-500 transition-colors">
                 <span class="material-icons-round text-lg">person</span>
                 <span class="text-xs mt-1">Profile</span>
             </a>
         </div>
     </nav>
     
-
+<!--
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Add click functionality to profile cards
@@ -254,5 +257,6 @@
             });
         });
     </script>
+    -->
 </body>
 </html>
