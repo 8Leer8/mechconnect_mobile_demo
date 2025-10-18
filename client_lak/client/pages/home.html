@@ -97,7 +97,7 @@
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <!-- Custom Request -->
-                <a href="../request_form/custom_request.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                <a href="../../client/pages/request _form/random_custom_request.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
                         <span class="material-icons-round text-orange-500 text-xl">chat</span>
                     </div>
@@ -105,7 +105,7 @@
                 </a>
                 
                 <!-- Mechanic -->
-                <a href="../mechanics/mechanics.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                <a href="../../client/pages/discover.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
                         <span class="material-icons-round text-blue-500 text-xl">handyman</span>
                     </div>
@@ -113,7 +113,7 @@
                 </a>
                 
                 <!-- Shop -->
-                <a href="../shops/shops.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                <a href="../../client/pages/discover.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
                         <span class="material-icons-round text-green-500 text-xl">build_circle</span>
                     </div>
@@ -121,7 +121,7 @@
                 </a>
                 
                 <!-- Service -->
-                <a href="../services/services.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
+                <a href="../../client/pages/discover.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
                         <span class="material-icons-round text-purple-500 text-xl">miscellaneous_services</span>
                     </div>
@@ -134,7 +134,7 @@
         <div class="mb-8">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-900">Current Bookings</h3>
-                <a href="../bookings/bookings.html" class="text-sm text-orange-600 font-medium hover:text-orange-700">View All</a>
+                <a href="../../client/pages/booking.html" class="text-sm text-orange-600 font-medium hover:text-orange-700">View All</a>
             </div>
             
             <div class="space-y-4">
@@ -152,7 +152,7 @@
                             <span class="material-icons-round text-sm align-text-bottom">location_on</span>
                             Home Service
                         </div>
-                        <button class="text-sm text-orange-600 font-medium hover:text-orange-700">View Details</button>
+                        <a href="../../client/pages/booking/active_booking.html"><button class="text-sm text-orange-600 font-medium hover:text-orange-700">View Details</button></a>
                     </div>
                 </div>
                 
@@ -170,7 +170,7 @@
                             <span class="material-icons-round text-sm align-text-bottom">location_on</span>
                             Workshop
                         </div>
-                        <button class="text-sm text-orange-600 font-medium hover:text-orange-700">View Details</button>
+                        <a href="../../client/pages/booking/active_booking.html"><button class="text-sm text-orange-600 font-medium hover:text-orange-700">View Details</button></a>
                     </div>
                 </div>
             </div>
@@ -192,7 +192,7 @@
         <div class="mb-8">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-900">Mechanics Near You</h3>
-                <a href="../mechanics/mechanics.html" class="text-sm text-orange-600 font-medium hover:text-orange-700">View All</a>
+                <a href="../../client/pages/booking.html" class="text-sm text-orange-600 font-medium hover:text-orange-700">View All</a>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -221,9 +221,9 @@
                             <span class="material-icons-round text-xs">location_on</span>
                             <span>1.2 km away</span>
                         </div>
-                        <button class="text-xs bg-orange-500 text-white px-3 py-1.5 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                        <a href="../../client/pages/mechanic/in_mechanic_profile.html"><button class="text-xs bg-orange-500 text-white px-3 py-1.5 rounded-lg font-medium hover:bg-orange-600 transition-colors">
                             Book Now
-                        </button>
+                        </button></a>
                     </div>
                 </div>
                 
@@ -252,9 +252,10 @@
                             <span class="material-icons-round text-xs">location_on</span>
                             <span>2.1 km away</span>
                         </div>
-                        <button class="text-xs bg-orange-500 text-white px-3 py-1.5 rounded-lg font-medium hover:bg-orange-600 transition-colors">
+                        <a href="../pages/mechanic/in_mechanic_profile.html"><button class="text-xs bg-orange-500 text-white px-3 py-1.5 rounded-lg font-medium hover:bg-orange-600 transition-colors">
                             Book Now
                         </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -295,7 +296,7 @@
             </a>
         </div>
     </nav>
-
+<!--  
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Simple interactions
@@ -317,5 +318,6 @@
             });
         });
     </script>
+    -->
 </body>
 </html>
