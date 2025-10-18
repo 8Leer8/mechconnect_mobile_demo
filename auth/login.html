@@ -189,6 +189,36 @@
     </div>
 
     <script>
+        // Mock user data
+        const users = [
+            { email: "client@gmail.com", password: "1234", role: "client" },
+            { email: "shopowner@gmail.com", password: "1234", role: "shopowner" },
+            { email: "mechanic@gmail.com", password: "1234", role: "mechanic" }
+        ];
+
+        // Login validation function
+        function validateLogin(email, password) {
+            const user = users.find(u => u.email === email && u.password === password);
+            return user || null;
+        }
+
+        // Redirect based on role
+        function redirectUser(role) {
+            switch(role) {
+                case 'client':
+                    window.location.href = '../client_lak/client/pages/home.html';
+                    break;
+                case 'shopowner':
+                    window.location.href = '../shopowner/home.html';
+                    break;
+                case 'mechanic':
+                    window.location.href = '../mechanics/home.html';
+                    break;
+                default:
+                    alert('Invalid role');
+            }
+        }
+
         // Toggle password visibility
         document.querySelector('button[type="button"]').addEventListener('click', function() {
             const passwordInput = document.querySelector('input[type="password"]');
@@ -203,11 +233,27 @@
             }
         });
 
-        // Form submission
-        document.querySelector('form').addEventListener('submit', function(e) {
+        // Form submission with login validation
+        document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
             e.preventDefault();
-            // Add your login logic here
-            console.log('Login form submitted');
+            
+            // Get form values
+            const emailInput = document.querySelector('input[type="email"]');
+            const passwordInput = document.querySelector('input[type="password"]');
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            // Validate credentials
+            const user = validateLogin(email, password);
+            
+            if (user) {
+                // Successful login - redirect based on role
+                redirectUser(user.role);
+            } else {
+                // Invalid credentials
+                alert('Invalid email or password.');
+            }
         });
 
         // Add active state for buttons on touch devices
