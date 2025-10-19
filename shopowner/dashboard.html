@@ -43,23 +43,27 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans">
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div class="max-w-6xl mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
-                <!-- Hamburger Menu -->
-                <button class="p-2 text-gray-600 hover:text-gray-900 transition-colors">
-                    <span class="material-icons-round text-xl">menu</span>
-                </button>
-                
                 <!-- MechConnect Title -->
                 <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
                 
-                <!-- Profile Icon -->
-                <button class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-300 transition-colors">
-                    <span class="material-icons-round text-sm">person</span>
-                </button>
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Profile Picture -->
+                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        SO
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -210,6 +214,41 @@
             </div>
         </div>
     </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Dashboard -->
+            <a href="dashboard.html" class="flex flex-col items-center text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">dashboard</span>
+                <span class="text-xs mt-1">Dashboard</span>
+            </a>
+            
+            <!-- Mechanics -->
+            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">handyman</span>
+                <span class="text-xs mt-1">Mechanics</span>
+            </a>
+            
+            <!-- Bookings -->
+            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">calendar_today</span>
+                <span class="text-xs mt-1">Bookings</span>
+            </a>
+            
+            <!-- Revenue -->
+            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">attach_money</span>
+                <span class="text-xs mt-1">Revenue</span>
+            </a>
+            
+            <!-- Profile -->
+            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
+                <span class="material-icons-round text-lg">person</span>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
