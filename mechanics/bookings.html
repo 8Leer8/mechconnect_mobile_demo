@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bookings — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b sticky top-0 z-20">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="goDashboard()" class="p-2"><span class="material-icons-round">arrow_back</span></button>
+      <h1 class="text-lg font-semibold">Bookings</h1>
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex flex-col items-end bg-orange-50 text-orange-700 px-3 py-1 rounded-lg shadow-sm text-sm">
+          <span class="text-xs">Tokens</span>
+          <span class="font-bold">12 • ₱2,450</span>
+        </div>
+  <a href="notification.html" class="p-2"><span class="material-icons-round">notifications</span></a>
+        <div class="w-2"></div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-xl mx-auto px-4 pt-4">
+    <!-- Summary cards -->
+    <section class="grid grid-cols-2 gap-3">
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500">Pending</div>
+        <div class="text-xl font-semibold mt-1" id="stat-pending">3</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500">Accepted</div>
+        <div class="text-xl font-semibold mt-1" id="stat-accepted">5</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500">Completed</div>
+        <div class="text-xl font-semibold mt-1" id="stat-completed">42</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+        <div class="text-xs text-gray-500">Cancelled</div>
+        <div class="text-xl font-semibold mt-1" id="stat-cancelled">2</div>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="mt-4">
+      <div class="flex items-center gap-2 bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+  <button class="filter-btn flex-1 py-2 text-sm text-gray-700 rounded-md bg-white" data-filter="all">All</button>
+  <button class="filter-btn flex-1 py-2 text-sm text-gray-700 rounded-md bg-white" data-filter="available">Available</button>
+  <button class="filter-btn flex-1 py-2 text-sm text-gray-700 rounded-md bg-white" data-filter="pending">Pending</button>
+  <button class="filter-btn flex-1 py-2 text-sm text-gray-700 rounded-md bg-white" data-filter="active">Active</button>
+  <button class="filter-btn flex-1 py-2 text-sm text-gray-700 rounded-md bg-white" data-filter="completed">Completed</button>
+      </div>
+    </section>
+
+    <!-- Recent bookings list -->
+    <section class="mt-4">
+      <h2 class="text-sm font-semibold mb-3">Recent bookings</h2>
+      <div id="bookings-list" class="space-y-3">
+        <!-- items rendered by JS -->
+      </div>
+    </section>
+
+    <template id="booking-tpl">
+      <article class="booking-card bg-white rounded-xl p-5 shadow-sm border flex flex-col gap-2 relative">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-4">
+            <img src="../client_lak/client/imgs/client_default_1.png" alt="avatar" class="w-10 h-10 rounded-full object-cover bg-gray-100">
+            <div>
+              <div class="text-base font-semibold booking-name"></div>
+              <div class="text-xs text-gray-500 booking-service"></div>
+            </div>
+          </div>
+          <div class="booking-status-pill"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+          <div class="space-y-1 text-sm">
+            <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400 text-base">calendar_today</span><span class="booking-date"></span></div>
+            <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400 text-base">schedule</span><span class="booking-time"></span></div>
+            <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400 text-base">place</span><span class="booking-address"></span></div>
+          </div>
+          <div class="space-y-1 text-sm">
+            <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400 text-base">call</span><span class="booking-contact"></span></div>
+            <div class="flex items-center gap-2"><span class="text-gray-500">Service Fee:</span> <span class="text-orange-600 font-bold booking-price"></span></div>
+          </div>
+        </div>
+        <div class="booking-actions mt-4 flex gap-3"></div>
+      </article>
+    </template>
+
+    <script>
+      // sample bookings
+      const bookings = [
+        // Available
+        { id: 101, name: 'Engine Diagnostics', booker: 'Jonas', distance: '2.4 km', time: '5m ago', price: '₱900', status: 'available' },
+        { id: 102, name: 'AC Repair', booker: 'Mia', distance: '1.8 km', time: '15m ago', price: '₱1200', status: 'available' },
+        { id: 103, name: 'Transmission Check', booker: 'Paul', distance: '3.2 km', time: '30m ago', price: '₱1500', status: 'available' },
+        // Requested
+        { id: 201, name: 'Oil Change', booker: 'Mike', distance: '1.2 km', time: '10m ago', price: '₱650', status: 'requested' },
+        { id: 202, name: 'Battery Replacement', booker: 'Sally', distance: '6.0 km', time: '3h ago', price: '₱1,200', status: 'requested' },
+        { id: 203, name: 'Tire Rotation', booker: 'Ralph', distance: '2.1 km', time: '2h ago', price: '₱520', status: 'requested' },
+        // Waiting Payment
+        { id: 210, name: 'Engine Overhaul', booker: 'Lara', distance: '2.9 km', time: '5m ago', price: '₱5,000', status: 'waiting payment' },
+        { id: 211, name: 'Clutch Replacement', booker: 'Ben', distance: '3.5 km', time: '12m ago', price: '₱3,200', status: 'waiting payment' },
+        { id: 212, name: 'Alternator Repair', booker: 'Kim', distance: '1.6 km', time: '20m ago', price: '₱2,400', status: 'waiting payment' },
+        // Active
+        { id: 301, name: 'Brake Check', booker: 'Ana', distance: '3.4 km', time: '1h ago', price: '₱800', status: 'active' },
+        { id: 302, name: 'Brake Repair', booker: 'Sarah Lee', date: '2025-01-09', time: '10:00 AM', address: '321 Elm St, Manila (1.5 km)', contact: '+63 945 678 9012', price: '₱1250', status: 'active' },
+        { id: 303, name: 'Suspension Fix', booker: 'Leo', distance: '4.0 km', time: '2h ago', price: '₱1100', status: 'active' },
+        // Completed
+        { id: 401, name: 'Tire Replacement', booker: 'Nina', distance: '2.7 km', time: '1d ago', price: '₱950', status: 'completed' },
+        { id: 402, name: 'Battery Install', booker: 'Chris', distance: '5.5 km', time: '2d ago', price: '₱1300', status: 'completed' },
+        { id: 403, name: 'Oil Filter Change', booker: 'Sam', distance: '1.9 km', time: '3d ago', price: '₱700', status: 'completed' }
+  // Backjob examples
+  ,{ id: 501, name: 'Starter Motor Issue', booker: 'Jude', date: '2025-10-25', time: '2:00 PM', address: '45 Pine St, Makati (3.1 km)', contact: '+63 912 345 6789', price: '', status: 'backjob' }
+  ,{ id: 502, name: 'Recurring AC Problem', booker: 'Ella', date: '2025-10-26', time: '11:00 AM', address: '88 Oak Ave, Pasig (2.7 km)', contact: '+63 923 456 7890', price: '', status: 'backjob' }
+  ,{ id: 503, name: 'Brake Squeal', booker: 'Mark', date: '2025-10-27', time: '4:30 PM', address: '12 Palm Dr, QC (4.2 km)', contact: '+63 934 567 8901', price: '', status: 'backjob' }
+      ];
+
+      const list = document.getElementById('bookings-list');
+      const tpl = document.getElementById('booking-tpl');
+
+      function renderBookings(filter='all'){
+        list.innerHTML = '';
+        let items;
+        if(filter==='pending'){
+          items = bookings.filter(b => ['requested','waiting payment','backjob'].includes(b.status));
+        } else {
+          items = bookings.filter(b => filter==='all' ? true : b.status===filter);
+        }
+        items.forEach(b => {
+          const node = tpl.content.cloneNode(true);
+          node.querySelector('.booking-name').textContent = b.booker || 'Client';
+          node.querySelector('.booking-service').textContent = b.name || 'Service';
+          node.querySelector('.booking-date').textContent = b.date || '2025-01-09';
+          node.querySelector('.booking-time').textContent = b.time || '10:00 AM';
+          // Remove contact/address for All, Pending, and Available views
+          const contactRow = node.querySelector('.booking-contact').parentElement;
+          if(filter === 'pending' || filter === 'available' || (filter === 'all' && (b.status === 'pending' || b.status === 'available')) || b.status === 'pending' || b.status === 'available') {
+            node.querySelector('.booking-address').textContent = b.distance ? b.distance : (b.address ? b.address.split('(')[1]?.replace(')','') : '');
+            node.querySelector('.booking-contact').textContent = '';
+            if(contactRow) contactRow.style.display = 'none';
+          } else {
+            node.querySelector('.booking-address').textContent = b.address || '321 Elm St, Manila (1.5 km)';
+            node.querySelector('.booking-contact').textContent = b.contact || '+63 945 678 9012';
+            if(contactRow) contactRow.style.display = '';
+          }
+          if(b.status === 'backjob') {
+            node.querySelector('.booking-price').textContent = 'No charge';
+          } else {
+            node.querySelector('.booking-price').textContent = b.price || '₱1250';
+          }
+
+          // status pill
+          const statusPill = node.querySelector('.booking-status-pill');
+          if(b.status === 'active') {
+            statusPill.textContent = 'In Progress';
+            statusPill.className = 'booking-status-pill bg-orange-100 text-orange-700 text-xs px-3 py-1 rounded-full font-medium';
+          } else if(b.status === 'confirmed') {
+            statusPill.textContent = 'Confirmed';
+            statusPill.className = 'booking-status-pill bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full font-medium';
+          } else if(b.status === 'pending') {
+            statusPill.textContent = 'Pending';
+            statusPill.className = 'booking-status-pill bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-medium';
+          } else if(b.status === 'requested') {
+            statusPill.textContent = 'Requested';
+            statusPill.className = 'booking-status-pill bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium';
+          } else if(b.status === 'waiting payment') {
+            statusPill.textContent = 'Waiting Payment';
+            statusPill.className = 'booking-status-pill bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-medium';
+          } else if(b.status === 'completed') {
+            statusPill.textContent = 'Completed';
+            statusPill.className = 'booking-status-pill bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-medium';
+          } else {
+            statusPill.textContent = b.status;
+            statusPill.className = 'booking-status-pill bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full font-medium';
+          }
+
+          // actions
+          const actionsContainer = node.querySelector('.booking-actions');
+          actionsContainer.innerHTML = '';
+          if(b.status === 'active') {
+            // If this is the new job, link to start_service.html
+            if(b.booker === 'Sarah Lee') {
+              const startBtn = document.createElement('button');
+              startBtn.className = 'flex-1 bg-orange-500 text-white py-3 rounded-lg font-semibold text-base flex items-center justify-center gap-2';
+              startBtn.innerHTML = '<span class="material-icons-round">play_circle</span> Start Service';
+              startBtn.onclick = (e)=>{
+                e.stopPropagation();
+                window.location.href = 'start_service.html';
+              };
+              actionsContainer.appendChild(startBtn);
+            } else {
+              // Complete Service button for other active jobs
+              const completeBtn = document.createElement('button');
+              completeBtn.className = 'flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold text-base flex items-center justify-center gap-2';
+              completeBtn.innerHTML = '<span class="material-icons-round">check_circle</span> Complete Service';
+              completeBtn.onclick = (e)=>{
+                e.stopPropagation();
+                const idx = bookings.findIndex(x=>x.id===b.id);
+                if(idx>-1){ bookings[idx].status='completed'; renderBookings(document.querySelector('.filter-btn.bg-gray-100')?.getAttribute('data-filter')||'all'); showMessage('Service completed','success'); }
+              };
+              actionsContainer.appendChild(completeBtn);
+            }
+          } else if(b.status === 'confirmed') {
+            // Start Service and Navigate buttons
+            const startBtn = document.createElement('button');
+            startBtn.className = 'flex-1 bg-orange-500 text-white py-3 rounded-lg font-semibold text-base flex items-center justify-center gap-2';
+            startBtn.innerHTML = '<span class="material-icons-round">play_circle</span> Start Service';
+            startBtn.onclick = (e)=>{
+              e.stopPropagation();
+              const idx = bookings.findIndex(x=>x.id===b.id);
+              if(idx>-1){ bookings[idx].status='active'; renderBookings(document.querySelector('.filter-btn.bg-gray-100')?.getAttribute('data-filter')||'all'); showMessage('Service started','success'); }
+            };
+            const navBtn = document.createElement('button');
+            navBtn.className = 'flex-1 bg-white border border-gray-200 py-3 rounded-lg font-semibold text-base flex items-center justify-center gap-2';
+            navBtn.innerHTML = '<span class="material-icons-round">navigation</span> Navigate';
+            navBtn.onclick = (e)=>{
+              e.stopPropagation();
+              showMessage('Opening navigation (prototype)','info');
+            };
+            actionsContainer.appendChild(startBtn);
+            actionsContainer.appendChild(navBtn);
+          } else if(b.status === 'requested' || b.status === 'on the way' || b.status === 'pending') {
+            // Accept/Decline for requested
+            const accept = document.createElement('button');
+            accept.className = 'bg-green-500 text-white text-xs py-1 px-3 rounded-md';
+            accept.textContent = 'Accept';
+            accept.onclick = (e)=>{
+              e.stopPropagation();
+              window.location.href = 'job_detail.html?id=' + b.id;
+            };
+            const decline = document.createElement('button');
+            decline.className = 'bg-gray-100 text-gray-700 text-xs py-1 px-3 rounded-md';
+            decline.textContent = 'Decline';
+            decline.onclick = (e)=>{
+              e.stopPropagation();
+              if(confirm('Are you sure you want to decline this booking?')){
+                const idx = bookings.findIndex(x=>x.id===b.id);
+                if(idx>-1){ bookings.splice(idx,1); renderBookings(document.querySelector('.filter-btn.bg-gray-100')?.getAttribute('data-filter')||'all'); showMessage('Booking declined','info'); }
+              }
+            };
+            actionsContainer.appendChild(accept);
+            actionsContainer.appendChild(decline);
+          }
+
+          // make the whole booking card clickable (go to job detail)
+          const articleEl = node.querySelector('.booking-card');
+          if(articleEl){
+            articleEl.style.cursor = 'pointer';
+            articleEl.addEventListener('click', ()=>{
+              if(b.status === 'waiting payment') {
+                window.location.href = `waiting_payment.html?id=${b.id}`;
+              } else {
+                window.location.href = `job_detail.html?id=${b.id}`;
+              }
+            });
+          }
+
+          list.appendChild(node);
+        });
+      }
+
+      // filters
+      document.querySelectorAll('.filter-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('bg-gray-100'));
+          btn.classList.add('bg-gray-100');
+          renderBookings(btn.getAttribute('data-filter'));
+        });
+      });
+
+      // init
+      document.querySelector('.filter-btn[data-filter="all"]').classList.add('bg-gray-100');
+      renderBookings('all');
+      // Accept modal logic
+      let modalBooking = null;
+      function openModal(b) {
+        modalBooking = b;
+        document.getElementById('modal-name').textContent = b.booker || 'John Doe';
+        document.getElementById('modal-service').textContent = b.name || 'Service';
+        document.getElementById('modal-datetime').textContent = `${b.date || '2025-01-08'} at ${b.time || '2:00 PM'}`;
+        document.getElementById('modal-location').textContent = b.address || `${b.distance || ''}`;
+        document.getElementById('modal-distance').textContent = b.distance || '2.3 km';
+        document.getElementById('modal-payment').textContent = b.price || '₱900';
+        document.getElementById('modal-balance').textContent = '2450 tokens';
+        document.getElementById('modal-after').textContent = '2449 tokens';
+        document.getElementById('accept-modal').classList.remove('hidden');
+      }
+      function closeModal() {
+        document.getElementById('accept-modal').classList.add('hidden');
+      }
+      function acceptBooking() {
+        closeModal();
+        if(modalBooking){
+          const idx = bookings.findIndex(x=>x.id===modalBooking.id);
+          if(idx>-1){ bookings[idx].status='active'; renderBookings(document.querySelector('.filter-btn.bg-gray-100')?.getAttribute('data-filter')||'all'); showMessage('Booking accepted','success'); }
+        }
+      }
+    </script>
+  </main>
+
+  <!-- Accept Modal -->
+  <div id="accept-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative animate-fade-in">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><span class="material-icons-round">close</span></button>
+      <div class="text-xl font-bold mb-1">Accept Booking</div>
+      <div class="text-sm text-gray-500 mb-4">Please review the booking details before accepting</div>
+      <div class="flex items-center gap-3 mb-3">
+        <img id="modal-avatar" src="../client_lak/client/imgs/client_default_1.png" alt="avatar" class="w-10 h-10 rounded-full object-cover bg-gray-100">
+        <div>
+          <div id="modal-name" class="font-semibold">John Doe</div>
+          <div id="modal-service" class="text-xs text-gray-500">Engine Diagnostics</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mb-2 text-sm">
+        <div class="text-gray-500">Date & Time:</div>
+        <div class="font-medium" id="modal-datetime">2025-01-08 at 2:00 PM</div>
+        <div class="text-gray-500">Location:</div>
+        <div class="font-medium" id="modal-location">123 Main St, Quezon City</div>
+        <div class="text-gray-500">Distance:</div>
+        <div class="font-medium" id="modal-distance">2.3 km</div>
+        <div class="text-gray-500">Payment:</div>
+        <div class="font-medium text-orange-600" id="modal-payment">₱900</div>
+      </div>
+      <div class="bg-blue-50 rounded-xl p-4 mb-3">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="material-icons-round text-blue-500">account_balance_wallet</span>
+          <span class="font-semibold text-blue-700">Token Required</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-sm">
+          <div class="text-gray-500">Token Cost:</div>
+          <div class="font-medium">1 token</div>
+          <div class="text-gray-500">Your Balance:</div>
+          <div class="font-medium" id="modal-balance">2450 tokens</div>
+          <div class="text-gray-500">After Accepting:</div>
+          <div class="font-medium" id="modal-after">2449 tokens</div>
+        </div>
+      </div>
+      <div class="bg-green-50 rounded-xl p-3 mb-4 flex items-center gap-2 text-green-700 text-sm">
+        <span class="material-icons-round">check_circle</span>
+        <span>By accepting, you commit to providing the service at the scheduled time.</span>
+      </div>
+      <div class="flex gap-3 mt-2">
+        <button onclick="closeModal()" class="flex-1 bg-white border border-gray-200 py-2 rounded-lg font-semibold">Cancel</button>
+        <button onclick="acceptBooking()" class="flex-1 bg-orange-500 text-white py-2 rounded-lg font-semibold">Accept &amp; Use 1 Token</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <a href="dashboard.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="dashboard">
+        <span class="material-icons-round text-lg">dashboard</span>
+        <span class="text-xs mt-1">Dashboard</span>
+      </a>
+      <a href="bookings.html" class="mc-nav-btn flex flex-col items-center text-orange-500 transition-colors" data-nav="bookings">
+        <span class="material-icons-round text-lg">calendar_today</span>
+        <span class="text-xs mt-1">Bookings</span>
+      </a>
+      <a href="tokens.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="tokens">
+        <span class="material-icons-round text-lg">account_balance_wallet</span>
+        <span class="text-xs mt-1">Tokens</span>
+      </a>
+      <a href="profile.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="profile">
+        <span class="material-icons-round text-lg">person</span>
+        <span class="text-xs mt-1">Profile</span>
+      </a>
+      <a href="settings.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="settings">
+        <span class="material-icons-round text-lg">settings</span>
+        <span class="text-xs mt-1">Settings</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="assets/js/helpers.js"></script>
+  <script>setActiveNav('bookings');</script>
+</body>
+</html>

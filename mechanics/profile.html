@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <!-- Header -->
+  <header class="bg-white border-b sticky top-0 z-20">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="goDashboard()" class="p-2"><span class="material-icons-round">arrow_back</span></button>
+      <h1 class="text-lg font-semibold">Profile</h1>
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex flex-col items-end bg-orange-50 text-orange-700 px-3 py-1 rounded-lg shadow-sm text-sm">
+          <span class="text-xs">Tokens</span>
+          <span class="font-bold">12 • ₱2,450</span>
+        </div>
+        <a href="notification.html" class="p-2"><span class="material-icons-round">notifications</span></a>
+        <div class="w-2"></div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-xl mx-auto px-4 pt-4 space-y-4">
+    <!-- Profile Card -->
+    <section class="bg-white p-4 rounded-2xl shadow flex flex-col items-center">
+      <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-2">
+        <span class="material-icons-round text-5xl text-gray-300">person</span>
+      </div>
+      <div class="text-center">
+        <h2 class="text-lg font-bold">Brix D. Mesa</h2>
+        <div class="flex items-center justify-center gap-1 text-sm text-gray-500 mb-2">
+          <span class="material-icons-round text-orange-500 text-base">business</span>
+          Viventa Labs Motor Parts
+        </div>
+      </div>
+      <div class="flex justify-between w-full mt-2 mb-1">
+        <div class="flex flex-col items-center flex-1">
+          <span class="material-icons-round text-yellow-400">star</span>
+          <span class="text-xs text-gray-500">Rating</span>
+          <span class="font-bold text-base">4.8</span>
+        </div>
+        <div class="flex flex-col items-center flex-1">
+          <span class="material-icons-round text-blue-400">workspace_premium</span>
+          <span class="text-xs text-gray-500">Jobs</span>
+          <span class="font-bold text-base">342</span>
+        </div>
+        <div class="flex flex-col items-center flex-1">
+          <span class="material-icons-round text-green-400">schedule</span>
+          <span class="text-xs text-gray-500">Response</span>
+          <span class="font-bold text-base">15 mins</span>
+        </div>
+        <div class="flex flex-col items-center flex-1">
+          <span class="material-icons-round text-purple-400">location_on</span>
+          <span class="text-xs text-gray-500">Radius</span>
+          <span class="font-bold text-base">10km</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="flex gap-4 justify-center mt-4">
+      <button onclick="window.location.href='dispute.html'" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow">
+        <span class="material-icons-round">gavel</span> Disputes
+      </button>
+      <button onclick="window.location.href='ratings.html'" class="bg-yellow-50 hover:bg-yellow-100 text-yellow-700 px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow">
+        <span class="material-icons-round">star_rate</span> Ratings
+      </button>
+    </section>
+
+    <!-- Personal Info Card -->
+    <section class="bg-white p-4 rounded-2xl shadow mt-4">
+      <h3 class="font-semibold text-base mb-1">Personal Information</h3>
+      <p class="text-xs text-gray-500 mb-3">Your basic profile details</p>
+      <div class="grid grid-cols-1 gap-3">
+        <div>
+          <label class="text-xs text-gray-600">Full Name</label>
+          <input type="text" value="Brix D. Mesa" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Email</label>
+          <input type="email" value="brix.mesa@mechconnect.com" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex-1">
+            <label class="text-xs text-gray-600">Contact Number</label>
+            <input type="text" value="+63 912 345 6789" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+          </div>
+          <div class="flex-1">
+            <label class="text-xs text-gray-600">Gender</label>
+            <select class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" disabled>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Birthdate</label>
+          <input type="text" value="03/20/1985" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Address</label>
+          <input type="text" value="123 Repair Street, Manila, Philippines" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+        </div>
+      </div>
+    </section>
+    <!-- Professional Information -->
+    <section class="bg-white p-4 rounded-2xl shadow mt-4">
+      <h3 class="font-semibold text-base mb-1">Professional Information</h3>
+      <p class="text-xs text-gray-500 mb-3">Your mechanic credentials and expertise</p>
+      <div class="grid grid-cols-1 gap-3">
+        <div>
+          <label class="text-xs text-gray-600">Shop/Company Name</label>
+          <input type="text" value="Viventa Labs Motor Parts" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex-1">
+            <label class="text-xs text-gray-600">Years of Experience</label>
+            <input type="text" value="8" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+          </div>
+          <div class="flex-1">
+            <label class="text-xs text-gray-600">Service Radius (km)</label>
+            <input type="text" value="10" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Bio</label>
+          <textarea class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" rows="2" readonly>Experienced mechanic specializing in engine diagnostics and repair. 8 years of professional experience.</textarea>
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Specialties</label>
+          <div class="flex gap-2 mt-1">
+            <span class="bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs font-semibold">Engine</span>
+            <span class="bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs font-semibold">AC</span>
+            <span class="bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs font-semibold">Motorcycle</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop Information -->
+    <section class="bg-white p-4 rounded-2xl shadow mt-4">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-icons-round text-orange-500">store</span>
+        <h3 class="font-semibold text-base">Shop Information</h3>
+      </div>
+      <p class="text-xs text-gray-500 mb-3">Details about your shop or business</p>
+      <div class="grid grid-cols-1 gap-3">
+        <div>
+          <label class="text-xs text-gray-600">Shop Address</label>
+          <input type="text" value="456 Workshop Avenue, Quezon City, Philippines" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Shop Description</label>
+          <textarea class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" rows="2" readonly>Full-service automotive repair shop with state-of-the-art diagnostic equipment. We specialize in engine repair, electrical systems, and air conditioning.</textarea>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex-1">
+            <label class="text-xs text-gray-600">Business Hours</label>
+            <input type="text" value="Mon-Sat: 8:00 AM - 6:00 PM, Sun: Closed" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+          </div>
+          <div class="flex-1">
+            <label class="text-xs text-gray-600">License/Permit Number</label>
+            <input type="text" value="DTI-2024-123456" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm" readonly>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs text-gray-600">Shop Photos</label>
+          <div class="flex gap-2 mt-1">
+            <div class="w-20 h-16 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Photo</div>
+            <div class="w-20 h-16 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Photo</div>
+            <div class="w-20 h-16 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">Photo</div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Upload up to 6 photos of your shop and equipment</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Offered -->
+    <section class="bg-white p-4 rounded-2xl shadow mt-4">
+      <h3 class="font-semibold text-base mb-1">Services Offered</h3>
+      <p class="text-xs text-gray-500 mb-3">List of services you provide with pricing</p>
+      <div class="flex flex-col gap-2">
+        <div class="bg-gray-50 rounded-lg px-4 py-3">
+          <div class="font-semibold">Engine Diagnostics & Repair</div>
+          <div class="text-xs text-gray-500">₱2,500 - ₱8,000</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg px-4 py-3">
+          <div class="font-semibold">Oil Change & Filter Replacement</div>
+          <div class="text-xs text-gray-500">₱800 - ₱1,500</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg px-4 py-3">
+          <div class="font-semibold">Brake System Repair</div>
+          <div class="text-xs text-gray-500">₱1,500 - ₱4,000</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg px-4 py-3">
+          <div class="font-semibold">AC Repair & Recharge</div>
+          <div class="text-xs text-gray-500">₱1,200 - ₱3,500</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg px-4 py-3">
+          <div class="font-semibold">Tire Service & Alignment</div>
+          <div class="text-xs text-gray-500">₱500 - ₱2,000</div>
+        </div>
+        <div class="bg-gray-50 rounded-lg px-4 py-3">
+          <div class="font-semibold">Battery Replacement</div>
+          <div class="text-xs text-gray-500">₱3,000 - ₱8,000</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications & Licenses -->
+    <section class="bg-white p-4 rounded-2xl shadow mt-4">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-icons-round text-orange-500">verified</span>
+        <h3 class="font-semibold text-base">Certifications & Licenses</h3>
+      </div>
+      <p class="text-xs text-gray-500 mb-3">Your professional certifications and credentials</p>
+      <div class="flex flex-col gap-2">
+        <div class="bg-green-50 rounded-lg px-4 py-3 flex items-center gap-3">
+          <span class="material-icons-round text-green-500">check_circle</span>
+          <div>
+            <div class="font-semibold">Automotive Service Excellence (ASE) Certified</div>
+            <div class="text-xs text-gray-500">National Institute for Automotive Service Excellence</div>
+            <div class="text-xs text-gray-400">Issued: 2020</div>
+          </div>
+        </div>
+        <div class="bg-green-50 rounded-lg px-4 py-3 flex items-center gap-3">
+          <span class="material-icons-round text-green-500">check_circle</span>
+          <div>
+            <div class="font-semibold">Motorcycle Mechanics Certification</div>
+            <div class="text-xs text-gray-500">Honda Training Center</div>
+            <div class="text-xs text-gray-400">Issued: 2019</div>
+          </div>
+        </div>
+        <div class="bg-green-50 rounded-lg px-4 py-3 flex items-center gap-3">
+          <span class="material-icons-round text-green-500">check_circle</span>
+          <div>
+            <div class="font-semibold">AC System Specialist</div>
+            <div class="text-xs text-gray-500">MACS (Mobile Air Climate Systems)</div>
+            <div class="text-xs text-gray-400">Issued: 2021</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <!-- Bottom Nav -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 shadow-md">
+    <a href="dashboard.html" class="flex flex-col items-center text-orange-500">
+      <span class="material-icons-round">dashboard</span>
+      <span class="text-xs">Dashboard</span>
+    </a>
+    <a href="bookings.html" class="flex flex-col items-center text-gray-400">
+      <span class="material-icons-round">calendar_today</span>
+      <span class="text-xs">Bookings</span>
+    </a>
+    <a href="tokens.html" class="flex flex-col items-center text-gray-400">
+      <span class="material-icons-round">account_balance_wallet</span>
+      <span class="text-xs">Tokens</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center text-gray-400">
+      <span class="material-icons-round">person</span>
+      <span class="text-xs">Profile</span>
+    </a>
+    <a href="settings.html" class="flex flex-col items-center text-gray-400">
+      <span class="material-icons-round">settings</span>
+      <span class="text-xs">Settings</span>
+    </a>
+  </div>
+
+  <script src="assets/js/helpers.js"></script>
+  <script>setActiveNav('profile');</script>
+</body>
+</html>

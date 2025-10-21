@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Travel Map — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <!-- Header with back button -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div class="max-w-xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between" style="min-height: 56px;">
+        <button onclick="window.location.href='start_service.html'" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+          <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+          <span class="text-sm font-medium">Back</span>
+        </button>
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='notification.html'" class="relative p-2" title="Notifications">
+            <span class="material-icons-round text-gray-700 text-2xl">notifications</span>
+            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+          </button>
+          <button onclick="openChatModal()" class="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center" title="Chat">
+            <span class="material-icons-round text-xl">chat</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Fullscreen map -->
+  <div class="relative w-full h-[calc(100vh-64px)] flex flex-col">
+    <img src="../client_lak/client/imgs/static_map_sample.png" alt="Travel Map" class="absolute inset-0 w-full h-full object-cover" />
+    <!-- Overlay info -->
+    <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-white/90 rounded-xl px-4 py-2 shadow flex flex-col items-center">
+      <div class="text-sm text-gray-500 mb-1">Route to <span class="font-semibold">321 Elm St, Manila</span></div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-icons-round text-green-500">directions_car</span>
+        <span class="text-sm">Distance: <span class="font-bold">1.5 km</span></span>
+      </div>
+      <div class="text-xs text-orange-600 font-bold">Est. travel time: 15 min</div>
+    </div>
+    <!-- Arrived button at bottom -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-[90%]">
+      <button onclick="window.location.href='arrived_service.html'" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold text-base flex items-center justify-center gap-2 shadow-lg">
+        <span class="material-icons-round">check_circle</span>
+        Arrived at Location
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat Modal -->
+  <div id="chat-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 w-80 shadow-lg border">
+      <div class="font-bold text-lg mb-2 flex items-center gap-2">
+        <span class="material-icons-round text-blue-600">chat</span> Chat with Client
+      </div>
+      <div id="chat-modal-window" class="h-32 overflow-y-auto bg-gray-50 rounded-lg p-2 mb-2 text-sm border">
+        <div class="mb-1"><span class="font-bold text-blue-700">You:</span> Hi, I am on my way to your location.</div>
+        <div class="mb-1"><span class="font-bold text-orange-600">Sarah:</span> Thank you! Drive safe.</div>
+      </div>
+      <div class="flex gap-2">
+        <input id="chat-modal-input" type="text" class="flex-1 border rounded-lg px-2 py-1 text-sm" placeholder="Type a message..." />
+        <button id="send-chat-modal" class="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-semibold">Send</button>
+      </div>
+      <div class="flex gap-2 mt-4">
+        <button type="button" onclick="closeChatModal()" class="flex-1 border border-gray-300 rounded-lg py-2 text-gray-700">Close</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+    // Chat modal logic
+    function openChatModal() {
+      document.getElementById('chat-modal').classList.remove('hidden');
+    }
+    function closeChatModal() {
+      document.getElementById('chat-modal').classList.add('hidden');
+    }
+    const chatModalInput = document.getElementById('chat-modal-input');
+    const sendChatModal = document.getElementById('send-chat-modal');
+    const chatModalWindow = document.getElementById('chat-modal-window');
+    sendChatModal.addEventListener('click', () => {
+      const msg = chatModalInput.value.trim();
+      if (msg) {
+        const div = document.createElement('div');
+        div.className = 'mb-1';
+        div.innerHTML = `<span class='font-bold text-blue-700'>You:</span> ${msg}`;
+        chatModalWindow.appendChild(div);
+        chatModalWindow.scrollTop = chatModalWindow.scrollHeight;
+        chatModalInput.value = '';
+      }
+    });
+    chatModalInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendChatModal.click();
+    });
+</script>

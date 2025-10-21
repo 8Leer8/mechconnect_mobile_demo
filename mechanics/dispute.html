@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Disputes — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b sticky top-0 z-20">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="window.location.href='profile.html'" class="p-2"><span class="material-icons-round">arrow_back</span></button>
+      <h1 class="text-lg font-semibold">Disputes</h1>
+      <div class="flex items-center gap-2">
+        <a href="notification.html" class="p-2"><span class="material-icons-round">notifications</span></a>
+        <div class="w-2"></div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-xl mx-auto px-4 pt-4 space-y-6">
+    <!-- Dispute Summary -->
+    <section class="bg-white p-4 rounded-2xl shadow flex flex-col items-center">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="material-icons-round text-red-400 text-3xl">gavel</span>
+        <span class="text-2xl font-bold">3</span>
+        <span class="text-sm text-gray-500">Open Disputes</span>
+      </div>
+      <div class="flex gap-2 text-xs text-gray-500">
+        <span>Resolved: <span class="font-bold text-green-600">7</span></span>
+        <span>|</span>
+        <span>Backjobs: <span class="font-bold text-orange-600">2</span></span>
+      </div>
+    </section>
+    <!-- Dispute List -->
+    <section>
+      <h2 class="text-base font-semibold mb-3">Recent Disputes & Backjobs</h2>
+      <div class="space-y-5">
+        <!-- Example Dispute Card -->
+        <div class="bg-white rounded-2xl shadow-sm border p-4 flex flex-col gap-2">
+          <div class="flex items-center gap-3 mb-1">
+            <img src="../client_lak/client/imgs/client_default_1.png" alt="avatar" class="w-10 h-10 rounded-full object-cover bg-gray-100">
+            <div>
+              <div class="font-semibold">Jonas</div>
+              <div class="text-xs text-gray-500">Flat Tire • 2025-01-09</div>
+            </div>
+            <span class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs font-semibold ml-auto">Open</span>
+          </div>
+          <div class="text-sm text-gray-700 mb-2">"Tire was not properly installed, had to return for backjob."</div>
+          <div class="flex gap-2">
+            <button class="bg-orange-50 hover:bg-orange-100 text-orange-600 px-3 py-1 rounded-lg text-xs font-semibold">View Details</button>
+            <button class="bg-green-50 hover:bg-green-100 text-green-600 px-3 py-1 rounded-lg text-xs font-semibold">Resolve</button>
+          </div>
+        </div>
+        <!-- More Example Cards -->
+        <div class="bg-white rounded-2xl shadow-sm border p-4 flex flex-col gap-2">
+          <div class="flex items-center gap-3 mb-1">
+            <img src="../client_lak/client/imgs/client_default_2.png" alt="avatar" class="w-10 h-10 rounded-full object-cover bg-gray-100">
+            <div>
+              <div class="font-semibold">Mia</div>
+              <div class="text-xs text-gray-500">AC Repair • 2025-01-08</div>
+            </div>
+            <span class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-semibold ml-auto">Resolved</span>
+          </div>
+          <div class="text-sm text-gray-700 mb-2">"AC was not cooling after service, but mechanic returned and fixed it promptly."</div>
+          <div class="flex gap-2">
+            <button class="bg-orange-50 hover:bg-orange-100 text-orange-600 px-3 py-1 rounded-lg text-xs font-semibold">View Details</button>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border p-4 flex flex-col gap-2">
+          <div class="flex items-center gap-3 mb-1">
+            <img src="../client_lak/client/imgs/client_default_1.png" alt="avatar" class="w-10 h-10 rounded-full object-cover bg-gray-100">
+            <div>
+              <div class="font-semibold">Paul</div>
+              <div class="text-xs text-gray-500">Transmission Check • 2025-01-07</div>
+            </div>
+            <span class="bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs font-semibold ml-auto">Backjob</span>
+          </div>
+          <div class="text-sm text-gray-700 mb-2">"Transmission issue recurred, mechanic scheduled a follow-up backjob."</div>
+          <div class="flex gap-2">
+            <button class="bg-orange-50 hover:bg-orange-100 text-orange-600 px-3 py-1 rounded-lg text-xs font-semibold">View Details</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

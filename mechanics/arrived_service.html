@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arrived at Location — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div class="max-w-xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between" style="min-height: 56px;">
+        <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+          <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+          <span class="text-sm font-medium">Back</span>
+        </button>
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='notification.html'" class="relative p-2" title="Notifications">
+            <span class="material-icons-round text-gray-700 text-2xl">notifications</span>
+            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-md mx-auto px-4 pt-6">
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <div class="text-xl font-bold mb-1">Start Service?</div>
+      <div class="text-sm text-gray-500 mb-4">You are about to start the service for <span class="font-semibold">Sarah Lee</span>. Make sure you have:</div>
+      <!-- Checklist -->
+      <div class="bg-blue-50 rounded-xl p-4 mb-3">
+        <div class="font-semibold mb-2 text-blue-700 text-lg">Checklist:</div>
+        <ul class="list-none space-y-2 text-blue-700 text-base">
+          <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Arrived at the service location</li>
+          <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Met with the client and confirmed the service details</li>
+          <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Taken before photos (required for documentation)</li>
+          <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Ready to begin the repair/maintenance work</li>
+        </ul>
+      </div>
+      <div class="bg-yellow-50 rounded-xl p-3 mb-4 flex items-center gap-2 text-yellow-700 text-sm">
+        <span class="material-icons-round">info</span>
+        <span>The client will be notified that you've started working. Remember to upload after photos when complete.</span>
+      </div>
+      <!-- Invoice Preview -->
+      <section class="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+        <div class="font-semibold mb-2 flex items-center gap-2 justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-icons-round text-green-500">receipt_long</span> Invoice Preview
+          </div>
+          <button class="flex items-center gap-1 px-2 py-1 rounded text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium" title="Edit Invoice">
+            <span class="material-icons-round text-base">edit</span> Edit
+          </button>
+        </div>
+        <div class="text-sm mb-2">Review the items/services to be billed:</div>
+        <table class="w-full text-sm mb-2">
+          <thead>
+            <tr class="text-gray-500">
+              <th class="text-left">Item</th>
+              <th class="text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Service Fee</td><td class="text-right">₱1250</td></tr>
+            <tr><td>Parts (Tire)</td><td class="text-right">₱450</td></tr>
+            <tr><td>Labor</td><td class="text-right">₱300</td></tr>
+          </tbody>
+          <tfoot>
+            <tr class="font-bold">
+              <td>Total</td><td class="text-right text-orange-600">₱2000</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="text-xs text-gray-500">* Final invoice will be sent after service completion.</div>
+      </section>
+      <!-- Before Photos Upload Section -->
+      <div class="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+        <div class="font-semibold mb-2 flex items-center gap-2">
+          <span class="material-icons-round text-blue-500">photo_camera</span> Upload Before Photos
+        </div>
+        <div class="text-sm mb-2">Please upload at least one photo before starting the service.</div>
+        <input type="file" id="before-photos" accept="image/*" multiple class="mb-2" />
+        <div id="photo-preview" class="flex gap-2 flex-wrap"></div>
+      </div>
+      <div class="w-full grid grid-cols-1 gap-3 sm:grid-cols-2 mt-6">
+      <div class="w-full grid grid-cols-1 gap-3 sm:grid-cols-2 mt-6">
+        <button onclick="window.location.href='travel_map.html'" class="border-2 border-gray-200 bg-white text-gray-700 py-3 rounded-xl font-semibold text-base w-full">Not Yet</button>
+        <button id="start-service-btn" class="bg-orange-500 hover:bg-orange-600 transition-colors text-white py-3 rounded-xl font-semibold text-base flex items-center justify-center gap-2 shadow-sm w-full" disabled>
+          <span class="material-icons-round">play_circle</span>
+          Start Service
+        </button>
+      </div>
+      <div class="flex justify-center mt-4 mb-2">
+        <button onclick="openQuotationModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl text-base font-semibold flex items-center gap-2 shadow">
+          <span class="material-icons-round">add_circle</span> Make Quotation / Add Repairs
+        </button>
+      </div>
+      <!-- Quotation Modal -->
+      <div id="quotation-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 w-80 shadow-lg border">
+          <div class="font-bold text-lg mb-2 flex items-center gap-2"><span class="material-icons-round text-blue-600">request_quote</span> New Quotation</div>
+          <form id="quotation-form" class="space-y-3">
+            <input type="text" class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Repair/Part/Service" required />
+            <input type="number" class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Amount (₱)" required />
+            <textarea class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Notes (optional)"></textarea>
+            <div class="flex gap-2 mt-2">
+              <button type="button" onclick="closeQuotationModal()" class="flex-1 border border-gray-300 rounded-lg py-2 text-gray-700">Cancel</button>
+              <button type="submit" class="flex-1 bg-blue-600 text-white rounded-lg py-2 font-semibold">Send Request</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Modal -->
+  <div id="checklist-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 w-96 shadow-lg border">
+      <div class="font-bold text-lg mb-2 flex items-center gap-2">
+        <span class="material-icons-round text-blue-600">checklist</span> Checklist
+      </div>
+      <ul class="list-none space-y-2 text-blue-700 text-base mb-4">
+        <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Arrived at the service location</li>
+        <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Met with the client and confirmed the service details</li>
+        <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Taken before photos (required for documentation)</li>
+        <li class="flex items-center gap-2"><span class="material-icons-round text-blue-500">check</span>Ready to begin the repair/maintenance work</li>
+      </ul>
+      <div class="bg-yellow-50 rounded-xl p-3 mb-4 flex items-center gap-2 text-yellow-700 text-sm">
+        <span class="material-icons-round">info</span>
+        <span>The client will be notified that you've started working. Remember to upload after photos when complete.</span>
+      </div>
+      <div class="flex gap-2 mt-2">
+        <button type="button" onclick="closeChecklistModal()" class="flex-1 border border-gray-300 rounded-lg py-2 text-gray-700">Close</button>
+      </div>
+    </div>
+  </div>
+  <!-- Confirmation Modal -->
+  <div id="confirm-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 w-80 shadow-lg border">
+      <div class="font-bold text-lg mb-4 flex items-center gap-2">
+        <span class="material-icons-round text-orange-600">help_outline</span> Confirm Start Service
+      </div>
+      <div class="text-sm text-gray-700 mb-6">Are you sure you want to start the service for <span class="font-semibold">Sarah Lee</span>?</div>
+      <div class="flex gap-2">
+        <button type="button" onclick="closeConfirmModal()" class="flex-1 border border-gray-300 rounded-lg py-2 text-gray-700">Cancel</button>
+        <button type="button" onclick="proceedStartService()" class="flex-1 bg-orange-600 text-white rounded-lg py-2 font-semibold">Yes, Start</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('start-service-btn').addEventListener('click', function() {
+      document.getElementById('confirm-modal').classList.remove('hidden');
+    });
+    function closeConfirmModal() {
+      document.getElementById('confirm-modal').classList.add('hidden');
+    }
+    function proceedStartService() {
+      window.location.href = 'active_job.html';
+    }
+    function closeChecklistModal() {
+      document.getElementById('checklist-modal').classList.add('hidden');
+    }
+    // Quotation modal logic
+    function openQuotationModal() {
+      document.getElementById('quotation-modal').classList.remove('hidden');
+    }
+    function closeQuotationModal() {
+      document.getElementById('quotation-modal').classList.add('hidden');
+    }
+    document.getElementById('quotation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Quotation request sent! (prototype)');
+      closeQuotationModal();
+    });
+    // Before photos upload logic
+    const beforePhotosInput = document.getElementById('before-photos');
+    const photoPreview = document.getElementById('photo-preview');
+    const startServiceBtn = document.getElementById('start-service-btn');
+    beforePhotosInput.addEventListener('change', function() {
+      photoPreview.innerHTML = '';
+      if (beforePhotosInput.files.length > 0) {
+        startServiceBtn.disabled = false;
+        Array.from(beforePhotosInput.files).forEach(file => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'w-16 h-16 object-cover rounded-lg border';
+            photoPreview.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+      } else {
+        startServiceBtn.disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Active Job — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div class="max-w-xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between" style="min-height: 56px;">
+        <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+          <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+          <span class="text-sm font-medium">Back</span>
+        </button>
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='notification.html'" class="relative p-2" title="Notifications">
+            <span class="material-icons-round text-gray-700 text-2xl">notifications</span>
+            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-md mx-auto px-4 pt-6">
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-4">
+      <div class="text-xl font-bold mb-1">Job is Now Active</div>
+      <div class="text-sm text-gray-500 mb-4">Service for <span class="font-semibold">Sarah Lee</span> is in progress.</div>
+      <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">calendar_today</span> 2025-01-09</div>
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">schedule</span> <span id="job-start-time">10:00 AM</span></div>
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">place</span> 321 Elm St, Manila (1.5 km)</div>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">call</span> +63 945 678 9012</div>
+          <div class="flex items-center gap-2"><span class="text-gray-500">Service Fee:</span> <span class="text-orange-600 font-bold">₱1250</span></div>
+        </div>
+      </div>
+      <!-- Invoice Preview -->
+      <section class="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+        <div class="font-semibold mb-2 flex items-center gap-2 justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-icons-round text-green-500">receipt_long</span> Invoice Preview
+          </div>
+          <button class="flex items-center gap-1 px-2 py-1 rounded text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium" title="Edit Invoice">
+            <span class="material-icons-round text-base">edit</span> Edit
+          </button>
+        </div>
+        <table class="w-full text-sm mb-2">
+          <thead>
+            <tr class="text-gray-500">
+              <th class="text-left">Item</th>
+              <th class="text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Service Fee</td><td class="text-right">₱1250</td></tr>
+            <tr><td>Parts (Tire)</td><td class="text-right">₱450</td></tr>
+            <tr><td>Labor</td><td class="text-right">₱300</td></tr>
+          </tbody>
+          <tfoot>
+            <tr class="font-bold">
+              <td>Total</td><td class="text-right text-orange-600">₱2000</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="text-xs text-gray-500">* Final invoice will be sent after service completion.</div>
+      </section>
+      <div class="flex justify-center mt-4 mb-2 gap-2">
+        <button onclick="openQuotationModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl text-base font-semibold flex items-center gap-2 shadow">
+          <span class="material-icons-round">add_circle</span> Make Quotation / Add Repairs
+        </button>
+        <button onclick="openReportModal()" class="bg-red-600 hover:bg-red-700 text-white px-5 py-3 rounded-xl text-base font-semibold flex items-center gap-2 shadow">
+          <span class="material-icons-round">report</span> Report Issue
+        </button>
+      </div>
+      <button class="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold text-base flex items-center justify-center gap-2 shadow-lg mt-4" id="complete-job-btn">
+        <span class="material-icons-round">check_circle</span>
+        Complete Job
+      </button>
+    </section>
+  </main>
+  <!-- Quotation Modal -->
+  <div id="quotation-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 w-80 shadow-lg border">
+      <div class="font-bold text-lg mb-2 flex items-center gap-2"><span class="material-icons-round text-blue-600">request_quote</span> New Quotation</div>
+      <form id="quotation-form" class="space-y-3">
+        <input type="text" class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Repair/Part/Service" required />
+        <input type="number" class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Amount (₱)" required />
+        <textarea class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Notes (optional)"></textarea>
+        <div class="flex gap-2 mt-2">
+          <button type="button" onclick="closeQuotationModal()" class="flex-1 border border-gray-300 rounded-lg py-2 text-gray-700">Cancel</button>
+          <button type="submit" class="flex-1 bg-blue-600 text-white rounded-lg py-2 font-semibold">Send Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Report Modal -->
+  <div id="report-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 w-80 shadow-lg border">
+      <div class="font-bold text-lg mb-2 flex items-center gap-2"><span class="material-icons-round text-red-600">report</span> Report Issue</div>
+      <form id="report-form" class="space-y-3">
+        <textarea class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Describe the issue..." required></textarea>
+        <div class="flex gap-2 mt-2">
+          <button type="button" onclick="closeReportModal()" class="flex-1 border border-gray-300 rounded-lg py-2 text-gray-700">Cancel</button>
+          <button type="submit" class="flex-1 bg-red-600 text-white rounded-lg py-2 font-semibold">Send Report</button>
+        </div>
+      </form>
+      <div class="mt-4">
+        <button onclick="cancelJob()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
+          <span class="material-icons-round">cancel</span> Cancel Job
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function openQuotationModal() {
+      document.getElementById('quotation-modal').classList.remove('hidden');
+    }
+    function closeQuotationModal() {
+      document.getElementById('quotation-modal').classList.add('hidden');
+    }
+    document.getElementById('quotation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Quotation request sent! (prototype)');
+      closeQuotationModal();
+    });
+    function openReportModal() {
+      document.getElementById('report-modal').classList.remove('hidden');
+    }
+    function closeReportModal() {
+      document.getElementById('report-modal').classList.add('hidden');
+    }
+    document.getElementById('report-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Report sent! (prototype)');
+      closeReportModal();
+    });
+    function cancelJob() {
+      closeReportModal();
+      alert('Job has been cancelled. (prototype)');
+      window.location.href = 'dashboard.html';
+    }
+    document.getElementById('complete-job-btn').addEventListener('click', function() {
+      window.location.href = 'waiting_payment.html';
+    });
+    // Set job start time to now
+    document.getElementById('job-start-time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  </script>
+</body>
+</html>

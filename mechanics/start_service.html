@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Start Service — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <main class="max-w-md mx-auto px-4 pt-6">
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <div class="text-xl font-bold mb-1">Start Service?</div>
+      <div class="text-sm text-gray-500 mb-4">You are about to start the service for <span class="font-semibold">Sarah Lee</span>. Make sure you have:</div>
+
+      <!-- Service details -->
+      <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">calendar_today</span> 2025-01-09</div>
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">schedule</span> 10:00 AM</div>
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">place</span> 321 Elm St, Manila (1.5 km)</div>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center gap-2"><span class="material-icons-round text-gray-400">call</span> +63 945 678 9012</div>
+          <div class="flex items-center gap-2"><span class="text-gray-500">Service Fee:</span> <span class="text-orange-600 font-bold">₱1250</span></div>
+        </div>
+      </div>
+
+      <!-- Static map section -->
+      <div class="mb-6">
+        <div class="font-semibold mb-2">Location Map</div>
+        <img src="../client_lak/client/imgs/static_map_sample.png" alt="map" class="w-full h-32 object-cover rounded-lg border">
+      </div>
+
+      <!-- Chat with Customer -->
+      <section class="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+        <div class="font-semibold mb-2 flex items-center gap-2">
+          <span class="material-icons-round text-blue-500">chat</span> Chat with Customer
+        </div>
+        <div id="chat-window" class="h-32 overflow-y-auto bg-gray-50 rounded-lg p-2 mb-2 text-sm border">
+          <div class="mb-1"><span class="font-bold text-blue-700">You:</span> Hi Sarah, I have arrived at your location.</div>
+          <div class="mb-1"><span class="font-bold text-orange-600">Sarah:</span> Great, I’m here. Let me know if you need anything.</div>
+        </div>
+        <div class="flex gap-2">
+          <input id="chat-input" type="text" class="flex-1 border rounded-lg px-2 py-1 text-sm" placeholder="Type a message..." />
+          <button id="send-chat" class="bg-orange-500 text-white px-3 py-1 rounded-lg text-sm font-semibold">Send</button>
+        </div>
+      </section>
+
+      <!-- Invoice Preview -->
+      <section class="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+        <div class="font-semibold mb-2 flex items-center gap-2">
+          <span class="material-icons-round text-green-500">receipt_long</span> Invoice Preview
+        </div>
+        <div class="text-sm mb-2">Review the items/services to be billed:</div>
+        <table class="w-full text-sm mb-2">
+          <thead>
+            <tr class="text-gray-500">
+              <th class="text-left">Item</th>
+              <th class="text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Service Fee</td><td class="text-right">₱1250</td></tr>
+            <tr><td>Parts (Tire)</td><td class="text-right">₱450</td></tr>
+            <tr><td>Labor</td><td class="text-right">₱300</td></tr>
+          </tbody>
+          <tfoot>
+            <tr class="font-bold">
+              <td>Total</td><td class="text-right text-orange-600">₱2000</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="text-xs text-gray-500">* Final invoice will be sent after service completion.</div>
+      </section>
+
+      <!-- Quotation Request Button -->
+      <div class="mb-4 flex justify-end">
+        <button onclick="openQuotationModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+          <span class="material-icons-round">add_circle</span> Make Quotation / Add Repairs
+        </button>
+      </div>
+
+      <!-- Quotation Modal -->
+      <div id="quotation-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 w-80 shadow-lg border">
+          <div class="font-bold text-lg mb-2 flex items-center gap-2"><span class="material-icons-round text-blue-600">request_quote</span> New Quotation</div>
+          <form id="quotation-form" class="space-y-3">
+            <input type="text" class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Repair/Part/Service" required />
+            <input type="number" class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Amount (₱)" required />
+            <textarea class="w-full border rounded-lg px-2 py-1 text-sm" placeholder="Notes (optional)"></textarea>
+            <div class="flex gap-2 mt-2">
+              <button type="button" onclick="closeQuotationModal()" class="flex-1 border border-gray-300 rounded-lg py-2 text-gray-700">Cancel</button>
+              <button type="submit" class="flex-1 bg-blue-600 text-white rounded-lg py-2 font-semibold">Send Request</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      </div>
+      <div class="flex gap-4 mt-6">
+        <div class="w-full grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <button onclick="window.location.href='bookings.html'" class="border-2 border-gray-200 bg-white text-gray-700 py-3 rounded-xl font-semibold text-base w-full">Not Yet</button>
+          <button id="start-btn" class="bg-orange-500 hover:bg-orange-600 transition-colors text-white py-3 rounded-xl font-semibold text-base flex items-center justify-center gap-2 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed w-full">
+            <span class="material-icons-round">play_circle</span>
+            Yes, Start Travel
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    // Checklist removed; enable Start Service button by default
+    const startBtn = document.getElementById('start-btn');
+    startBtn.disabled = false;
+    startBtn.addEventListener('click', () => {
+      window.location.href = 'travel_map.html';
+    });
+
+    // Chat logic (prototype)
+    const chatInput = document.getElementById('chat-input');
+    const sendChat = document.getElementById('send-chat');
+    const chatWindow = document.getElementById('chat-window');
+    sendChat.addEventListener('click', () => {
+      const msg = chatInput.value.trim();
+      if (msg) {
+        const div = document.createElement('div');
+        div.className = 'mb-1';
+        div.innerHTML = `<span class='font-bold text-blue-700'>You:</span> ${msg}`;
+        chatWindow.appendChild(div);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        chatInput.value = '';
+      }
+    });
+    chatInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendChat.click();
+    });
+
+    // Quotation modal logic
+    function openQuotationModal() {
+      document.getElementById('quotation-modal').classList.remove('hidden');
+    }
+    function closeQuotationModal() {
+      document.getElementById('quotation-modal').classList.add('hidden');
+    }
+    document.getElementById('quotation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Quotation request sent! (prototype)');
+      closeQuotationModal();
+    });
+  </script>
+</body>
+</html>

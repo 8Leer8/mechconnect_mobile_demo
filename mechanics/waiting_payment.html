@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Waiting for Payment — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div class="max-w-xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between" style="min-height: 56px;">
+        <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+          <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+          <span class="text-sm font-medium">Back</span>
+        </button>
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='notification.html'" class="relative p-2" title="Notifications">
+            <span class="material-icons-round text-gray-700 text-2xl">notifications</span>
+            <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-md mx-auto px-4 pt-6">
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-4">
+      <div class="text-xl font-bold mb-1">Waiting for Payment</div>
+      <div class="text-sm text-gray-500 mb-4">Order for <span class="font-semibold">Sarah Lee</span> is complete. Please wait for the client to pay.</div>
+      <!-- Invoice Preview -->
+      <section class="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+        <div class="font-semibold mb-2 flex items-center gap-2 justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-icons-round text-green-500">receipt_long</span> Invoice
+          </div>
+          <button class="flex items-center gap-1 px-2 py-1 rounded text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium" title="Edit Invoice">
+            <span class="material-icons-round text-base">edit</span> Edit
+          </button>
+        </div>
+        <table class="w-full text-sm mb-2">
+          <thead>
+            <tr class="text-gray-500">
+              <th class="text-left">Item</th>
+              <th class="text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Service Fee</td><td class="text-right">₱1250</td></tr>
+            <tr><td>Parts (Tire)</td><td class="text-right">₱450</td></tr>
+            <tr><td>Labor</td><td class="text-right">₱300</td></tr>
+          </tbody>
+          <tfoot>
+            <tr class="font-bold">
+              <td>Total</td><td class="text-right text-orange-600">₱2000</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="text-xs text-gray-500">* Please confirm payment before completing the job.</div>
+      </section>
+      <!-- After Photos Upload Section -->
+      <div class="bg-white rounded-xl p-4 mb-4 border border-gray-100 shadow-sm">
+        <div class="font-semibold mb-2 flex items-center gap-2">
+          <span class="material-icons-round text-green-500">photo_camera</span> Upload After Photos
+        </div>
+        <div class="text-sm mb-2">Please upload after-service photos before confirming payment.</div>
+        <input type="file" id="after-photos" accept="image/*" multiple class="mb-2" />
+        <div id="after-photo-preview" class="flex gap-2 flex-wrap"></div>
+      </div>
+      <div class="flex justify-center mt-4 mb-2">
+        <button id="payment-received-btn" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl text-base font-semibold flex items-center gap-2 shadow" disabled>
+          <span class="material-icons-round">check_circle</span> Payment Received
+        </button>
+      </div>
+      <div class="flex flex-col items-center gap-3 mt-2 mb-4">
+        <div class="w-full flex gap-3">
+          <button id="not-yet-received-btn" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-3 rounded-xl text-base font-semibold flex items-center justify-center gap-2 shadow">
+            <span class="material-icons-round">hourglass_empty</span> Not Yet Received
+          </button>
+          <button id="report-btn" class="flex-1 bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-xl text-base font-semibold flex items-center justify-center gap-2 shadow">
+            <span class="material-icons-round">report</span> Report Issue
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('payment-received-btn').addEventListener('click', function() {
+      window.location.href = 'bookings.html';
+    });
+    document.getElementById('not-yet-received-btn').addEventListener('click', function() {
+      window.location.href = 'bookings.html';
+    });
+    document.getElementById('report-btn').addEventListener('click', function() {
+      document.getElementById('report-modal').classList.remove('hidden');
+    });
+    document.getElementById('close-report-modal').addEventListener('click', function() {
+      document.getElementById('report-modal').classList.add('hidden');
+    });
+    // After photos upload logic
+    const afterPhotosInput = document.getElementById('after-photos');
+    const afterPhotoPreview = document.getElementById('after-photo-preview');
+    const paymentReceivedBtn = document.getElementById('payment-received-btn');
+    afterPhotosInput.addEventListener('change', function() {
+      afterPhotoPreview.innerHTML = '';
+      if (afterPhotosInput.files.length > 0) {
+        paymentReceivedBtn.disabled = false;
+        Array.from(afterPhotosInput.files).forEach(file => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'w-16 h-16 object-cover rounded-lg border';
+            afterPhotoPreview.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+      } else {
+        paymentReceivedBtn.disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>

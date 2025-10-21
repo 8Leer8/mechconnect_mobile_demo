@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Settings — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b sticky top-0 z-20">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="goDashboard()" class="p-2"><span class="material-icons-round">arrow_back</span></button>
+      <h1 class="text-lg font-semibold">Settings</h1>
+      <div class="flex items-center gap-2">
+  <a href="notification.html" class="p-2"><span class="material-icons-round">notifications</span></a>
+        <div class="w-2"></div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-xl mx-auto px-4 pt-4 space-y-3">
+    <div class="bg-white p-4 rounded-2xl shadow-sm border">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-sm font-medium">Notifications</div>
+          <div class="text-xs text-gray-500">Push, SMS, Email</div>
+        </div>
+        <input type="checkbox" checked />
+      </div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl shadow-sm border">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-sm font-medium">Privacy</div>
+          <div class="text-xs text-gray-500">Manage profile visibility</div>
+        </div>
+        <button class="text-xs text-gray-600">Manage</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <a href="dashboard.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="dashboard">
+        <span class="material-icons-round text-lg">dashboard</span>
+        <span class="text-xs mt-1">Dashboard</span>
+      </a>
+      <a href="bookings.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="bookings">
+        <span class="material-icons-round text-lg">calendar_today</span>
+        <span class="text-xs mt-1">Bookings</span>
+      </a>
+      <a href="tokens.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="tokens">
+        <span class="material-icons-round text-lg">account_balance_wallet</span>
+        <span class="text-xs mt-1">Tokens</span>
+      </a>
+      <a href="profile.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="profile">
+        <span class="material-icons-round text-lg">person</span>
+        <span class="text-xs mt-1">Profile</span>
+      </a>
+      <a href="settings.html" class="mc-nav-btn flex flex-col items-center text-orange-500 transition-colors" data-nav="settings">
+        <span class="material-icons-round text-lg">settings</span>
+        <span class="text-xs mt-1">Settings</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="assets/js/helpers.js"></script>
+  <script>setActiveNav('settings');</script>
+</body>
+</html>

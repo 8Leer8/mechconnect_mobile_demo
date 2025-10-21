@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tokens — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <style>
+    .quick-card { transition: all 0.3s ease; }
+    .quick-card:hover { transform: translateY(-2px); }
+    .status-badge { font-size: 0.7rem; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b sticky top-0 z-20">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="goDashboard()" class="p-2"><span class="material-icons-round">arrow_back</span></button>
+      <h1 class="text-lg font-semibold">Tokens</h1>
+      <div class="flex items-center gap-2">
+  <a href="notification.html" class="p-2"><span class="material-icons-round">notifications</span></a>
+        <div class="w-2"></div>
+      </div>
+    </div>
+  </header>
+  <main class="max-w-6xl mx-auto px-4 pt-6">
+    <!-- Hero / cards row -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Orange tokens card -->
+      <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-xl p-6 shadow-md">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="flex items-center gap-3">
+              <span class="material-icons-round">account_balance_wallet</span>
+              <div class="text-sm font-medium">Available Tokens</div>
+            </div>
+            <div class="text-4xl font-extrabold mt-4">₱2,450.00</div>
+            <div class="text-sm opacity-90 mt-2">Platform fee owed: ₱340.00 | Available: ₱2,110.00</div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-2 gap-4">
+          <div>
+            <button id="topup-btn" class="w-full bg-white text-orange-600 shadow-sm rounded-lg py-3 flex items-center justify-center gap-2 hover:brightness-95 focus:outline-none">
+              <span class="material-icons-round">add</span>
+              <span class="font-medium">Top Up</span>
+            </button>
+          </div>
+          <div>
+            <button id="withdraw-btn" class="w-full bg-white text-orange-600/90 rounded-lg py-3 flex items-center justify-center gap-2 hover:brightness-95 focus:outline-none">
+              <span class="material-icons-round">open_in_new</span>
+              <span class="font-medium">Withdraw</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purple rewards card -->
+      <div class="bg-gradient-to-br from-purple-600 to-purple-500 text-white rounded-xl p-6 shadow-md relative">
+        <div class="absolute top-4 right-4">
+          <span class="bg-white/20 text-white px-3 py-1 rounded-full text-xs">Silver</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="material-icons-round">emoji_events</span>
+            <div class="text-sm font-medium">Reward Points</div>
+          </div>
+          <div class="text-4xl font-extrabold mt-4">285 Points</div>
+          <div class="text-sm opacity-90 mt-2">Earn points from jobs • Redeem for rewards and boosts</div>
+        </div>
+
+        <div class="mt-6">
+          <button onclick="goMarketplace()" class="w-full bg-white text-purple-700 rounded-lg py-3 flex items-center justify-center gap-3 hover:brightness-95 focus:outline-none">
+            <span class="material-icons-round">shopping_cart</span>
+            <span class="font-medium">Browse Marketplace</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Points earning breakdown -->
+    <section class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+      <h3 class="text-sm font-semibold mb-3">Points earning breakdown</h3>
+      <div class="space-y-3 text-sm text-gray-700">
+        <div class="flex items-center justify-between">
+          <div>Normal (0 - 49 jobs)</div>
+          <div>5 pts / completed job</div>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>Bronze (50 - 199 jobs)</div>
+          <div>7 pts / completed job</div>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>Silver (200 - 499 jobs)</div>
+          <div>10 pts / completed job</div>
+        </div>
+        <div class="flex items-center justify-between">
+          <div>Gold (500+ jobs)</div>
+          <div>15 pts / completed job</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements & Milestones -->
+    <section class="mt-8">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="material-icons-round text-orange-500">emoji_events</span>
+        <h2 class="text-lg font-semibold">Achievements &amp; Milestones</h2>
+      </div>
+      <div class="text-sm text-gray-600 mb-4">Complete achievements to earn bonus tokens</div>
+      <div class="space-y-4">
+        <!-- Unlocked achievements -->
+        <div class="bg-green-50 border border-green-100 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <div class="text-base font-semibold">First 10 Jobs <span class="ml-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full inline-flex items-center gap-1"><span class="material-icons-round text-xs">check_circle</span> Unlocked</span></div>
+            <div class="text-sm text-gray-600 mt-1">Complete your first 10 jobs</div>
+          </div>
+          <div class="text-right">
+            <div class="flex items-center gap-1 text-orange-500 font-bold"><span class="material-icons-round text-base">emoji_events</span> +50</div>
+            <div class="text-xs text-gray-500">points</div>
+          </div>
+        </div>
+        <div class="bg-green-50 border border-green-100 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <div class="text-base font-semibold">Rising Star <span class="ml-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full inline-flex items-center gap-1"><span class="material-icons-round text-xs">check_circle</span> Unlocked</span></div>
+            <div class="text-sm text-gray-600 mt-1">Get 25 five-star reviews</div>
+          </div>
+          <div class="text-right">
+            <div class="flex items-center gap-1 text-orange-500 font-bold"><span class="material-icons-round text-base">emoji_events</span> +100</div>
+            <div class="text-xs text-gray-500">points</div>
+          </div>
+        </div>
+        <!-- Locked achievement -->
+        <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <div class="text-base font-semibold">Century Club</div>
+            <div class="text-sm text-gray-600 mt-1">Complete 100 jobs</div>
+          </div>
+          <div class="text-right">
+            <div class="flex items-center gap-1 text-orange-500 font-bold"><span class="material-icons-round text-base">emoji_events</span> +200</div>
+            <div class="text-xs text-gray-500">points</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Withdraw Modal -->
+  <div id="withdraw-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative animate-fade-in">
+      <button id="close-withdraw-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><span class="material-icons-round">close</span></button>
+      <div class="text-xl font-bold mb-1">Withdraw Funds</div>
+      <div class="text-sm text-gray-500 mb-4">Select a withdrawal method to transfer funds from your wallet.</div>
+      <div class="space-y-3 mb-4">
+        <button class="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+          <span class="material-icons-round">account_balance</span> Bank Transfer
+        </button>
+        <button class="w-full bg-green-50 hover:bg-green-100 text-green-700 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+          <span class="material-icons-round">qr_code_scanner</span> GCash
+        </button>
+        <button class="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+          <span class="material-icons-round">credit_card</span> Debit/Credit Card
+        </button>
+      </div>
+      <div class="text-xs text-gray-500 mb-2">* After selecting a method, follow the instructions to complete your withdrawal.</div>
+      <button id="confirm-withdraw-btn" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold text-base flex items-center justify-center gap-2 mt-2">
+        <span class="material-icons-round">remove_circle</span> Confirm Withdraw
+      </button>
+    </div>
+  </div>
+  <!-- Top Up Modal -->
+  <div id="topup-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative animate-fade-in">
+      <button id="close-topup-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"><span class="material-icons-round">close</span></button>
+      <div class="text-xl font-bold mb-1">Top Up Funds</div>
+      <div class="text-sm text-gray-500 mb-4">Select a payment method to add funds to your wallet.</div>
+      <div class="space-y-3 mb-4">
+        <button class="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+          <span class="material-icons-round">account_balance</span> Bank Transfer
+        </button>
+        <button class="w-full bg-green-50 hover:bg-green-100 text-green-700 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+          <span class="material-icons-round">qr_code_scanner</span> GCash
+        </button>
+        <button class="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+          <span class="material-icons-round">credit_card</span> Debit/Credit Card
+        </button>
+      </div>
+      <div class="text-xs text-gray-500 mb-2">* After selecting a method, follow the instructions to complete your top up.</div>
+      <button class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold text-base flex items-center justify-center gap-2 mt-2">
+        <span class="material-icons-round">add_circle</span> Confirm Top Up
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <a href="dashboard.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="dashboard">
+        <span class="material-icons-round text-lg">dashboard</span>
+        <span class="text-xs mt-1">Dashboard</span>
+      </a>
+      <a href="bookings.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="bookings">
+        <span class="material-icons-round text-lg">calendar_today</span>
+        <span class="text-xs mt-1">Bookings</span>
+      </a>
+      <a href="tokens.html" class="mc-nav-btn flex flex-col items-center text-orange-500 transition-colors" data-nav="tokens">
+        <span class="material-icons-round text-lg">account_balance_wallet</span>
+        <span class="text-xs mt-1">Tokens</span>
+      </a>
+      <a href="profile.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="profile">
+        <span class="material-icons-round text-lg">person</span>
+        <span class="text-xs mt-1">Profile</span>
+      </a>
+      <a href="settings.html" class="mc-nav-btn flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors" data-nav="settings">
+        <span class="material-icons-round text-lg">settings</span>
+        <span class="text-xs mt-1">Settings</span>
+      </a>
+    </div>
+  </nav>
+
+  <script src="assets/js/helpers.js"></script>
+  <script>
+    setActiveNav('tokens');
+    document.addEventListener('DOMContentLoaded', function() {
+      var topupBtn = document.getElementById('topup-btn');
+      var topupModal = document.getElementById('topup-modal');
+      var closeTopupModal = document.getElementById('close-topup-modal');
+      var confirmTopupBtn = topupModal ? topupModal.querySelector('button.bg-orange-500') : null;
+      var withdrawBtn = document.getElementById('withdraw-btn');
+      var withdrawModal = document.getElementById('withdraw-modal');
+      var closeWithdrawModal = document.getElementById('close-withdraw-modal');
+      var confirmWithdrawBtn = document.getElementById('confirm-withdraw-btn');
+      if (topupBtn && topupModal && closeTopupModal) {
+        topupBtn.addEventListener('click', function() {
+          topupModal.classList.remove('hidden');
+        });
+        closeTopupModal.addEventListener('click', function() {
+          topupModal.classList.add('hidden');
+        });
+        if (confirmTopupBtn) {
+          confirmTopupBtn.addEventListener('click', function() {
+            topupModal.classList.add('hidden');
+          });
+        }
+      }
+      if (withdrawBtn && withdrawModal && closeWithdrawModal && confirmWithdrawBtn) {
+        withdrawBtn.addEventListener('click', function() {
+          withdrawModal.classList.remove('hidden');
+        });
+        closeWithdrawModal.addEventListener('click', function() {
+          withdrawModal.classList.add('hidden');
+        });
+        confirmWithdrawBtn.addEventListener('click', function() {
+          withdrawModal.classList.add('hidden');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
