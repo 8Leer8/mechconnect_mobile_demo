@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanic Sign Up - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-in': 'slideIn 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Checkbox */
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.125rem;
+            height: 1.125rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.375rem;
+            background: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox:checked {
+            background: #f97316;
+            border-color: #f97316;
+        }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-checkbox:hover {
+            border-color: #9ca3af;
+        }
+
+        .custom-checkbox:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #f97316, 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        /* OTP Input Styles */
+        .otp-input {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            transition: all 0.2s ease;
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        .otp-input.filled {
+            background: #fff7ed;
+            border-color: #f97316;
+            color: #f97316;
+        }
+
+        /* Progress Steps */
+        .step-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .step-item:not(:first-child):before {
+            content: '';
+            position: absolute;
+            top: 1rem;
+            left: -50%;
+            width: 100%;
+            height: 2px;
+            background: #e5e7eb;
+        }
+
+        .step-item.active:not(:first-child):before {
+            background: #f97316;
+        }
+
+        .step-item.completed:not(:first-child):before {
+            background: #f97316;
+        }
+
+        .step-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: #e5e7eb;
+            border: 2px solid #e5e7eb;
+            position: relative;
+            z-index: 10;
+        }
+
+        .step-item.active .step-icon {
+            background: #f97316;
+            border-color: #f97316;
+        }
+
+        .step-item.completed .step-icon {
+            background: #f97316;
+            border-color: #f97316;
+        }
+
+        .step-item.completed .step-icon:after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* File Upload Styles */
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+
+        .file-upload-area.dragover {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+
+        /* Hide steps on mobile, show progress bar */
+        @media (max-width: 640px) {
+            .step-item:not(:first-child):before {
+                display: none;
+            }
+
+            .step-item {
+                display: none;
+            }
+
+            .step-item.active {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Mobile First Layout -->
+    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div class="w-full max-w-sm sm:max-w-md space-y-6 sm:space-y-8">
+            <!-- Header - Mobile Optimized -->
+            <div class="text-center space-y-3 sm:space-y-4">
+                <img src="../../client_lak/imgs/mechlogo.png" alt="MechConnect Logo" class="mx-auto w-12 h-12 sm:w-14 sm:h-14">
+                
+                <div class="space-y-2">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Join as Mechanic</h1>
+                    <p class="text-sm sm:text-base text-gray-600 px-4 sm:px-0">
+                        Share your expertise and grow your business
+                    </p>
+                </div>
+            </div>
+
+            <!-- Progress Steps - Hidden on mobile, visible on tablet+ -->
+            <div class="hidden sm:block">
+                <div class="flex justify-between mb-8">
+                    <div class="step-item active">
+                        <div class="step-icon"></div>
+                        <div class="text-xs mt-2 text-orange-600 font-medium">Basic Info</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"></div>
+                        <div class="text-xs mt-2 text-gray-500">Account</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"></div>
+                        <div class="text-xs mt-2 text-gray-500">Professional</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"></div>
+                        <div class="text-xs mt-2 text-gray-500">Documents</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"></div>
+                        <div class="text-xs mt-2 text-gray-500">Verify</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"></div>
+                        <div class="text-xs mt-2 text-gray-500">Review</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Progress Bar -->
+            <div class="sm:hidden bg-gray-200 rounded-full h-2">
+                <div class="bg-orange-500 h-2 rounded-full transition-all duration-500" style="width: 16.67%" id="mobileProgress"></div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
+                <form id="signupForm" class="space-y-6">
+                    <!-- Step 1: Basic Information -->
+                    <div id="step1" class="step-content animate-fade-in">
+                        <div class="space-y-4">
+                            <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons-round text-orange-500 text-xl">person</span>
+                                Basic Information
+                            </h2>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">First Name</label>
+                                    <input 
+                                        type="text" 
+                                        name="firstName"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                        placeholder="John"
+                                        required
+                                    >
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                                    <input 
+                                        type="text" 
+                                        name="lastName"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                        placeholder="Smith"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Middle Name <span class="text-gray-400">(Optional)</span></label>
+                                <input 
+                                    type="text" 
+                                    name="middleName"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                    placeholder="Optional"
+                                >
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <div class="relative">
+                                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">mail</span>
+                                    <input 
+                                        type="email" 
+                                        name="email"
+                                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                        placeholder="your@email.com"
+                                        required
+                                    >
+                                </div>
+                                <div class="error-message text-xs text-red-600 hidden" id="emailError"></div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                <div class="relative">
+                                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">phone</span>
+                                    <input 
+                                        type="tel" 
+                                        name="phone"
+                                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                        placeholder="09123456789"
+                                        maxlength="11"
+                                        required
+                                    >
+                                </div>
+                                <div class="error-message text-xs text-red-600 hidden" id="phoneError"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-6">
+                            <button type="button" onclick="nextStep(2)" class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors">
+                                Next
+                                <span class="material-icons-round text-lg">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Account Setup -->
+                    <div id="step2" class="step-content hidden animate-fade-in">
+                        <div class="space-y-4">
+                            <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons-round text-orange-500 text-xl">lock</span>
+                                Account Setup
+                            </h2>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Password</label>
+                                <div class="relative">
+                                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">lock</span>
+                                    <input 
+                                        type="password" 
+                                        name="password"
+                                        class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                        placeholder="12345678"
+                                        maxlength="8"
+                                        pattern="[0-9]{8}"
+                                        required
+                                    >
+                                    <button type="button" class="toggle-password absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                                        <span class="material-icons-round text-lg">visibility</span>
+                                    </button>
+                                </div>
+                                <p class="text-xs text-gray-500">Must be exactly 8 digits (0-9)</p>
+                                <div class="error-message text-xs text-red-600 hidden" id="passwordError"></div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                                <div class="relative">
+                                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">lock</span>
+                                    <input 
+                                        type="password" 
+                                        name="confirmPassword"
+                                        class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                        placeholder="12345678"
+                                        maxlength="8"
+                                        pattern="[0-9]{8}"
+                                        required
+                                    >
+                                    <button type="button" class="toggle-password absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                                        <span class="material-icons-round text-lg">visibility</span>
+                                    </button>
+                                </div>
+                                <div class="error-message text-xs text-red-600 hidden" id="confirmPasswordError"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-6">
+                            <button type="button" onclick="prevStep(1)" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors">
+                                <span class="material-icons-round text-lg">arrow_back</span>
+                                Back
+                            </button>
+                            <button type="button" onclick="nextStep(3)" class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors">
+                                Next
+                                <span class="material-icons-round text-lg">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Professional Details -->
+                    <div id="step3" class="step-content hidden animate-fade-in">
+                        <div class="space-y-4">
+                            <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons-round text-orange-500 text-xl">build</span>
+                                Professional Details
+                            </h2>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Specializations <span class="text-gray-500 text-xs">(Select multiple)</span></label>
+                                <div class="space-y-2">
+                                    <div class="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-3">
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="general" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">General Automotive Repair</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="engine" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Engine & Transmission</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="electrical" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Electrical Systems</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="brakes" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Brakes & Suspension</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="bodywork" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Bodywork & Paint</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="diagnostic" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Diagnostic & Computer Systems</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="hvac" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">HVAC & Climate Control</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="tires" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Tires & Wheels</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="diesel" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Diesel Engines</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                            <input type="checkbox" name="specialization" value="hybrid" class="specialization-checkbox custom-checkbox">
+                                            <span class="text-sm">Hybrid & Electric Vehicles</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="error-message text-xs text-red-600 hidden" id="specializationError"></div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Years of Experience</label>
+                                <div class="relative">
+                                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">access_time</span>
+                                    <select name="experience" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition appearance-none bg-white" required>
+                                        <option value="">Select experience level</option>
+                                        <option value="0-1">Less than 1 year</option>
+                                        <option value="1-3">1-3 years</option>
+                                        <option value="3-5">3-5 years</option>
+                                        <option value="5-10">5-10 years</option>
+                                        <option value="10+">10+ years</option>
+                                    </select>
+                                    <span class="material-icons-round absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">expand_more</span>
+                                </div>
+                                <div class="error-message text-xs text-red-600 hidden" id="experienceError"></div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">Service Area / City</label>
+                                <div class="relative">
+                                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">location_on</span>
+                                    <input 
+                                        type="text" 
+                                        name="location"
+                                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-base sm:text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition"
+                                        placeholder="New York, NY"
+                                        required
+                                    >
+                                </div>
+                                <p class="text-xs text-gray-500">Enter the city or area where you provide services</p>
+                                <div class="error-message text-xs text-red-600 hidden" id="locationError"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-6">
+                            <button type="button" onclick="prevStep(2)" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors">
+                                <span class="material-icons-round text-lg">arrow_back</span>
+                                Back
+                            </button>
+                            <button type="button" onclick="nextStep(4)" class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors">
+                                Next
+                                <span class="material-icons-round text-lg">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Upload Documents -->
+                    <div id="step4" class="step-content hidden animate-fade-in">
+                        <div class="space-y-4">
+                            <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons-round text-orange-500 text-xl">upload_file</span>
+                                Upload Documents
+                            </h2>
+
+                            <div class="space-y-4">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Valid ID or Certificate</label>
+                                    <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                                        <input type="file" id="fileInput" class="hidden" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFileUpload(this)">
+                                        <div class="space-y-2">
+                                            <span class="material-icons-round text-orange-500 text-4xl">cloud_upload</span>
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-700">Click to upload or drag and drop</p>
+                                                <p class="text-xs text-gray-500">PNG, JPG or PDF (max. 10MB)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="uploadedFile" class="hidden mt-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-icons-round text-green-600">check_circle</span>
+                                            <span class="text-sm text-green-700" id="fileName"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                    <div class="flex gap-3">
+                                        <span class="material-icons-round text-blue-600 flex-shrink-0">info</span>
+                                        <div class="text-sm text-blue-700">
+                                            <p class="font-medium">Document Requirements:</p>
+                                            <ul class="mt-1 list-disc list-inside space-y-1">
+                                                <li>Valid government-issued ID (Driver's License, Passport)</li>
+                                                <li>Automotive certification or trade school diploma</li>
+                                                <li>Any relevant professional licenses</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-6">
+                            <button type="button" onclick="prevStep(3)" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors">
+                                <span class="material-icons-round text-lg">arrow_back</span>
+                                Back
+                            </button>
+                            <button type="button" onclick="nextStep(5)" class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors">
+                                Verify Email
+                                <span class="material-icons-round text-lg">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Email Verification -->
+                    <div id="step5" class="step-content hidden animate-fade-in">
+                        <div class="space-y-6 text-center">
+                            <h2 class="text-lg font-semibold text-gray-900 flex items-center justify-center gap-2">
+                                <span class="material-icons-round text-orange-500 text-xl">mark_email_read</span>
+                                Verify Your Email
+                            </h2>
+
+                            <div class="space-y-4">
+                                <p class="text-sm text-gray-600">
+                                    We've sent a 6-digit verification code to 
+                                    <span class="font-medium text-gray-900" id="verificationEmail">your@email.com</span>
+                                </p>
+                                
+                                <div class="flex justify-center gap-2">
+                                    <input type="text" maxlength="1" class="otp-input" id="otp1" oninput="moveToNext(this, 2)" onkeydown="handleBackspace(this, event)">
+                                    <input type="text" maxlength="1" class="otp-input" id="otp2" oninput="moveToNext(this, 3)" onkeydown="handleBackspace(this, event)">
+                                    <input type="text" maxlength="1" class="otp-input" id="otp3" oninput="moveToNext(this, 4)" onkeydown="handleBackspace(this, event)">
+                                    <input type="text" maxlength="1" class="otp-input" id="otp4" oninput="moveToNext(this, 5)" onkeydown="handleBackspace(this, event)">
+                                    <input type="text" maxlength="1" class="otp-input" id="otp5" oninput="moveToNext(this, 6)" onkeydown="handleBackspace(this, event)">
+                                    <input type="text" maxlength="1" class="otp-input" id="otp6" oninput="moveToNext(this, 7)" onkeydown="handleBackspace(this, event)">
+                                </div>
+
+                                <div class="error-message text-xs text-red-600 hidden" id="otpError"></div>
+
+                                <div class="space-y-2">
+                                    <p class="text-xs text-gray-500 text-center">
+                                        Didn't receive the code? 
+                                        <button type="button" class="text-orange-600 hover:text-orange-500 font-medium">
+                                            Resend Code
+                                        </button>
+                                    </p>
+                                    <p class="text-xs text-gray-400 text-center">Code expires in 10 minutes</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-6">
+                            <button type="button" onclick="prevStep(4)" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors">
+                                <span class="material-icons-round text-lg">arrow_back</span>
+                                Back
+                            </button>
+                            <button type="button" onclick="verifyCode()" class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors">
+                                Verify & Continue
+                                <span class="material-icons-round text-lg">verified</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Review & Confirm -->
+                    <div id="step6" class="step-content hidden animate-fade-in">
+                        <div class="space-y-4">
+                            <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                                <span class="material-icons-round text-orange-500 text-xl">preview</span>
+                                Review & Confirm
+                            </h2>
+
+                            <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+                                <div class="grid grid-cols-1 gap-3 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Name:</span>
+                                        <span class="font-medium text-gray-900" id="reviewName">John Smith</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Email:</span>
+                                        <span class="font-medium text-gray-900" id="reviewEmail">john@example.com</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Phone:</span>
+                                        <span class="font-medium text-gray-900" id="reviewPhone">+1 (555) 000-0000</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Specialization:</span>
+                                        <span class="font-medium text-gray-900" id="reviewSpecialization">General Automotive Repair</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Experience:</span>
+                                        <span class="font-medium text-gray-900" id="reviewExperience">5-10 years</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Service Area:</span>
+                                        <span class="font-medium text-gray-900" id="reviewLocation">New York, NY</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 pt-2">
+                                <input type="checkbox" id="terms" class="custom-checkbox" required>
+                                <label for="terms" class="text-sm text-gray-700 cursor-pointer">
+                                    I agree to the <a href="#" class="text-orange-600 hover:text-orange-500 font-medium">Terms of Service</a> and <a href="#" class="text-orange-600 hover:text-orange-500 font-medium">Privacy Policy</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-6 gap-3">
+                            <button type="button" onclick="prevStep(5)" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+                                <span class="material-icons-round text-base">arrow_back</span>
+                                Back
+                            </button>
+                            <button type="submit" class="flex-1 bg-orange-500 text-white px-4 py-2.5 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors">
+                                Submit
+                                <span class="material-icons-round text-base">send</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Success Screen -->
+                    <div id="successScreen" class="step-content hidden animate-fade-in text-center">
+                        <div class="space-y-6">
+                            <div class="space-y-4">
+                                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                                    <span class="material-icons-round text-green-600 text-4xl">check_circle</span>
+                                </div>
+                                <h2 class="text-xl font-bold text-gray-900">Application Submitted!</h2>
+                            </div>
+                            
+                            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                                <p class="text-sm text-orange-800">
+                                    <strong>Your application has been submitted for verification.</strong><br>
+                                    Please wait 1–2 business days for admin approval. We'll notify you via email once your account is approved.
+                                </p>
+                            </div>
+
+                            <div class="space-y-3">
+                                <button type="button" onclick="window.location.href='../login.html'" class="w-full bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors">
+                                    <span class="material-icons-round text-lg">login</span>
+                                    Go to Login
+                                </button>
+                                <button type="button" onclick="window.location.href='choose_signup.html'" class="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+                                    <span class="material-icons-round text-lg">arrow_back</span>
+                                    Back to Sign Up Options
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Sign In Link -->
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    Already have an account?
+                    <a href="../login.html" class="font-medium text-orange-600 hover:text-orange-500 transition-colors ml-1">
+                        Login
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        function nextStep(step) {
+            // Validate current step before proceeding
+            if (!validateStep(currentStep)) {
+                return;
+            }
+
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            document.getElementById(`step${step}`).classList.remove('hidden');
+            currentStep = step;
+            updateProgress();
+            
+            // Update verification email when reaching step 5
+            if (step === 5) {
+                const email = document.querySelector('input[name="email"]').value;
+                document.getElementById('verificationEmail').textContent = email;
+            }
+            
+            // Update review section when reaching step 6
+            if (step === 6) {
+                updateReviewSection();
+            }
+        }
+
+        function prevStep(step) {
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            document.getElementById(`step${step}`).classList.remove('hidden');
+            currentStep = step;
+            updateProgress();
+        }
+
+        function validateStep(step) {
+            // Clear previous errors
+            clearErrors();
+            
+            const stepElement = document.getElementById(`step${step}`);
+            let isValid = true;
+            
+            if (step === 1) {
+                // Validate Basic Information
+                const firstName = stepElement.querySelector('input[name="firstName"]');
+                const lastName = stepElement.querySelector('input[name="lastName"]');
+                const email = stepElement.querySelector('input[name="email"]');
+                const phone = stepElement.querySelector('input[name="phone"]');
+                
+                if (!firstName.value.trim()) {
+                    showError('firstName', 'First name is required');
+                    isValid = false;
+                }
+                
+                if (!lastName.value.trim()) {
+                    showError('lastName', 'Last name is required');
+                    isValid = false;
+                }
+                
+                if (!email.value.trim()) {
+                    showError('emailError', 'Email is required');
+                    isValid = false;
+                } else if (!isValidEmail(email.value)) {
+                    showError('emailError', 'Please enter a valid email address');
+                    isValid = false;
+                }
+                
+                if (!phone.value.trim()) {
+                    showError('phoneError', 'Phone number is required');
+                    isValid = false;
+                } else if (!isValidPhone(phone.value)) {
+                    showError('phoneError', 'Please enter a valid 11-digit Philippines phone number (09xxxxxxxxx)');
+                    isValid = false;
+                }
+            }
+            
+            if (step === 2) {
+                // Validate passwords
+                const password = stepElement.querySelector('input[name="password"]');
+                const confirmPassword = stepElement.querySelector('input[name="confirmPassword"]');
+                
+                if (!password.value) {
+                    showError('passwordError', 'Password is required');
+                    isValid = false;
+                } else if (password.value.length !== 8) {
+                    showError('passwordError', 'Password must be exactly 8 digits');
+                    isValid = false;
+                } else if (!isValidPassword(password.value)) {
+                    showError('passwordError', 'Password must contain only 8 digits (0-9)');
+                    isValid = false;
+                }
+                
+                if (!confirmPassword.value) {
+                    showError('confirmPasswordError', 'Please confirm your password');
+                    isValid = false;
+                } else if (password.value !== confirmPassword.value) {
+                    showError('confirmPasswordError', 'Passwords do not match');
+                    isValid = false;
+                }
+            }
+            
+            if (step === 3) {
+                // Validate Professional Details
+                const specializations = stepElement.querySelectorAll('input[name="specialization"]:checked');
+                const experience = stepElement.querySelector('select[name="experience"]');
+                const location = stepElement.querySelector('input[name="location"]');
+                
+                if (specializations.length === 0) {
+                    showError('specializationError', 'Please select at least one specialization');
+                    isValid = false;
+                }
+                
+                if (!experience.value) {
+                    showError('experienceError', 'Please select your experience level');
+                    isValid = false;
+                }
+                
+                if (!location.value.trim()) {
+                    showError('locationError', 'Service area is required');
+                    isValid = false;
+                }
+            }
+            
+            return isValid;
+        }
+        
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(error => {
+                error.classList.add('hidden');
+                error.textContent = '';
+            });
+            
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.classList.remove('border-red-300');
+            });
+        }
+        
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.classList.remove('hidden');
+            }
+            
+            // Find the associated input and highlight it
+            const input = document.querySelector(`[name="${elementId.replace('Error', '')}"]`) || 
+                         document.getElementById(elementId.replace('Error', ''));
+            if (input) {
+                input.classList.add('border-red-300');
+                if (!input.closest('.error-shown')) {
+                    input.focus();
+                }
+            }
+        }
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        function isValidPhone(phone) {
+            const cleanPhone = phone.replace(/[\s\-\(\)\+]/g, '');
+            // Philippines phone numbers: 11 digits (09xxxxxxxxx or 639xxxxxxxxx without +)
+            return cleanPhone.length === 11 && /^[0-9]{11}$/.test(cleanPhone) && 
+                   (cleanPhone.startsWith('09') || cleanPhone.startsWith('639'));
+        }
+        
+        function isValidPassword(password) {
+            // Password must be exactly 8 digits (0-9)
+            return /^[0-9]{8}$/.test(password);
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('mobileProgress').style.width = `${progress}%`;
+            
+            // Update desktop steps
+            document.querySelectorAll('.step-item').forEach((item, index) => {
+                item.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    item.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function updateReviewSection() {
+            // Get all form values and populate review section
+            const firstName = document.querySelector('input[name="firstName"]').value;
+            const lastName = document.querySelector('input[name="lastName"]').value;
+            const middleName = document.querySelector('input[name="middleName"]').value;
+            const email = document.querySelector('input[name="email"]').value;
+            const phone = document.querySelector('input[name="phone"]').value;
+            const experience = document.querySelector('select[name="experience"]').value;
+            const location = document.querySelector('input[name="location"]').value;
+            
+            // Get selected specializations
+            const selectedSpecs = document.querySelectorAll('input[name="specialization"]:checked');
+            const specializations = Array.from(selectedSpecs).map(checkbox => {
+                return checkbox.parentElement.querySelector('span').textContent;
+            });
+
+            // Build full name
+            let fullName = firstName;
+            if (middleName) fullName += ' ' + middleName;
+            fullName += ' ' + lastName;
+
+            document.getElementById('reviewName').textContent = fullName || 'Not provided';
+            document.getElementById('reviewEmail').textContent = email || 'Not provided';
+            document.getElementById('reviewPhone').textContent = phone || 'Not provided';
+            document.getElementById('reviewSpecialization').textContent = 
+                specializations.length > 0 ? specializations.join(', ') : 'None selected';
+            document.getElementById('reviewExperience').textContent = 
+                document.querySelector(`select[name="experience"] option[value="${experience}"]`)?.textContent || 'Not selected';
+            document.getElementById('reviewLocation').textContent = location || 'Not provided';
+        }
+
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                // Check file size (10MB limit)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size must be less than 10MB');
+                    input.value = '';
+                    return;
+                }
+                
+                // Show uploaded file
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('uploadedFile').classList.remove('hidden');
+            }
+        }
+
+        // Password visibility toggle
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                const icon = this.querySelector('span');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.textContent = 'visibility_off';
+                } else {
+                    input.type = 'password';
+                    icon.textContent = 'visibility';
+                }
+            });
+        });
+
+        // Verification Code Functions (Demo Only)
+        function simulateSendVerificationCode() {
+            // Demo: No actual code sending
+            const email = document.querySelector('input[name="email"]').value;
+            document.getElementById('verificationEmail').textContent = email;
+        }
+        
+        function verifyCode() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            let enteredCode = '';
+            
+            otpInputs.forEach(input => {
+                enteredCode += input.value;
+            });
+            
+            if (enteredCode.length !== 6) {
+                showError('otpError', 'Please enter 6 digits to continue');
+                return;
+            }
+            
+            // Demo: Any 6 digits will work
+            clearErrors();
+            nextStep(6);
+        }
+        
+        function moveToNext(input, nextIndex) {
+            if (input.value.length === 1) {
+                // Only allow numbers
+                if (!/^\d$/.test(input.value)) {
+                    input.value = '';
+                    return;
+                }
+                
+                const nextInput = document.getElementById(`otp${nextIndex}`);
+                if (nextInput) {
+                    nextInput.focus();
+                }
+            }
+            
+            // Update filled state
+            if (input.value.length === 1) {
+                input.classList.add('filled');
+            } else {
+                input.classList.remove('filled');
+            }
+        }
+        
+        function handleBackspace(input, event) {
+            if (event.key === 'Backspace' && !input.value) {
+                const currentIndex = parseInt(input.id.replace('otp', ''));
+                if (currentIndex > 1) {
+                    const prevInput = document.getElementById(`otp${currentIndex - 1}`);
+                    if (prevInput) {
+                        prevInput.focus();
+                    }
+                }
+            }
+        }
+
+        // File upload drag and drop
+        const fileUploadArea = document.querySelector('.file-upload-area');
+        
+        fileUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+        
+        fileUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('fileInput').files = files;
+                handleFileUpload(document.getElementById('fileInput'));
+            }
+        });
+
+        // Form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate final step
+            if (!validateStep(currentStep)) {
+                return;
+            }
+            
+            // Check terms checkbox
+            if (!document.getElementById('terms').checked) {
+                alert('Please agree to the Terms of Service and Privacy Policy.');
+                return;
+            }
+            
+            // Show success screen
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+        });
+
+        // Initialize progress
+        updateProgress();
+    </script>
+</body>
+</html>
