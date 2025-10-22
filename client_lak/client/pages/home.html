@@ -102,7 +102,8 @@
         <!-- Quick Actions Cards -->
         <div class="mb-8">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Main Actions Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <!-- Custom Request -->
                 <a href="../../client/pages/request _form/random_custom_request.html" class="quick-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all">
                     <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
@@ -134,6 +135,21 @@
                     </div>
                     <span class="text-sm font-medium text-gray-900">Service</span>
                 </a>
+            </div>
+            
+            <!-- Emergency Action - Prominent Placement -->
+            <div class="max-w-xs mx-auto">
+                <button onclick="openEmergencyModal()" class="quick-card w-full bg-gradient-to-r from-red-50 to-red-100 rounded-xl shadow-sm border border-red-200 p-4 text-center hover:shadow-md hover:from-red-100 hover:to-red-200 transition-all group">
+                    <div class="flex items-center justify-center gap-3">
+                        <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                            <span class="material-icons-round text-white text-xl">emergency</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-sm font-semibold text-red-700 group-hover:text-red-800">1-Tap Emergency</div>
+                            <div class="text-xs text-red-600 group-hover:text-red-700">Get immediate help</div>
+                        </div>
+                    </div>
+                </button>
             </div>
         </div>
 
@@ -303,28 +319,87 @@
             </a>
         </div>
     </nav>
-<!--  
+
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="fixed inset-0 flex justify-center items-center bg-black/50 backdrop-blur-sm hidden z-50">
+        <div class="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-4">
+            <!-- Step 1: Confirmation -->
+            <div id="confirmationStep" class="text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons-round text-red-600 text-2xl">emergency</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Emergency Alert</h3>
+                <p class="text-gray-600 mb-6">Are you sure you want to send an emergency alert to nearby mechanics?</p>
+                <div class="flex gap-3">
+                    <button onclick="closeEmergencyModal()" class="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="sendEmergencyAlert()" class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors">
+                        Send Alert
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Loading -->
+            <div id="loadingStep" class="text-center hidden">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="animate-spin w-6 h-6 border-2 border-red-600 border-t-transparent rounded-full"></div>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Sending Alert...</h3>
+                <p class="text-gray-600">Notifying available mechanics...</p>
+            </div>
+
+            <!-- Step 3: Success -->
+            <div id="successStep" class="text-center hidden">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons-round text-green-600 text-2xl">check_circle</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Alert Sent!</h3>
+                <p class="text-gray-600 mb-6">Emergency alert sent! Nearby mechanics have been notified.</p>
+                <button onclick="closeEmergencyModal()" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simple interactions
-            const bookButtons = document.querySelectorAll('.mechanic-card button');
-            const viewDetailsButtons = document.querySelectorAll('.booking-card button');
-            
-            bookButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const mechanicName = this.closest('.mechanic-card').querySelector('h4').textContent;
-                    alert(`Booking mechanic: ${mechanicName}`);
-                });
-            });
-            
-            viewDetailsButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const serviceName = this.closest('.booking-card').querySelector('h4').textContent;
-                    alert(`Viewing details for: ${serviceName}`);
-                });
-            });
+        // Emergency Modal Functions
+        function openEmergencyModal() {
+            document.getElementById('emergencyModal').classList.remove('hidden');
+            resetEmergencyModal();
+        }
+
+        function closeEmergencyModal() {
+            document.getElementById('emergencyModal').classList.add('hidden');
+            resetEmergencyModal();
+        }
+
+        function resetEmergencyModal() {
+            // Show confirmation step, hide others
+            document.getElementById('confirmationStep').classList.remove('hidden');
+            document.getElementById('loadingStep').classList.add('hidden');
+            document.getElementById('successStep').classList.add('hidden');
+        }
+
+        function sendEmergencyAlert() {
+            // Hide confirmation, show loading
+            document.getElementById('confirmationStep').classList.add('hidden');
+            document.getElementById('loadingStep').classList.remove('hidden');
+
+            // After 2 seconds, show success
+            setTimeout(() => {
+                document.getElementById('loadingStep').classList.add('hidden');
+                document.getElementById('successStep').classList.remove('hidden');
+            }, 2000);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('emergencyModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEmergencyModal();
+            }
         });
     </script>
-    -->
 </body>
 </html>
