@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Earnings — MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b sticky top-0 z-20">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="goDashboard()" class="p-2"><span class="material-icons-round">arrow_back</span></button>
+      <h1 class="text-lg font-semibold">Earnings</h1>
+      <div></div>
+    </div>
+  </header>
+
+  <main class="max-w-xl mx-auto px-4 pt-4">
+    <section class="bg-white p-4 rounded-xl shadow-sm mb-4">
+      <div class="flex items-center gap-3">
+        <button id="filter-today" class="filter-btn bg-orange-50 text-orange-700 px-3 py-2 rounded-lg text-sm">Today</button>
+        <button id="filter-week" class="filter-btn bg-white text-gray-700 px-3 py-2 rounded-lg text-sm">This week</button>
+        <button id="filter-range" class="filter-btn bg-white text-gray-700 px-3 py-2 rounded-lg text-sm">Custom range</button>
+      </div>
+
+      <div id="custom-range-controls" class="mt-3 hidden">
+        <label class="text-xs text-gray-500">From</label>
+        <input id="range-from" type="date" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm">
+        <label class="text-xs text-gray-500 mt-2">To</label>
+        <input id="range-to" type="date" class="w-full mt-1 px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-sm">
+        <div class="mt-3 flex gap-2">
+          <button id="apply-range" class="flex-1 bg-orange-500 text-white py-2 rounded-lg">Apply</button>
+          <button id="cancel-range" class="flex-1 bg-white border border-gray-200 py-2 rounded-lg">Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white p-4 rounded-xl shadow-sm mb-4">
+      <div class="grid grid-cols-1 gap-3 mb-3">
+        <div>
+          <canvas id="earnings-line" height="120"></canvas>
+        </div>
+        <div>
+          <canvas id="earnings-bar" height="100"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white p-4 rounded-xl shadow-sm">
+      <div class="flex items-center justify-between mb-2">
+        <div>
+          <div class="text-xs text-gray-500">Total for selection</div>
+          <div id="total-display" class="text-2xl font-bold mt-1">₱0</div>
+        </div>
+        <div class="text-sm text-gray-500">Transactions: <span id="tx-count">0</span></div>
+      </div>
+      <div id="earnings-list" class="mt-3 space-y-2 text-sm text-gray-700">
+        <!-- populated by JS -->
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // load Chart.js dynamically via CDN
+    (function loadChart(){
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js';
+      s.onload = ()=>{ window.Chart && initCharts(); };
+      document.head.appendChild(s);
+    })();
+
+    let lineChart = null;
+    let barChart = null;
+
+    function initCharts(){
+      const lineCtx = document.getElementById('earnings-line').getContext('2d');
+      const barCtx = document.getElementById('earnings-bar').getContext('2d');
+      lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'Earnings', data: [], borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.08)', fill: true, tension: 0.2 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } }
+      });
+      barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: { labels: [], datasets: [{ label: 'Earnings', data: [], backgroundColor: '#60a5fa' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } }
+      });
+    }
+
+    function updateCharts(items){
+      if(!window.Chart || !lineChart || !barChart) return;
+      // aggregate by date
+      const agg = {};
+      items.forEach(i=>{ agg[i.date] = (agg[i.date]||0) + i.amount; });
+      const dates = Object.keys(agg).sort();
+      const values = dates.map(d=>agg[d]);
+      lineChart.data.labels = dates;
+      lineChart.data.datasets[0].data = values;
+      lineChart.update();
+      barChart.data.labels = dates;
+      barChart.data.datasets[0].data = values;
+      barChart.update();
+    }
+    // sample earnings transactions: date in YYYY-MM-DD and amount in integer pesos
+    const earnings = [
+      { id: 1, date: '2025-10-22', amount: 1500, note: 'Oil Change' },
+      { id: 2, date: '2025-10-22', amount: 1200, note: 'Battery' },
+      { id: 3, date: '2025-10-21', amount: 450, note: 'Flat Tire' },
+      { id: 4, date: '2025-10-20', amount: 800, note: 'Brake Repair' },
+      { id: 5, date: '2025-10-19', amount: 20000, note: 'Transmission' },
+      { id: 6, date: '2025-10-14', amount: 8000, note: 'Engine Work' },
+      { id: 7, date: '2025-09-30', amount: 3500, note: 'General Service' }
+    ];
+
+    function formatCurrency(n){
+      return '₱' + n.toLocaleString();
+    }
+
+    function filterByRange(from, to){
+      const f = new Date(from);
+      const t = new Date(to);
+      t.setHours(23,59,59,999);
+      return earnings.filter(e=>{
+        const d = new Date(e.date + 'T00:00:00');
+        return d >= f && d <= t;
+      });
+    }
+
+    function renderList(items){
+      const list = document.getElementById('earnings-list');
+      const totalEl = document.getElementById('total-display');
+      const txCount = document.getElementById('tx-count');
+      list.innerHTML = '';
+      let total = 0;
+      items.forEach(i=>{
+        total += i.amount;
+        const div = document.createElement('div');
+        div.className = 'flex items-center justify-between p-2 border-b';
+        div.innerHTML = `<div>${i.note}<div class="text-xs text-gray-400">${i.date}</div></div><div class="font-semibold">${formatCurrency(i.amount)}</div>`;
+        list.appendChild(div);
+      });
+      totalEl.textContent = formatCurrency(total);
+      txCount.textContent = items.length;
+      // update charts if available
+      try{ updateCharts(items); }catch(e){ /* ignore if charts not ready */ }
+    }
+
+    document.getElementById('filter-today').addEventListener('click', ()=>{
+      toggleRange(false);
+      const today = new Date().toISOString().slice(0,10);
+      const items = earnings.filter(e=>e.date === today);
+      renderList(items);
+    });
+    document.getElementById('filter-week').addEventListener('click', ()=>{
+      toggleRange(false);
+      const now = new Date();
+      const start = new Date(now);
+      start.setDate(now.getDate()-6); // last 7 days
+      const items = earnings.filter(e=>{
+        const d = new Date(e.date + 'T00:00:00');
+        return d >= start && d <= now;
+      });
+      renderList(items);
+    });
+    document.getElementById('filter-range').addEventListener('click', ()=> toggleRange(true));
+    document.getElementById('apply-range').addEventListener('click', ()=>{
+      const from = document.getElementById('range-from').value;
+      const to = document.getElementById('range-to').value;
+      if(!from || !to){ alert('Please pick both from and to dates'); return; }
+      const items = filterByRange(from,to);
+      renderList(items);
+    });
+    document.getElementById('cancel-range').addEventListener('click', ()=> toggleRange(false));
+
+    function toggleRange(show){
+      document.getElementById('custom-range-controls').classList.toggle('hidden', !show);
+      // visual active state
+      document.querySelectorAll('.filter-btn').forEach(b=> b.classList.remove('bg-orange-50', 'text-orange-700'));
+      if(show){
+        document.getElementById('filter-range').classList.add('bg-orange-50','text-orange-700');
+      } else {
+        document.querySelectorAll('#filter-today,#filter-week').forEach(b=> b.classList.add('bg-white','text-gray-700'));
+      }
+    }
+
+    // default: this week
+    document.getElementById('filter-week').click();
+
+    // navigation helpers used elsewhere in the prototype
+    function goDashboard(){ window.location.href = 'dashboard.html'; }
+  </script>
+</body>
+</html>

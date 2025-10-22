@@ -56,6 +56,30 @@
     </section>
 
     <!-- Recent bookings list -->
+    <!-- Emergency bookings (no payment) -->
+    <section class="mt-4">
+      <h2 class="text-sm font-semibold mb-3">Emergency bookings</h2>
+      <div id="emergency-list" class="space-y-3">
+        <!-- emergency items rendered by JS -->
+      </div>
+    </section>
+
+    <template id="emergency-tpl">
+      <article class="booking-card bg-white rounded-xl p-4 shadow-sm border-l-4 border-red-400 flex items-center justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="inline-block bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-xs font-semibold emergency-badge">EMERGENCY</span>
+            <div class="text-base font-semibold emergency-name"></div>
+          </div>
+          <div class="text-xs text-gray-500 emergency-info mt-1"></div>
+        </div>
+        <div class="text-right">
+          <div class="text-sm text-red-600 font-medium emergency-contact"></div>
+          <div class="text-xs text-gray-400 mt-1">No payment required</div>
+        </div>
+      </article>
+    </template>
+
     <section class="mt-4">
       <h2 class="text-sm font-semibold mb-3">Recent bookings</h2>
       <div id="bookings-list" class="space-y-3">
@@ -121,6 +145,34 @@
 
       const list = document.getElementById('bookings-list');
       const tpl = document.getElementById('booking-tpl');
+
+      // Emergency bookings (no payment) - sample data
+      const emergencyBookings = [
+        { id: 9001, name: 'Roadside Assistance', booker: 'Alex', address: '7 Baywalk Ave, Manila', contact: '+63 912 000 1111' },
+        { id: 9002, name: 'Tow Request', booker: 'Riza', address: 'Corner 5th & Main, QC', contact: '+63 923 000 2222' }
+      ];
+      const emergencyListEl = document.getElementById('emergency-list');
+      const emergencyTpl = document.getElementById('emergency-tpl');
+
+      function renderEmergencyBookings(){
+        if(!emergencyListEl) return;
+        emergencyListEl.innerHTML = '';
+        emergencyBookings.forEach(e => {
+          const node = emergencyTpl.content.cloneNode(true);
+          node.querySelector('.emergency-name').textContent = e.name + ' • ' + (e.booker || 'Client');
+          node.querySelector('.emergency-info').textContent = e.address || '';
+          node.querySelector('.emergency-contact').textContent = e.contact || '';
+          const badge = node.querySelector('.emergency-badge');
+          if(badge) badge.textContent = 'EMERGENCY';
+          // clicking navigates to job detail with emergency flag
+          const art = node.querySelector('.booking-card');
+          if(art){
+            art.style.cursor = 'pointer';
+            art.addEventListener('click', ()=> window.location.href = `job_detail.html?id=${e.id}&emergency=1`);
+          }
+          emergencyListEl.appendChild(node);
+        });
+      }
 
       function renderBookings(filter='all'){
         list.innerHTML = '';
@@ -273,8 +325,25 @@
       });
 
       // init
-      document.querySelector('.filter-btn[data-filter="all"]').classList.add('bg-gray-100');
-      renderBookings('all');
+      // If a URL parameter ?filter=completed or ?filter=pending is provided, apply it
+      function getUrlFilter(){
+        try{
+          const params = new URLSearchParams(window.location.search);
+          const f = params.get('filter');
+          if(f) return f;
+        }catch(e){ }
+        return 'all';
+      }
+      const initialFilter = getUrlFilter();
+      const initialBtn = document.querySelector('.filter-btn[data-filter="' + initialFilter + '"]');
+      if(initialBtn){
+        initialBtn.classList.add('bg-gray-100');
+        renderBookings(initialFilter);
+      } else {
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add('bg-gray-100');
+        renderBookings('all');
+      }
+      renderEmergencyBookings();
       // Accept modal logic
       let modalBooking = null;
       function openModal(b) {

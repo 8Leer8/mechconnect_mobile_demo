@@ -38,6 +38,14 @@
         <button class="text-xs text-gray-600">Manage</button>
       </div>
     </div>
+    <!-- Logout -->
+    <div class="mt-6"></div>
+    <div class="max-w-xl mx-auto px-4">
+      <button id="logoutBtn" class="w-full bg-red-50 hover:bg-red-100 text-red-600 px-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow">
+        <span class="material-icons-round">logout</span>
+        Logout
+      </button>
+    </div>
   </main>
 
   <!-- Bottom Navigation -->
@@ -67,6 +75,13 @@
   </nav>
 
   <script src="assets/js/helpers.js"></script>
-  <script>setActiveNav('settings');</script>
+  <script>
+    setActiveNav('settings');
+    document.getElementById('logoutBtn').addEventListener('click', function(){
+      // simulate logout: clear local storage/session and redirect to auth
+      try{ localStorage.clear(); sessionStorage.clear(); }catch(e){}
+      window.location.href = '../auth/login.html';
+    });
+  </script>
 </body>
 </html>

@@ -98,28 +98,6 @@
     document.getElementById('close-report-modal').addEventListener('click', function() {
       document.getElementById('report-modal').classList.add('hidden');
     });
-    // After photos upload logic
-    const afterPhotosInput = document.getElementById('after-photos');
-    const afterPhotoPreview = document.getElementById('after-photo-preview');
-    const paymentReceivedBtn = document.getElementById('payment-received-btn');
-    afterPhotosInput.addEventListener('change', function() {
-      afterPhotoPreview.innerHTML = '';
-      if (afterPhotosInput.files.length > 0) {
-        paymentReceivedBtn.disabled = false;
-        Array.from(afterPhotosInput.files).forEach(file => {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.className = 'w-16 h-16 object-cover rounded-lg border';
-            afterPhotoPreview.appendChild(img);
-          };
-          reader.readAsDataURL(file);
-        });
-      } else {
-        paymentReceivedBtn.disabled = true;
-      }
-    });
   </script>
 </body>
 </html>

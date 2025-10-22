@@ -9,6 +9,19 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
 <body class="bg-gray-50 min-h-screen font-sans pb-28">
+  <header class="bg-white border-b sticky top-0 z-20">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+      <button onclick="goBack()" class="p-2"><span class="material-icons-round">arrow_back</span></button>
+      <h1 class="text-lg font-semibold">Start Service</h1>
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex flex-col items-end bg-orange-50 text-orange-700 px-3 py-1 rounded-lg shadow-sm text-sm">
+          <span class="text-xs">Tokens</span>
+          <span class="font-bold">12 • ₱2,450</span>
+        </div>
+        <a href="notification.html" class="p-2"><span class="material-icons-round">notifications</span></a>
+      </div>
+    </div>
+  </header>
   <main class="max-w-md mx-auto px-4 pt-6">
     <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
       <div class="text-xl font-bold mb-1">Start Service?</div>
@@ -72,11 +85,15 @@
             </tr>
           </tfoot>
         </table>
-        <div class="text-xs text-gray-500">* Final invoice will be sent after service completion.</div>
+        <div class="mt-2 space-y-1">
+          <div class="flex justify-between text-sm"><div class="text-gray-600">Partial paid</div><div id="invoice-paid" class="font-semibold text-gray-700">₱0</div></div>
+          <div class="flex justify-between text-sm"><div class="text-gray-600">Remaining</div><div id="invoice-remaining" class="font-semibold text-orange-600">₱0</div></div>
+        </div>
+        <div class="text-xs text-gray-500 mt-2">* Final invoice will be sent after service completion.</div>
       </section>
 
       <!-- Quotation Request Button -->
-      <div class="mb-4 flex justify-end">
+      <div class="mb-4 flex justify-center">
         <button onclick="openQuotationModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
           <span class="material-icons-round">add_circle</span> Make Quotation / Add Repairs
         </button>
@@ -114,8 +131,48 @@
     const startBtn = document.getElementById('start-btn');
     startBtn.disabled = false;
     startBtn.addEventListener('click', () => {
+      // In this prototype, we navigate to the travel map. If there's a remaining balance,
+      // this would normally trigger the payment flow for the remaining amount.
+      // For now, just navigate to the travel map but log the remaining amount.
+      const remaining = window.__invoiceRemaining || 0;
+      console.log('Starting service. Remaining balance:', remaining);
       window.location.href = 'travel_map.html';
     });
+
+    // --- Partial payment demo values ---
+    // In a real app these values would come from server or page state. For the prototype
+    // we'll compute from the invoice shown above.
+    (function computeInvoiceSummary(){
+      // Read totals from the invoice table. We'll parse numeric values (strip symbols/comma)
+      const totalEl = document.querySelector('tfoot tr td.text-orange-600');
+      const totalText = totalEl ? totalEl.textContent.trim() : '₱0';
+      function parseAmount(text){
+        return Number(text.replace(/[^0-9.-]+/g, '')) || 0;
+      }
+      const total = parseAmount(totalText);
+
+      // Example: pretend customer already paid a partial amount (sample value)
+      const paidSample = 500; // ₱500 already paid (example)
+
+      const paid = paidSample;
+      const remaining = Math.max(0, total - paid);
+
+      const paidEl = document.getElementById('invoice-paid');
+      const remEl = document.getElementById('invoice-remaining');
+      if (paidEl) paidEl.textContent = `₱${paid}`;
+      if (remEl) remEl.textContent = `₱${remaining}`;
+
+      // Expose for other scripts (prototype)
+      window.__invoiceTotal = total;
+      window.__invoicePaid = paid;
+      window.__invoiceRemaining = remaining;
+    })();
+
+    // navigation helper used by header back button
+    function goBack(){
+      if(window.history.length > 1){ window.history.back(); }
+      else { window.location.href = 'bookings.html'; }
+    }
 
     // Chat logic (prototype)
     const chatInput = document.getElementById('chat-input');

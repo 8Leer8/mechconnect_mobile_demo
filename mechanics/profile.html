@@ -26,8 +26,8 @@
   </header>
   <main class="max-w-xl mx-auto px-4 pt-4 space-y-4">
     <!-- Profile Card -->
-    <section class="bg-white p-4 rounded-2xl shadow flex flex-col items-center">
-      <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-2">
+    <section class="bg-white p-4 rounded-2xl shadow relative flex flex-col items-center text-center">
+      <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mb-2 mx-auto">
         <span class="material-icons-round text-5xl text-gray-300">person</span>
       </div>
       <div class="text-center">
@@ -37,6 +37,10 @@
           Viventa Labs Motor Parts
         </div>
       </div>
+      <!-- edit button inside card (inert placeholder) -->
+      <button onclick="(e)=>{e.preventDefault(); e.stopPropagation();}" class="absolute top-3 right-3 bg-white border border-gray-100 rounded-full w-9 h-9 flex items-center justify-center text-gray-400 shadow-sm" title="Edit not available in prototype">
+        <span class="material-icons-round text-base">edit</span>
+      </button>
       <div class="flex justify-between w-full mt-2 mb-1">
         <div class="flex flex-col items-center flex-1">
           <span class="material-icons-round text-yellow-400">star</span>
@@ -61,13 +65,19 @@
       </div>
     </section>
 
-    <!-- Quick Actions -->
-    <section class="flex gap-4 justify-center mt-4">
-      <button onclick="window.location.href='dispute.html'" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow">
-        <span class="material-icons-round">gavel</span> Disputes
+    <!-- Quick Actions (compact) -->
+    <section class="flex gap-3 justify-center mt-4">
+      <button onclick="window.location.href='dispute.html'" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-sm text-sm">
+        <span class="material-icons-round">gavel</span>
+        <span class="hidden sm:inline">Disputes</span>
       </button>
-      <button onclick="window.location.href='ratings.html'" class="bg-yellow-50 hover:bg-yellow-100 text-yellow-700 px-4 py-2 rounded-xl font-semibold flex items-center gap-2 shadow">
-        <span class="material-icons-round">star_rate</span> Ratings
+      <button onclick="window.location.href='ratings.html'" class="bg-yellow-50 hover:bg-yellow-100 text-yellow-700 px-3 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-sm text-sm">
+        <span class="material-icons-round">star_rate</span>
+        <span class="hidden sm:inline">Ratings</span>
+      </button>
+      <button onclick="window.location.href='tokens.html'" class="bg-white hover:bg-gray-50 text-gray-800 px-3 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-sm text-sm">
+        <span class="material-icons-round">account_balance_wallet</span>
+        <span class="hidden sm:inline">Tokens</span>
       </button>
     </section>
 
@@ -250,23 +260,23 @@
   <!-- Bottom Navigation -->
   <!-- Bottom Nav -->
   <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 shadow-md">
-    <a href="dashboard.html" class="flex flex-col items-center text-orange-500">
+    <a href="dashboard.html" class="mc-nav-btn flex flex-col items-center text-gray-400" data-nav="dashboard">
       <span class="material-icons-round">dashboard</span>
       <span class="text-xs">Dashboard</span>
     </a>
-    <a href="bookings.html" class="flex flex-col items-center text-gray-400">
+    <a href="bookings.html" class="mc-nav-btn flex flex-col items-center text-gray-400" data-nav="bookings">
       <span class="material-icons-round">calendar_today</span>
       <span class="text-xs">Bookings</span>
     </a>
-    <a href="tokens.html" class="flex flex-col items-center text-gray-400">
+    <a href="tokens.html" class="mc-nav-btn flex flex-col items-center text-gray-400" data-nav="tokens">
       <span class="material-icons-round">account_balance_wallet</span>
       <span class="text-xs">Tokens</span>
     </a>
-    <a href="profile.html" class="flex flex-col items-center text-gray-400">
+    <a href="profile.html" class="mc-nav-btn flex flex-col items-center text-gray-400" data-nav="profile">
       <span class="material-icons-round">person</span>
       <span class="text-xs">Profile</span>
     </a>
-    <a href="settings.html" class="flex flex-col items-center text-gray-400">
+    <a href="settings.html" class="mc-nav-btn flex flex-col items-center text-gray-400" data-nav="settings">
       <span class="material-icons-round">settings</span>
       <span class="text-xs">Settings</span>
     </a>
