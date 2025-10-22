@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mechanics Management - MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            orange: {
+              500: '#f97316',
+              600: '#ea580c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .booking-card {
+      transition: all 0.3s ease;
+    }
+    .booking-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .overlay {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+    }
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .burger-menu {
+      transition: all 0.3s ease;
+    }
+    .burger-menu.active .line1 {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .burger-menu.active .line2 {
+      opacity: 0;
+    }
+    .burger-menu.active .line3 {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-20">
+    <div class="max-w-6xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between">
+        <!-- Left side with burger menu and title -->
+        <div class="flex items-center gap-4">
+          <!-- Burger Menu Button -->
+          <button id="burgerBtn" class="burger-menu p-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <div class="w-6 h-6 flex flex-col justify-center items-center">
+              <div class="line1 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+              <div class="line2 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+              <div class="line3 w-5 h-0.5 bg-current transition-all duration-300"></div>
+            </div>
+          </button>
+          <!-- MechConnect Title -->
+          <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+        </div>
+        <!-- Right Icons -->
+        <div class="flex items-center gap-4">
+          <!-- Notification Bell -->
+          <a href="../shopowner/notification.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <span class="material-icons-round">notifications</span>
+            <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </a>
+          <!-- Profile Picture -->
+          <a href="../shopowner/settings.html" class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium hover:bg-orange-600 transition-colors">
+            SO
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-40">
+    <div class="p-6">
+      <!-- Sidebar Header -->
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+          SO
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">Shop Owner</h3>
+          <p class="text-sm text-gray-600">Dashboard</p>
+        </div>
+      </div>
+      <!-- Navigation Menu -->
+      <nav class="space-y-2">
+        <a href="../shopowner/dashboard.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">dashboard</span>
+            Dashboard
+        </a>
+        
+        <a href="../shopowner/manage_mechanic.html" 
+           class="flex items-center gap-3 p-3 text-orange-600 bg-orange-50 rounded-lg font-medium">
+            <span class="material-icons-round">groups</span>
+            Mechanics
+        </a>
+        
+        <a href="../shopowner/manage_booking.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">calendar_today</span>
+            Manage Bookings
+        </a>
+        
+        <a href="../shopowner/revenue_analytics.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">attach_money</span>
+            Revenue
+        </a>
+        
+        <a href="../shopowner/notification.html"
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+           <span class="material-icons-round">notifications</span>
+           Notifications
+       </a>
+
+       <a href="../shopowner/manage_shop.html"
+          class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+          <span class="material-icons-round">store</span>
+          Manage Shop
+      </a>
+
+       <a href="../shopowner/settings.html"
+          class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+           <span class="material-icons-round">settings</span>
+           Settings
+       </a>
+        
+        <a href="../shopowner/help_support.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">help</span>
+            Help & Support
+        </a>
+      </nav>
+      <!-- Logout Button -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <a href="../auth/login.html" 
+           class="flex items-center gap-3 p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+            <span class="material-icons-round">logout</span>
+            Logout
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-3 py-4">
+    <!-- Page Header -->
+    <div class="mb-4">
+      <h2 class="text-2xl font-bold text-orange-500">Mechanics Management</h2>
+      <p class="text-sm text-gray-600 mt-1">Manage your shop's mechanics, add new team members, and track performance.</p>
+    </div>
+
+    <!-- KPI Cards - Horizontal Scroll -->
+    <div class="mb-6">
+      <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
+              <span class="material-icons-round text-blue-500 text-xl">groups</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900 mb-1">4</p>
+            <p class="text-sm text-gray-600">Total Mechanics</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3">
+              <span class="material-icons-round text-green-500 text-xl">check_circle</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900 mb-1">3</p>
+            <p class="text-sm text-gray-600">Active</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+              <span class="material-icons-round text-orange-500 text-xl">person_add</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900 mb-1">1</p>
+            <p class="text-sm text-gray-600">Invited</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-3">
+              <span class="material-icons-round text-yellow-500 text-xl">account_balance_wallet</span>
+            </div>
+            <p class="text-2xl font-bold text-orange-600 mb-1">₱8,400</p>
+            <p class="text-sm text-gray-600">Total Earnings</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
+              <span class="material-icons-round text-purple-500 text-xl">calendar_today</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900 mb-1">115</p>
+            <p class="text-sm text-gray-600">Total Bookings</p>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-3">
+              <span class="material-icons-round text-yellow-500 text-xl">star</span>
+            </div>
+            <p class="text-2xl font-bold text-yellow-500 mb-1">4.8</p>
+            <p class="text-sm text-gray-600">Avg Rating</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4">
+      <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+        <!-- Search Bar -->
+        <div class="relative flex-1">
+          <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">search</span>
+          <input type="text" placeholder="Search mechanics..." 
+                 class="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent" 
+                 id="searchInput">
+        </div>
+        
+        <!-- Filters and Invite Button Group -->
+        <div class="flex flex-col sm:flex-row gap-3 lg:items-center">
+          <!-- Filter Pills -->
+          <div class="flex gap-2">
+            <button class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium bg-orange-500 text-white hover:bg-orange-600 transition-all shadow-sm hover:shadow-md" data-filter="all">
+              All
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 transition-all" data-filter="active">
+              Active
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 transition-all" data-filter="invited">
+              Invited
+            </button>
+          </div>
+
+          <!-- Invite Button -->
+          <button class="invite-btn group flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm font-medium rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-sm hover:shadow-md" id="openInviteModal">
+            <span class="material-icons-round text-base group-hover:scale-110 transition-transform duration-300">person_add</span>
+            <span class="group-hover:translate-x-0.5 transition-transform duration-300">Invite Mechanic</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mechanic Cards Container (Scrollable) -->
+    <div class="space-y-4">
+      <!-- Mechanic Card 1 -->
+      <div class="booking-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 w-full" data-status="active" data-name="John Doe">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">JD</div>
+            <div>
+              <h3 class="font-semibold text-gray-900 text-sm">John Doe</h3>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">email</span>
+                <span>john.doe@example.com</span>
+              </div>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">phone</span>
+                <span>+1 (555) 123-4567</span>
+              </div>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">calendar_today</span>
+                <span>Joined: 1/15/2023</span>
+              </div>
+            </div>
+          </div>
+          <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Active</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-700 mt-3">
+          <div>
+            <div class="font-medium">Expertise</div>
+            <div>Engine Repair</div>
+          </div>
+          <div>
+            <div class="font-medium">Experience</div>
+            <div>5 years</div>
+          </div>
+        </div>
+        <div class="flex justify-between text-xs text-gray-700 mt-2">
+          <div>
+            <div class="font-medium">Earnings</div>
+            <div class="text-orange-600 font-bold">₱3,200</div>
+          </div>
+          <div>
+            <div class="font-medium">Bookings</div>
+            <div>45</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 text-yellow-500 text-xs mt-2">
+          <span class="material-icons-round text-xs">star</span>
+          <span>4.9 rating</span>
+        </div>
+        <button class="mt-2 flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-xs font-medium">
+          <span class="material-icons-round text-xs">delete</span>
+          Remove from Shop
+        </button>
+      </div>
+      <!-- Mechanic Card 2 -->
+      <div class="booking-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 w-full" data-status="active" data-name="Sarah Kim">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">SK</div>
+            <div>
+              <h3 class="font-semibold text-gray-900 text-sm">Sarah Kim</h3>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">email</span>
+                <span>sarah.kim@example.com</span>
+              </div>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">phone</span>
+                <span>+1 (555) 987-6543</span>
+              </div>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">calendar_today</span>
+                <span>Joined: 3/20/2023</span>
+              </div>
+            </div>
+          </div>
+          <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Active</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-700 mt-3">
+          <div>
+            <div class="font-medium">Expertise</div>
+            <div>Brake Systems</div>
+          </div>
+          <div>
+            <div class="font-medium">Experience</div>
+            <div>4 years</div>
+          </div>
+        </div>
+        <div class="flex justify-between text-xs text-gray-700 mt-2">
+          <div>
+            <div class="font-medium">Earnings</div>
+            <div class="text-orange-600 font-bold">₱2,800</div>
+          </div>
+          <div>
+            <div class="font-medium">Bookings</div>
+            <div>38</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 text-yellow-500 text-xs mt-2">
+          <span class="material-icons-round text-xs">star</span>
+          <span>4.8 rating</span>
+        </div>
+        <button class="mt-2 flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-xs font-medium">
+          <span class="material-icons-round text-xs">delete</span>
+          Remove from Shop
+        </button>
+      </div>
+      <!-- Mechanic Card 3 -->
+      <div class="booking-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 w-full" data-status="active" data-name="Mike Rodriguez">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">MR</div>
+            <div>
+              <h3 class="font-semibold text-gray-900 text-sm">Mike Rodriguez</h3>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">email</span>
+                <span>mike.rodriguez@example.com</span>
+              </div>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">phone</span>
+                <span>+1 (555) 456-7890</span>
+              </div>
+              <div class="flex items-center gap-1 text-gray-600 text-xs">
+                <span class="material-icons-round text-xs">calendar_today</span>
+                <span>Joined: 11/10/2022</span>
+              </div>
+            </div>
+          </div>
+          <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Active</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-700 mt-3">
+          <div>
+            <div class="font-medium">Expertise</div>
+            <div>Transmission</div>
+          </div>
+          <div>
+            <div class="font-medium">Experience</div>
+            <div>6 years</div>
+          </div>
+        </div>
+        <div class="flex justify-between text-xs text-gray-700 mt-2">
+          <div>
+            <div class="font-medium">Earnings</div>
+            <div class="text-orange-600 font-bold">₱2,400</div>
+          </div>
+          <div>
+            <div class="font-medium">Bookings</div>
+            <div>32</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 text-yellow-500 text-xs mt-2">
+          <span class="material-icons-round text-xs">star</span>
+          <span>4.7 rating</span>
+        </div>
+        <button class="mt-2 flex items-center justify-center gap-2 px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-xs font-medium">
+          <span class="material-icons-round text-xs">delete</span>
+          Remove from Shop
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Invite Mechanic Modal -->
+  <div id="inviteModal" class="fixed inset-0 z-50 hidden">
+    <!-- Modal Backdrop -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+    
+    <!-- Modal Content -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md transform transition-all">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-900">Invite Existing Mechanic</h3>
+                <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            
+            <!-- Search Section -->
+            <div class="p-4 border-b border-gray-100">
+                <div class="relative">
+                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+                    <input type="text" 
+                           id="mechanicSearch" 
+                           placeholder="Search mechanics by name or expertise..." 
+                           class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+            </div>
+            
+            <!-- Mechanics List -->
+            <div class="p-4 max-h-[400px] overflow-y-auto">
+                <div id="mechanicsList" class="space-y-4">
+                    <!-- Mechanic Item Template -->
+                    <div class="mechanic-item flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium">CR</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Carlos Rivera</h4>
+                                <p class="text-sm text-gray-600">Engine Diagnostics</p>
+                                <div class="flex items-center gap-2 text-sm text-gray-500">
+                                    <span>8 years experience</span>
+                                    <div class="flex items-center text-yellow-500">
+                                        <span class="material-icons-round text-sm">star</span>
+                                        <span>4.8</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="invite-btn px-3 py-1.5 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition-colors">
+                            Invite
+                        </button>
+                    </div>
+                    <!-- More mechanic items... -->
+                </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-gray-100">
+                <button id="modalClose" class="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sidebar toggle functionality
+      const burgerBtn = document.getElementById('burgerBtn');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      // Toggle sidebar
+      function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+        burgerBtn.classList.toggle('active');
+      }
+      // Close sidebar
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        burgerBtn.classList.remove('active');
+      }
+      // Event listeners
+      burgerBtn.addEventListener('click', toggleSidebar);
+      overlay.addEventListener('click', closeSidebar);
+      // Close sidebar when clicking on navigation links
+      const navLinks = sidebar.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', closeSidebar);
+      });
+
+      // Filter buttons
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const mechanicCards = document.querySelectorAll('.booking-card');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          filterBtns.forEach(b => b.classList.remove('active', 'bg-orange-500', 'text-white'));
+          this.classList.add('active', 'bg-orange-500', 'text-white');
+          const filter = this.getAttribute('data-filter');
+          mechanicCards.forEach(card => {
+            if (filter === 'all') {
+              card.style.display = '';
+            } else {
+              card.style.display = card.getAttribute('data-status') === filter ? '' : 'none';
+            }
+          });
+        });
+      });
+
+      // Search mechanics
+      document.getElementById('searchInput').addEventListener('input', function() {
+        const val = this.value.toLowerCase();
+        mechanicCards.forEach(card => {
+          const name = card.getAttribute('data-name').toLowerCase();
+          card.style.display = name.includes(val) ? '' : 'none';
+        });
+      });
+
+      // Remove mechanic (demo only)
+      document.querySelectorAll('.booking-card .mt-2').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (confirm('Are you sure you want to remove this mechanic from the shop?')) {
+            this.closest('.booking-card').style.display = 'none';
+          }
+        });
+      });
+
+      // Invite Mechanic Modal
+      const inviteBtn = document.getElementById('openInviteModal');
+      const inviteModal = document.getElementById('inviteModal');
+      const closeModalBtn = document.getElementById('closeModal');
+      const modalCloseBtn = document.getElementById('modalClose');
+      const mechanicSearch = document.getElementById('mechanicSearch');
+
+      // Sample mechanics data
+      const mechanics = [
+          {
+              initials: 'CR',
+              name: 'Carlos Rivera',
+              expertise: 'Engine Diagnostics',
+              experience: '8 years experience',
+              rating: 4.8
+          },
+          {
+              initials: 'EJ',
+              name: 'Emma Johnson',
+              expertise: 'Suspension Systems',
+              experience: '4 years experience',
+              rating: 4.7
+          },
+          {
+              initials: 'DC',
+              name: 'David Chen',
+              expertise: 'Hybrid Vehicle Repair',
+              experience: '6 years experience',
+              rating: 4.9
+          }
+      ];
+
+      // Show modal
+      document.querySelector('.invite-btn').addEventListener('click', () => {
+          inviteModal.classList.remove('hidden');
+          renderMechanics(mechanics);
+      });
+
+      // Hide modal
+      [closeModalBtn, modalCloseBtn, inviteModal.querySelector('.bg-black')].forEach(elem => {
+          elem.addEventListener('click', (e) => {
+              if (e.target === elem) {
+                  inviteModal.classList.add('hidden');
+              }
+          });
+      });
+
+      // Search functionality
+      mechanicSearch.addEventListener('input', (e) => {
+          const searchTerm = e.target.value.toLowerCase();
+          const filteredMechanics = mechanics.filter(mechanic => 
+              mechanic.name.toLowerCase().includes(searchTerm) ||
+              mechanic.expertise.toLowerCase().includes(searchTerm)
+          );
+          renderMechanics(filteredMechanics);
+      });
+
+      // Render mechanics list
+      function renderMechanics(mechanicsList) {
+          const mechanicsContainer = document.getElementById('mechanicsList');
+          mechanicsContainer.innerHTML = mechanicsList.map(mechanic => `
+              <div class="mechanic-item flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                  <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium">
+                          ${mechanic.initials}
+                      </div>
+                      <div>
+                          <h4 class="font-medium text-gray-900">${mechanic.name}</h4>
+                          <p class="text-sm text-gray-600">${mechanic.expertise}</p>
+                          <div class="flex items-center gap-2 text-sm text-gray-500">
+                              <span>${mechanic.experience}</span>
+                              <div class="flex items-center text-yellow-500">
+                                  <span class="material-icons-round text-sm">star</span>
+                                  <span>${mechanic.rating}</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <button onclick="inviteMechanic(this, '${mechanic.name}')" 
+                          class="invite-button w-8 h-8 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition-all duration-300 flex items-center justify-center">
+                      <span class="material-icons-round text-sm invite-text">person_add</span>
+                      <span class="material-icons-round text-sm check-icon hidden">check</span>
+                  </button>
+              </div>
+          `).join('');
+      }
+
+      // Invite mechanic function
+      window.inviteMechanic = function(button, mechanicName) {
+          // Change button appearance
+          button.className = 'invite-button w-8 h-8 bg-green-500 text-white text-sm font-medium rounded-lg flex items-center justify-center';
+          
+          // Switch icons
+          const inviteText = button.querySelector('.invite-text');
+          const checkIcon = button.querySelector('.check-icon');
+          
+          inviteText.classList.add('hidden');
+          checkIcon.classList.remove('hidden');
+          
+          // Disable button
+          button.disabled = true;
+      };
+    });
+  </script>
+</body>
+</html>

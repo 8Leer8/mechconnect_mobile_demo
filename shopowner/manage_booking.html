@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Requests - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .booking-card {
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .burger-menu {
+            transition: all 0.3s ease;
+        }
+        
+        .burger-menu.active .line1 {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .burger-menu.active .line2 {
+            opacity: 0;
+        }
+        
+        .burger-menu.active .line3 {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Hide scrollbar for horizontal scroll */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Custom scrollbar styling */
+        .space-y-3::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .space-y-3::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .space-y-3::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 3px;
+        }
+
+        .space-y-3::-webkit-scrollbar-thumb:hover {
+            background: #ccc;
+        }
+
+        @keyframes scale {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Left side with burger menu and title -->
+                <div class="flex items-center gap-4">
+                    <!-- Burger Menu Button -->
+                    <button id="burgerBtn" class="burger-menu p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-center items-center">
+                            <div class="line1 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line2 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line3 w-5 h-0.5 bg-current transition-all duration-300"></div>
+                        </div>
+                    </button>
+                    
+                    <!-- MechConnect Title -->
+                    <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+                </div>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Notification Bell -->
+                    <a href="../shopowner/notification.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </a>
+                    
+                    <!-- Profile Picture -->
+                    <a href="../shopowner/settings.html" class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium hover:bg-orange-600 transition-colors">
+                        SO
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-40">
+        <div class="p-6">
+            <!-- Sidebar Header -->
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                    SO
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-900">Shop Owner</h3>
+                    <p class="text-sm text-gray-600">Dashboard</p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="space-y-2">
+                <a href="../shopowner/dashboard.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">dashboard</span>
+                    Dashboard
+                </a>
+                
+                <a href="../shopowner/manage_mechanic.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">groups</span>
+                     Manage Mechanics
+                </a>
+                
+                <a href="../shopowner/manage_shop.html"
+                class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                <span class="material-icons-round">store</span>
+                Manage Shop
+            </a>
+
+                <a href="../shopowner/manage_booking.html" 
+                   class="flex items-center gap-3 p-3 text-orange-600 bg-orange-50 rounded-lg font-medium">
+                    <span class="material-icons-round">calendar_today</span>
+                    Manage Bookings
+                </a>
+                
+                <a href="../shopowner/revenue_analytics.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">attach_money</span>
+                    Revenue Analytics
+                </a>
+                
+        <a href="../shopowner/notification.html"
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+           <span class="material-icons-round">notifications</span>
+           Notifications
+       </a>
+
+    
+
+       <a href="../shopowner/settings.html"
+          class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+           <span class="material-icons-round">settings</span>
+           Settings
+       </a>
+                
+                <a href="../shopowner/revenue_analytics.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">help</span>
+                    Help & Support
+                </a>
+            </nav>
+
+            <!-- Logout Button -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <a href="../auth/login.html" 
+                   class="flex items-center gap-3 p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">logout</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-3 py-4">
+        <!-- Page Header -->
+        <div class="mb-4">
+            <h2 class="text-2xl font-bold text-orange-500">Booking Requests</h2>
+            <p class="text-sm text-gray-600 mt-1">Manage bookings and assign mechanics.</p>
+        </div>
+
+        <!-- KPI Cards - Horizontal Scroll -->
+        <div class="mb-6">
+            <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <!-- Total Bookings -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-blue-500 text-xl">calendar_today</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">9</p>
+                        <p class="text-sm text-gray-600">Total Bookings</p>
+                    </div>
+                </div>
+
+                <!-- Pending Requests -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-orange-500 text-xl">schedule</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">4</p>
+                        <p class="text-sm text-gray-600">Pending</p>
+                    </div>
+                </div>
+
+                <!-- Accepted Bookings -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-green-500 text-xl">check_circle</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">3</p>
+                        <p class="text-sm text-gray-600">Accepted</p>
+                    </div>
+                </div>
+
+                <!-- Completed Jobs -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-purple-500 text-xl">task_alt</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">1</p>
+                        <p class="text-sm text-gray-600">Completed</p>
+                    </div>
+                </div>
+
+                <!-- Rejected Bookings -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-red-500 text-xl">cancel</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">1</p>
+                        <p class="text-sm text-gray-600">Rejected</p>
+                    </div>
+                </div>
+
+                <!-- Declined Assignments -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-pink-500 text-xl">person_off</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">1</p>
+                        <p class="text-sm text-gray-600">Declined</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4">
+            <div class="space-y-3">
+                <!-- Search Bar -->
+                <div class="relative">
+                    <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">search</span>
+                    <input type="text" id="searchInput" placeholder="Search bookings..." 
+                           class="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                </div>
+                
+                <!-- Filter Dropdowns -->
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="statusFilter" class="px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    
+                    <select id="priorityFilter" class="px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        <option value="all">All Priority</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                
+                <!-- Clear Filters Button -->
+                <div class="flex justify-end">
+                    <button id="clearFilters" class="text-orange-500 text-sm font-medium hover:text-orange-600 transition-colors">
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookings List -->
+        <div class="mb-3">
+            <p class="text-sm text-gray-600">Showing 9 of 9 bookings</p>
+        </div>
+
+        <!-- Booking Cards -->
+        <div class="space-y-3">
+            <!-- Booking Card 1 -->
+            <div class="booking-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-status="pending" data-priority="high" data-client="Lisa Anderson">
+                <div class="flex items-start justify-between mb-3">
+                    <!-- Client Info -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            LA
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 text-sm">Lisa Anderson</h3>
+                            <div class="flex items-center gap-1 text-gray-600 text-xs">
+                                <span class="material-icons-round text-xs">phone</span>
+                                <span>+1 (555) 876-5432</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status & Priority -->
+                    <div class="flex flex-col gap-1">
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full text-center">Pending</span>
+                        <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full text-center">High</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2 mb-3">
+                    <!-- Service Details -->
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <span class="material-icons-round text-orange-500 text-xs">build</span>
+                        <span class="text-xs font-medium">Electrical Diagnosis</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <span class="material-icons-round text-gray-400 text-xs">directions_car</span>
+                        <span class="text-xs">2019 Volkswagen Jetta</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <span class="material-icons-round text-gray-400 text-xs">schedule</span>
+                        <span class="text-xs">2-3 hours</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <span class="material-icons-round text-gray-400 text-xs">calendar_today</span>
+                        <span class="text-xs">Oct 20, 11:00 AM</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-orange-600">
+                        <span class="material-icons-round text-orange-500 text-xs">attach_money</span>
+                        <span class="text-xs font-medium">₱120-₱200</span>
+                    </div>
+                </div>
+
+                <!-- Customer Notes -->
+                <div class="mb-3 p-2 bg-gray-50 rounded-lg">
+                    <div class="flex items-start gap-2">
+                        <span class="material-icons-round text-gray-400 text-xs mt-0.5">description</span>
+                        <div>
+                            <p class="text-xs text-gray-700 font-medium">Notes:</p>
+                            <p class="text-xs text-gray-600 italic">"Dashboard lights not working, possible electrical issue"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col gap-2">
+                    <button class="flex items-center justify-center gap-2 px-3 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm">
+                        <span class="material-icons-round text-sm">check</span>
+                        <span>Accept & Assign</span>
+                    </button>
+                    <div class="flex gap-2">
+                        <button class="view-details-btn flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-xs" data-booking="1">
+                            <span class="material-icons-round text-xs">visibility</span>
+                            <span>View</span>
+                        </button>
+                        <button class="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-xs">
+                            <span class="material-icons-round text-xs">close</span>
+                            <span>Reject</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Card 2 -->
+            <div class="booking-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-status="accepted" data-priority="medium" data-client="Mike Johnson">
+                <div class="flex flex-col lg:flex-row lg:items-start gap-4">
+                    <!-- Client Info -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                            MJ
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Mike Johnson</h3>
+                            <div class="flex items-center gap-1 text-gray-600 text-sm">
+                                <span class="material-icons-round text-sm">phone</span>
+                                <span>+1 (555) 123-4567</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status & Priority -->
+                    <div class="flex gap-2 ml-auto">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Accepted</span>
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">Medium</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Service Details -->
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-orange-500 text-sm">build</span>
+                            <span class="text-sm">Oil Change & Filter</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-gray-400 text-sm">directions_car</span>
+                            <span class="text-sm">2020 Toyota Camry</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-gray-400 text-sm">schedule</span>
+                            <span class="text-sm">Estimated time: 1 hour</span>
+                        </div>
+                    </div>
+
+                    <!-- Date & Price -->
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-gray-400 text-sm">calendar_today</span>
+                            <span class="text-sm">2024-10-21 2:00 PM</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-orange-600">
+                            <span class="material-icons-round text-orange-500 text-sm">attach_money</span>
+                            <span class="text-sm font-medium">₱50-₱80</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Notes -->
+                <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-start gap-2">
+                        <span class="material-icons-round text-gray-400 text-sm mt-0.5">description</span>
+                        <div>
+                            <p class="text-sm text-gray-700 font-medium">Customer Notes:</p>
+                            <p class="text-sm text-gray-600 italic">"Regular maintenance, prefer synthetic oil"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <button class="view-details-btn flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors" data-booking="2">
+                        <span class="material-icons-round text-sm">visibility</span>
+                        <span class="text-sm">View Details</span>
+                    </button>
+                    <button class="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        <span class="material-icons-round text-sm">assignment</span>
+                        <span class="text-sm">Assign Mechanic</span>
+                    </button>
+                    <button class="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        <span class="material-icons-round text-sm">message</span>
+                        <span class="text-sm">Contact Client</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Booking Card 3 -->
+            <div class="booking-card bg-white rounded-xl shadow-sm border border-gray-100 p-6" data-status="in-progress" data-priority="low" data-client="Sarah Wilson">
+                <div class="flex flex-col lg:flex-row lg:items-start gap-4">
+                    <!-- Client Info -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+                            SW
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Sarah Wilson</h3>
+                            <div class="flex items-center gap-1 text-gray-600 text-sm">
+                                <span class="material-icons-round text-sm">phone</span>
+                                <span>+1 (555) 987-6543</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status & Priority -->
+                    <div class="flex gap-2 ml-auto">
+                        <span class="px-3 py-1 bg-orange-100 text-orange-800 text-xs font-medium rounded-full">In Progress</span>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Low</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Service Details -->
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-orange-500 text-sm">build</span>
+                            <span class="text-sm">Brake Pad Replacement</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-gray-400 text-sm">directions_car</span>
+                            <span class="text-sm">2018 Honda Civic</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-gray-400 text-sm">schedule</span>
+                            <span class="text-sm">Estimated time: 3-4 hours</span>
+                        </div>
+                    </div>
+
+                    <!-- Date & Price -->
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-icons-round text-gray-400 text-sm">calendar_today</span>
+                            <span class="text-sm">2024-10-19 9:00 AM</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-orange-600">
+                            <span class="material-icons-round text-orange-500 text-sm">attach_money</span>
+                            <span class="text-sm font-medium">₱200-₱350</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Notes -->
+                <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-start gap-2">
+                        <span class="material-icons-round text-gray-400 text-sm mt-0.5">description</span>
+                        <div>
+                            <p class="text-sm text-gray-700 font-medium">Customer Notes:</p>
+                            <p class="text-sm text-gray-600 italic">"Squeaking noise when braking, need inspection"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <button class="view-details-btn flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors" data-booking="3">
+                        <span class="material-icons-round text-sm">visibility</span>
+                        <span class="text-sm">View Details</span>
+                    </button>
+                    <button class="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        <span class="material-icons-round text-sm">update</span>
+                        <span class="text-sm">Update Status</span>
+                    </button>
+                    <button class="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        <span class="material-icons-round text-sm">check_circle</span>
+                        <span class="text-sm">Mark Complete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assign Mechanics Modal -->
+        <div id="assignModal" class="fixed inset-0 z-50 hidden">
+            <!-- Modal Backdrop -->
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+            
+            <!-- Modal Content -->
+            <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-xl shadow-xl w-full max-w-lg transform transition-all">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Assign Mechanics to Booking</h3>
+                            <p class="text-sm text-gray-600 mt-1">Select one or more mechanics to assign to Lisa Anderson's Electrical Diagnosis appointment. Mechanics will receive notifications and can accept or decline the assignment.</p>
+                        </div>
+                        <button id="closeAssignModal" class="text-gray-400 hover:text-gray-600">
+                            <span class="material-icons-round">close</span>
+                        </button>
+                    </div>
+
+                    <!-- Booking Details -->
+                    <div class="p-4 bg-gray-50 border-b border-gray-100">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-600">Service</p>
+                                <p class="text-sm font-medium">Electrical Diagnosis</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Vehicle</p>
+                                <p class="text-sm font-medium">2019 Volkswagen Jetta</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Schedule</p>
+                                <p class="text-sm font-medium">2024-10-20 11:00 AM</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Estimated Cost</p>
+                                <p class="text-sm font-medium text-orange-600">₱120-₱200</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Available Mechanics List -->
+                    <div class="p-4">
+                        <h4 class="text-sm font-medium text-gray-900 mb-3">Available Mechanics (5)</h4>
+                        <!-- Added max-height and overflow-y-auto for vertical scrolling -->
+                        <div class="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+                            <!-- Mechanic 1 -->
+                            <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center h-5">
+                                        <input type="checkbox" class="mechanic-checkbox w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500">
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
+                                            JD
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-900">John Doe</p>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xs text-gray-600">Engine Specialist</span>
+                                                <div class="flex items-center text-yellow-500">
+                                                    <span class="material-icons-round text-xs">star</span>
+                                                    <span class="text-xs">4.9</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-600">
+                                    <span class="inline-flex items-center px-2 py-1 bg-yellow-50 text-yellow-800 rounded-full">
+                                        Medium workload
+                                    </span>
+                                    <p class="mt-1 text-center">3 current jobs</p>
+                                </div>
+                            </div>
+
+                            <!-- Mechanic 2 -->
+                            <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center h-5">
+                                        <input type="checkbox" class="mechanic-checkbox w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500">
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
+                                            SK
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-900">Sarah Kim</p>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xs text-gray-600">Brake Systems</span>
+                                                <div class="flex items-center text-yellow-500">
+                                                    <span class="material-icons-round text-xs">star</span>
+                                                    <span class="text-xs">4.8</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-600">
+                                    <span class="inline-flex items-center px-2 py-1 bg-green-50 text-green-800 rounded-full">
+                                        Low workload
+                                    </span>
+                                    <p class="mt-1 text-center">2 current jobs</p>
+                                </div>
+                            </div>
+
+                            <!-- Mechanic 3 -->
+                            <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center h-5">
+                                        <input type="checkbox" class="mechanic-checkbox w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500">
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
+                                            MR
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-900">Mike Rodriguez</p>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xs text-gray-600">Electrical Systems</span>
+                                                <div class="flex items-center text-yellow-500">
+                                                    <span class="material-icons-round text-xs">star</span>
+                                                    <span class="text-xs">4.7</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-600">
+                                    <span class="inline-flex items-center px-2 py-1 bg-green-50 text-green-800 rounded-full">
+                                        Low workload
+                                    </span>
+                                    <p class="mt-1 text-center">1 current job</p>
+                                </div>
+                            </div>
+
+                            <!-- Mechanic 4 -->
+                            <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center h-5">
+                                        <input type="checkbox" class="mechanic-checkbox w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500">
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
+                                            AL
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-900">Alex Lee</p>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xs text-gray-600">Transmission Expert</span>
+                                                <div class="flex items-center text-yellow-500">
+                                                    <span class="material-icons-round text-xs">star</span>
+                                                    <span class="text-xs">4.9</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-600">
+                                    <span class="inline-flex items-center px-2 py-1 bg-yellow-50 text-yellow-800 rounded-full">
+                                        Medium workload
+                                    </span>
+                                    <p class="mt-1 text-center">4 current jobs</p>
+                                </div>
+                            </div>
+
+                            <!-- Mechanic 5 -->
+                            <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center h-5">
+                                        <input type="checkbox" class="mechanic-checkbox w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500">
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-medium text-sm">
+                                            RT
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-900">Rachel Thompson</p>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xs text-gray-600">Diagnostic Specialist</span>
+                                                <div class="flex items-center text-yellow-500">
+                                                    <span class="material-icons-round text-xs">star</span>
+                                                    <span class="text-xs">4.8</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-600">
+                                    <span class="inline-flex items-center px-2 py-1 bg-green-50 text-green-800 rounded-full">
+                                        Low workload
+                                    </span>
+                                    <p class="mt-1 text-center">2 current jobs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="p-4 border-t border-gray-100 flex justify-end gap-3">
+                        <button id="cancelAssign" class="px-4 py-2 text-sm text-gray-700 hover:text-gray-900">
+                            Cancel
+                        </button>
+                        <button id="assignMechanics" class="px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition-colors flex items-center gap-2">
+                            <span class="material-icons-round text-sm">group_add</span>
+                            Assign 2 Mechanics
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reject Booking Modal -->
+        <div id="rejectModal" class="fixed inset-0 z-50 hidden">
+            <!-- Modal Backdrop -->
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+            
+            <!-- Modal Content -->
+            <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-xl shadow-xl w-full max-w-lg transform transition-all">
+                    <!-- Modal Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                        <div class="flex items-center gap-2 text-red-600">
+                            <span class="material-icons-round">error</span>
+                            <h3 class="text-lg font-semibold">Reject Booking Request</h3>
+                        </div>
+                        <button id="closeRejectModal" class="text-gray-400 hover:text-gray-600">
+                            <span class="material-icons-round">close</span>
+                        </button>
+                    </div>
+
+                    <!-- Booking Info -->
+                    <div class="p-4 bg-gray-50">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600">
+                                <span class="material-icons-round">person</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">Lisa Anderson</h4>
+                                <p class="text-sm text-gray-600">Electrical Diagnosis</p>
+                            </div>
+                            <span class="ml-auto px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">High Priority</span>
+                        </div>
+                        <div class="mt-3 grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                                <p class="text-gray-600">Schedule</p>
+                                <p>2024-10-20 11:00 AM</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Estimated Cost</p>
+                                <p class="text-orange-600">₱120-₱200</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rejection Form -->
+                    <div class="p-4">
+                        <p class="text-sm text-gray-600 mb-4">Please provide a reason for rejecting this booking. The customer will be notified with your explanation.</p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <input type="radio" id="scheduleConflict" name="rejectReason" value="Schedule Conflict" class="text-red-500">
+                                <label for="scheduleConflict" class="text-sm">Schedule Conflict</label>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <input type="radio" id="capacity" name="rejectReason" value="Shop at Capacity" class="text-red-500">
+                                <label for="capacity" class="text-sm">Shop at Capacity</label>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <input type="radio" id="equipment" name="rejectReason" value="Equipment/Parts Unavailable" class="text-red-500">
+                                <label for="equipment" class="text-sm">Equipment/Parts Unavailable</label>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <input type="radio" id="service" name="rejectReason" value="Service Not Offered" class="text-red-500">
+                                <label for="service" class="text-sm">Service Not Offered</label>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <input type="radio" id="hours" name="rejectReason" value="Outside Operating Hours" class="text-red-500">
+                                <label for="hours" class="text-sm">Outside Operating Hours</label>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <input type="radio" id="other" name="rejectReason" value="Other" class="text-red-500">
+                                <label for="other" class="text-sm">Other Reason</label>
+                            </div>
+                            
+                            <textarea id="customReason" placeholder="Be specific to help the customer understand" 
+                                    class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
+                                    rows="3"></textarea>
+                            <div class="text-right text-xs text-gray-500">
+                                <span id="charCount">0</span>/500
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="p-4 border-t border-gray-100 flex justify-end gap-3">
+                        <button id="cancelReject" class="px-4 py-2 text-sm text-gray-700 hover:text-gray-900">
+                            Cancel
+                        </button>
+                        <button id="confirmReject" class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 transition-colors">
+                            Reject Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Details Modal -->
+    <div id="bookingDetailsModal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Booking Details</h3>
+                    <button id="closeBookingModal" class="text-gray-400 hover:text-gray-600">
+                        <span class="material-icons-round">close</span>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="p-6 space-y-6">
+                    <!-- Client Information -->
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-900 mb-4">Client Information</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center gap-3">
+                                <div id="clientAvatar" class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                                    LA
+                                </div>
+                                <div>
+                                    <h5 id="clientName" class="font-semibold text-gray-900">Lisa Anderson</h5>
+                                    <p id="clientPhone" class="text-sm text-gray-600">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="material-icons-round text-gray-400 text-base">email</span>
+                                    <span id="clientEmail">lisa.anderson@email.com</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="material-icons-round text-gray-400 text-base">location_on</span>
+                                    <span id="clientAddress">123 Main St, City, State</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Information -->
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-900 mb-4">Vehicle Information</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="material-icons-round text-gray-400 text-base">directions_car</span>
+                                    <span id="vehicleMake">2020 Honda Civic</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="material-icons-round text-gray-400 text-base">confirmation_number</span>
+                                    <span id="vehicleVin">VIN: 1HGBH41JXMN109186</span>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="material-icons-round text-gray-400 text-base">speed</span>
+                                    <span id="vehicleMileage">45,000 miles</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <span class="material-icons-round text-gray-400 text-base">calendar_today</span>
+                                    <span id="vehicleYear">2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Details -->
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-900 mb-4">Service Details</h4>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="material-icons-round text-orange-500 text-base">build</span>
+                                    <span class="font-medium text-gray-900" id="serviceType">Oil Change & Filter</span>
+                                </div>
+                                <p class="text-sm text-gray-600" id="serviceDescription">Regular oil change with synthetic oil and filter replacement</p>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Scheduled Date</label>
+                                    <p id="scheduledDate" class="text-sm text-gray-900">October 25, 2024</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Scheduled Time</label>
+                                    <p id="scheduledTime" class="text-sm text-gray-900">2:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Status -->
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-900 mb-4">Booking Status</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-sm font-medium text-gray-700 mb-1">Status</div>
+                                <span id="bookingStatus" class="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full">Pending</span>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-sm font-medium text-gray-700 mb-1">Priority</div>
+                                <span id="bookingPriority" class="px-3 py-1 bg-red-100 text-red-800 text-sm font-medium rounded-full">High</span>
+                            </div>
+                            <div class="text-center p-3 bg-gray-50 rounded-lg">
+                                <div class="text-sm font-medium text-gray-700 mb-1">Booking ID</div>
+                                <span id="bookingId" class="text-sm font-mono text-gray-900">#BK-2024-001</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div>
+                        <h4 class="text-lg font-medium text-gray-900 mb-4">Notes</h4>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p id="bookingNotes" class="text-sm text-gray-600 italic">"Regular maintenance, prefer synthetic oil"</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="flex gap-3 p-6 border-t border-gray-200">
+                    <button id="closeBookingModalBtn" class="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Close
+                    </button>
+                    <button class="flex-1 bg-orange-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                        Edit Booking
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality
+            const burgerBtn = document.getElementById('burgerBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            // Toggle sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+                burgerBtn.classList.toggle('active');
+            }
+            
+            // Close sidebar
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                burgerBtn.classList.remove('active');
+            }
+            
+            // Event listeners
+            burgerBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', closeSidebar);
+            
+            // Close sidebar when clicking on navigation links
+            const navLinks = sidebar.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            // Booking card interactions
+            document.querySelectorAll('.booking-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on buttons
+                    if (e.target.closest('button')) return;
+                    console.log('Booking card clicked');
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const priorityFilter = document.getElementById('priorityFilter');
+            const bookingCards = document.querySelectorAll('.booking-card');
+            
+            function filterBookings() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedStatus = statusFilter.value;
+                const selectedPriority = priorityFilter.value;
+                
+                let visibleCount = 0;
+                
+                bookingCards.forEach(card => {
+                    const clientName = card.getAttribute('data-client').toLowerCase();
+                    const cardStatus = card.getAttribute('data-status');
+                    const cardPriority = card.getAttribute('data-priority');
+                    
+                    // Check search term
+                    const matchesSearch = searchTerm === '' || clientName.includes(searchTerm);
+                    
+                    // Check status filter
+                    const matchesStatus = selectedStatus === 'all' || cardStatus === selectedStatus;
+                    
+                    // Check priority filter
+                    const matchesPriority = selectedPriority === 'all' || cardPriority === selectedPriority;
+                    
+                    // Show/hide card based on all filters
+                    if (matchesSearch && matchesStatus && matchesPriority) {
+                        card.style.display = '';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Update the count display
+                const totalCount = bookingCards.length;
+                const countElement = document.querySelector('.text-sm.text-gray-600');
+                if (countElement) {
+                    countElement.textContent = `Showing ${visibleCount} of ${totalCount} bookings`;
+                }
+            }
+            
+            // Add event listeners
+            searchInput.addEventListener('input', filterBookings);
+            statusFilter.addEventListener('change', filterBookings);
+            priorityFilter.addEventListener('change', filterBookings);
+            
+            // Clear filters functionality
+            const clearFiltersBtn = document.getElementById('clearFilters');
+            clearFiltersBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                statusFilter.value = 'all';
+                priorityFilter.value = 'all';
+                filterBookings();
+            });
+            
+            // Initial filter
+            filterBookings();
+
+            // Modal functionality for Assign Mechanics
+            const assignModal = document.getElementById('assignModal');
+            const closeAssignModal = document.getElementById('closeAssignModal');
+            const cancelAssign = document.getElementById('cancelAssign');
+            const assignMechanics = document.getElementById('assignMechanics');
+            const mechanicCheckboxes = document.querySelectorAll('.mechanic-checkbox');
+
+            // Show modal when clicking "Accept & Assign" button
+            document.querySelectorAll('button').forEach(button => {
+                if (button.textContent.includes('Accept & Assign')) {
+                    button.addEventListener('click', () => {
+                        assignModal.classList.remove('hidden');
+                    });
+                }
+            });
+
+            // Hide modal
+            [closeAssignModal, cancelAssign].forEach(elem => {
+                elem.addEventListener('click', () => {
+                    assignModal.classList.add('hidden');
+                });
+            });
+
+            // Update assign button text based on selection
+            function updateAssignButtonText() {
+                const selectedCount = Array.from(mechanicCheckboxes)
+                    .filter(checkbox => checkbox.checked).length;
+                assignMechanics.innerHTML = `
+                    <span class="material-icons-round text-sm">group_add</span>
+                    Assign ${selectedCount} Mechanic${selectedCount !== 1 ? 's' : ''}
+                `;
+                assignMechanics.disabled = selectedCount === 0;
+                if (selectedCount === 0) {
+                    assignMechanics.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    assignMechanics.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+
+            // Handle checkbox changes
+            mechanicCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateAssignButtonText);
+            });
+
+            // Handle assignment submission
+            assignMechanics.addEventListener('click', () => {
+                const selectedCount = Array.from(mechanicCheckboxes)
+                    .filter(checkbox => checkbox.checked).length;
+                
+                if (selectedCount > 0) {
+                    // Create confirmation dialog
+                    const confirmDialog = document.createElement('div');
+                    confirmDialog.className = 'fixed inset-0 z-50 flex items-center justify-center';
+                    confirmDialog.innerHTML = `
+                        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4 relative z-10">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Confirm Assignment</h3>
+                            <p class="text-sm text-gray-600 mb-4">Are you sure you want to assign ${selectedCount} mechanic${selectedCount !== 1 ? 's' : ''} to this booking?</p>
+                            <div class="flex justify-end gap-3">
+                                <button class="cancel-confirm px-4 py-2 text-sm text-gray-700 hover:text-gray-900">
+                                    Cancel
+                                </button>
+                                <button class="confirm-assign px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition-colors">
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.body.appendChild(confirmDialog);
+
+                    // Handle confirmation dialog buttons
+                    const cancelBtn = confirmDialog.querySelector('.cancel-confirm');
+                    const confirmBtn = confirmDialog.querySelector('.confirm-assign');
+
+                    cancelBtn.addEventListener('click', () => {
+                        document.body.removeChild(confirmDialog);
+                    });
+
+                    confirmBtn.addEventListener('click', () => {
+                        // Remove confirmation dialog
+                        document.body.removeChild(confirmDialog);
+
+                        // Show approved checkmark overlay
+                        const approvedOverlay = document.createElement('div');
+                        approvedOverlay.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50';
+                        approvedOverlay.innerHTML = `
+                            <div class="bg-white rounded-full p-8 flex items-center justify-center">
+                                <span class="material-icons-round text-green-500 text-6xl animate-[scale_0.3s_ease-in-out]">check_circle</span>
+                            </div>
+                        `;
+                        document.body.appendChild(approvedOverlay);
+
+                        // Process the assignment and close both overlay and modal
+                        setTimeout(() => {
+                            document.body.removeChild(approvedOverlay);
+                            assignModal.classList.add('hidden'); // Close the assign modal
+
+                            // Process the assignment
+                            const selectedMechanics = Array.from(mechanicCheckboxes)
+                                .filter(checkbox => checkbox.checked)
+                                .map(checkbox => {
+                                    const mechanicName = checkbox.closest('.flex').querySelector('.text-gray-900').textContent;
+                                    return mechanicName;
+                                });
+
+                            // Optional: Update UI or show success notification
+                            console.log(`Assigned to: ${selectedMechanics.join(', ')}`);
+                        }, 1000);
+                    });
+                }
+            });
+
+            // Modal functionality for Reject Booking
+            const rejectModal = document.getElementById('rejectModal');
+            const closeRejectModal = document.getElementById('closeRejectModal');
+            const cancelReject = document.getElementById('cancelReject');
+            const confirmReject = document.getElementById('confirmReject');
+            const customReason = document.getElementById('customReason');
+            const charCount = document.getElementById('charCount');
+
+            // Show modal when clicking reject button
+            document.querySelectorAll('button').forEach(button => {
+                if (button.textContent.includes('Reject')) {
+                    button.addEventListener('click', () => {
+                        rejectModal.classList.remove('hidden');
+                    });
+                }
+            });
+
+            // Hide modal
+            [closeRejectModal, cancelReject].forEach(elem => {
+                elem.addEventListener('click', () => {
+                    rejectModal.classList.add('hidden');
+                    resetRejectForm();
+                });
+            });
+
+            // Character count for custom reason
+            customReason.addEventListener('input', () => {
+                const length = customReason.value.length;
+                charCount.textContent = length;
+                if (length > 500) {
+                    customReason.value = customReason.value.substring(0, 500);
+                    charCount.textContent = 500;
+                }
+            });
+
+            // Handle radio button changes
+            document.querySelectorAll('input[name="rejectReason"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    customReason.disabled = radio.value !== 'Other';
+                    if (radio.value !== 'Other') {
+                        customReason.value = '';
+                        charCount.textContent = '0';
+                    }
+                });
+            });
+
+            // Handle rejection submission
+            confirmReject.addEventListener('click', () => {
+                const selectedReason = document.querySelector('input[name="rejectReason"]:checked');
+                
+                if (!selectedReason) {
+                    alert('Please select a reason for rejection');
+                    return;
+                }
+
+                if (selectedReason.value === 'Other' && !customReason.value.trim()) {
+                    alert('Please provide a custom reason');
+                    return;
+                }
+
+                // Create confirmation dialog
+                const confirmDialog = document.createElement('div');
+                confirmDialog.className = 'fixed inset-0 z-[60] flex items-center justify-center';
+                confirmDialog.innerHTML = `
+                    <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                    <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4 relative z-10">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Confirm Rejection</h3>
+                        <p class="text-sm text-gray-600 mb-4">Are you sure you want to reject this booking? This action cannot be undone.</p>
+                        <div class="flex justify-end gap-3">
+                            <button class="cancel-confirm px-4 py-2 text-sm text-gray-700 hover:text-gray-900">
+                                Cancel
+                            </button>
+                            <button class="confirm-reject px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 transition-colors">
+                                Confirm Rejection
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(confirmDialog);
+
+                // Handle confirmation dialog buttons
+                const cancelConfirmBtn = confirmDialog.querySelector('.cancel-confirm');
+                const confirmRejectBtn = confirmDialog.querySelector('.confirm-reject');
+
+                cancelConfirmBtn.addEventListener('click', () => {
+                    document.body.removeChild(confirmDialog);
+                });
+
+                confirmRejectBtn.addEventListener('click', () => {
+                    // Remove confirmation dialog
+                    document.body.removeChild(confirmDialog);
+
+                    // Show rejection confirmed overlay
+                    const rejectedOverlay = document.createElement('div');
+                    rejectedOverlay.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50';
+                    rejectedOverlay.innerHTML = `
+                        <div class="bg-white rounded-full p-8 flex items-center justify-center">
+                            <span class="material-icons-round text-red-500 text-6xl animate-[scale_0.3s_ease-in-out]">cancel</span>
+                        </div>
+                    `;
+                    document.body.appendChild(rejectedOverlay);
+
+                    // Process rejection
+                    setTimeout(() => {
+                        document.body.removeChild(rejectedOverlay);
+                        rejectModal.classList.add('hidden');
+                        resetRejectForm();
+                        
+                        // Optional: Update UI to show booking was rejected
+                        // Add your code here
+                    }, 1000);
+                });
+            });
+
+            // Reset reject form
+            function resetRejectForm() {
+                document.querySelectorAll('input[name="rejectReason"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                customReason.value = '';
+                charCount.textContent = '0';
+                customReason.disabled = false;
+            }
+        });
+
+        // Booking Details Modal functionality
+        const bookingDetailsModal = document.getElementById('bookingDetailsModal');
+        const closeBookingModal = document.getElementById('closeBookingModal');
+        const closeBookingModalBtn = document.getElementById('closeBookingModalBtn');
+        const viewDetailsBtns = document.querySelectorAll('.view-details-btn');
+
+        // Booking data
+        const bookingData = {
+            1: {
+                clientName: 'Lisa Anderson',
+                clientAvatar: 'LA',
+                clientPhone: '+1 (555) 123-4567',
+                clientEmail: 'lisa.anderson@email.com',
+                clientAddress: '123 Main St, City, State',
+                vehicleMake: '2020 Honda Civic',
+                vehicleVin: 'VIN: 1HGBH41JXMN109186',
+                vehicleMileage: '45,000 miles',
+                vehicleYear: '2020',
+                serviceType: 'Oil Change & Filter',
+                serviceDescription: 'Regular oil change with synthetic oil and filter replacement',
+                scheduledDate: 'October 25, 2024',
+                scheduledTime: '2:00 PM',
+                bookingStatus: 'Pending',
+                bookingPriority: 'High',
+                bookingId: '#BK-2024-001',
+                bookingNotes: 'Regular maintenance, prefer synthetic oil'
+            },
+            2: {
+                clientName: 'Mike Johnson',
+                clientAvatar: 'MJ',
+                clientPhone: '+1 (555) 987-6543',
+                clientEmail: 'mike.johnson@email.com',
+                clientAddress: '456 Oak Ave, City, State',
+                vehicleMake: '2019 Toyota Camry',
+                vehicleVin: 'VIN: 4T1BF1FK5KU123456',
+                vehicleMileage: '52,000 miles',
+                vehicleYear: '2019',
+                serviceType: 'Oil Change & Filter',
+                serviceDescription: 'Regular oil change with synthetic oil and filter replacement',
+                scheduledDate: 'October 26, 2024',
+                scheduledTime: '10:00 AM',
+                bookingStatus: 'Accepted',
+                bookingPriority: 'Medium',
+                bookingId: '#BK-2024-002',
+                bookingNotes: 'Regular maintenance, prefer synthetic oil'
+            },
+            3: {
+                clientName: 'Sarah Wilson',
+                clientAvatar: 'SW',
+                clientPhone: '+1 (555) 456-7890',
+                clientEmail: 'sarah.wilson@email.com',
+                clientAddress: '789 Pine St, City, State',
+                vehicleMake: '2021 Ford Focus',
+                vehicleVin: 'VIN: 1FADP3F21LA123456',
+                vehicleMileage: '38,000 miles',
+                vehicleYear: '2021',
+                serviceType: 'Brake Service',
+                serviceDescription: 'Brake pad replacement and brake fluid check',
+                scheduledDate: 'October 27, 2024',
+                scheduledTime: '3:00 PM',
+                bookingStatus: 'In Progress',
+                bookingPriority: 'Low',
+                bookingId: '#BK-2024-003',
+                bookingNotes: 'Squeaking noise when braking, need inspection'
+            }
+        };
+
+        // Function to populate modal with booking data
+        function populateBookingModal(bookingId) {
+            const data = bookingData[bookingId];
+            if (!data) return;
+
+            document.getElementById('clientName').textContent = data.clientName;
+            document.getElementById('clientAvatar').textContent = data.clientAvatar;
+            document.getElementById('clientPhone').textContent = data.clientPhone;
+            document.getElementById('clientEmail').textContent = data.clientEmail;
+            document.getElementById('clientAddress').textContent = data.clientAddress;
+            document.getElementById('vehicleMake').textContent = data.vehicleMake;
+            document.getElementById('vehicleVin').textContent = data.vehicleVin;
+            document.getElementById('vehicleMileage').textContent = data.vehicleMileage;
+            document.getElementById('vehicleYear').textContent = data.vehicleYear;
+            document.getElementById('serviceType').textContent = data.serviceType;
+            document.getElementById('serviceDescription').textContent = data.serviceDescription;
+            document.getElementById('scheduledDate').textContent = data.scheduledDate;
+            document.getElementById('scheduledTime').textContent = data.scheduledTime;
+            document.getElementById('bookingId').textContent = data.bookingId;
+            document.getElementById('bookingNotes').textContent = data.bookingNotes;
+
+            // Update status and priority badges
+            const statusElement = document.getElementById('bookingStatus');
+            const priorityElement = document.getElementById('bookingPriority');
+            
+            statusElement.textContent = data.bookingStatus;
+            priorityElement.textContent = data.bookingPriority;
+            
+            // Update status badge color
+            statusElement.className = 'px-3 py-1 text-sm font-medium rounded-full';
+            switch(data.bookingStatus) {
+                case 'Pending':
+                    statusElement.classList.add('bg-yellow-100', 'text-yellow-800');
+                    break;
+                case 'Accepted':
+                    statusElement.classList.add('bg-green-100', 'text-green-800');
+                    break;
+                case 'In Progress':
+                    statusElement.classList.add('bg-blue-100', 'text-blue-800');
+                    break;
+                case 'Completed':
+                    statusElement.classList.add('bg-purple-100', 'text-purple-800');
+                    break;
+                case 'Rejected':
+                    statusElement.classList.add('bg-red-100', 'text-red-800');
+                    break;
+            }
+            
+            // Update priority badge color
+            priorityElement.className = 'px-3 py-1 text-sm font-medium rounded-full';
+            switch(data.bookingPriority) {
+                case 'High':
+                    priorityElement.classList.add('bg-red-100', 'text-red-800');
+                    break;
+                case 'Medium':
+                    priorityElement.classList.add('bg-yellow-100', 'text-yellow-800');
+                    break;
+                case 'Low':
+                    priorityElement.classList.add('bg-green-100', 'text-green-800');
+                    break;
+            }
+        }
+
+        // Add event listeners to view buttons
+        viewDetailsBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const bookingId = this.getAttribute('data-booking');
+                populateBookingModal(bookingId);
+                bookingDetailsModal.classList.remove('hidden');
+            });
+        });
+
+        // Close modal functionality
+        [closeBookingModal, closeBookingModalBtn].forEach(btn => {
+            btn.addEventListener('click', function() {
+                bookingDetailsModal.classList.add('hidden');
+            });
+        });
+
+        // Close modal when clicking outside
+        bookingDetailsModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !bookingDetailsModal.classList.contains('hidden')) {
+                bookingDetailsModal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

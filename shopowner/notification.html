@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            orange: {
+              500: '#f97316',
+              600: '#ea580c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .notification-card {
+      transition: all 0.3s ease;
+    }
+    .notification-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .overlay {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+    }
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .burger-menu {
+      transition: all 0.3s ease;
+    }
+    .burger-menu.active .line1 {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .burger-menu.active .line2 {
+      opacity: 0;
+    }
+    .burger-menu.active .line3 {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+    .unread-dot {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-20">
+    <div class="max-w-6xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between">
+        <!-- Left side with burger menu and title -->
+        <div class="flex items-center gap-4">
+          <!-- Burger Menu Button -->
+          <button id="burgerBtn" class="burger-menu p-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <div class="w-6 h-6 flex flex-col justify-center items-center">
+              <div class="line1 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+              <div class="line2 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+              <div class="line3 w-5 h-0.5 bg-current transition-all duration-300"></div>
+            </div>
+          </button>
+          <!-- MechConnect Title -->
+          <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+        </div>
+        <!-- Right Icons -->
+        <div class="flex items-center gap-4">
+          <!-- Notification Bell -->
+          <a href="notification.html" class="relative p-2 text-orange-500 hover:text-orange-600 transition-colors">
+            <span class="material-icons-round">notifications</span>
+            <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </a>
+          <!-- Profile Picture -->
+          <a href="settings.html" class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium hover:bg-orange-600 transition-colors">
+            SO
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-40">
+    <div class="p-6">
+      <!-- Sidebar Header -->
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+          SO
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">Shop Owner</h3>
+          <p class="text-sm text-gray-600">Dashboard</p>
+        </div>
+      </div>
+      <!-- Navigation Menu -->
+      <nav class="space-y-2">
+        <a href="dashboard.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">dashboard</span>
+            Dashboard
+        </a>
+        
+        <a href="manage_mechanic.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">groups</span>
+            Manage Mechanics
+        </a>
+        
+        <a href="manage_shop.html" 
+        class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+         <span class="material-icons-round">store</span>
+         Manage Shop
+     </a>
+     
+        <a href="manage_booking.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">calendar_today</span>
+            Manage Bookings
+        </a>
+        
+        <a href="revenue_analytics.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">attach_money</span>
+            Revenue Analytics
+        </a>
+        
+        <a href="notification.html" 
+           class="flex items-center gap-3 p-3 text-orange-600 bg-orange-50 rounded-lg font-medium">
+            <span class="material-icons-round">notifications</span>
+            Notifications
+        </a>
+        
+   
+        
+        <a href="settings.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">settings</span>
+            Settings
+        </a>
+        
+        <a href="help_support.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">help</span>
+            Help & Support
+        </a>
+      </nav>
+      <!-- Logout Button -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <a href="../auth/login.html" 
+           class="flex items-center gap-3 p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+            <span class="material-icons-round">logout</span>
+            Logout
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-3 py-4">
+    <!-- Page Header -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-bold text-orange-500">Notifications</h2>
+          <p class="text-sm text-gray-600 mt-1">Stay updated with your shop's activities and important alerts.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="bg-orange-500 text-white text-xs px-3 py-1 rounded-full font-medium" id="notificationCount">12</span>
+          <button onclick="markAllAsRead()" class="text-orange-500 text-sm font-medium hover:text-orange-600 transition-colors">
+            Mark all as read
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4">
+      <div class="flex flex-wrap gap-2">
+        <button class="filter-tab active px-3 py-2 rounded-lg text-sm font-medium bg-orange-500 text-white hover:bg-orange-600 transition-all shadow-sm flex-shrink-0" data-filter="all">
+          All
+        </button>
+        <button class="filter-tab px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 transition-all flex-shrink-0" data-filter="booking">
+          Bookings
+        </button>
+        <button class="filter-tab px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 transition-all flex-shrink-0" data-filter="mechanic">
+          Mechanics
+        </button>
+        <button class="filter-tab px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 transition-all flex-shrink-0" data-filter="system">
+          System
+        </button>
+        <button class="filter-tab px-3 py-2 rounded-lg text-sm font-medium bg-white border border-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 transition-all flex-shrink-0" data-filter="payment">
+          Payments
+        </button>
+      </div>
+    </div>
+
+    <!-- Notifications Container -->
+    <div class="space-y-4">
+      <!-- New Booking Request -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="booking">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-blue-600 text-xl">calendar_today</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">New Booking Request</h3>
+              <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+              <span class="text-sm text-gray-500 ml-auto">5 min ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              <strong>Sarah Johnson</strong> has requested brake service for her Honda Civic. Service scheduled for tomorrow at 2:00 PM.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">directions_car</span>
+                <span>Honda Civic 2020</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">schedule</span>
+                <span>Oct 25, 2:00 PM</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button class="accept-booking bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">check</span>
+                Accept
+              </button>
+              <button class="decline-btn decline-booking border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">close</span>
+                Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mechanic Status Update -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="mechanic">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-green-600 text-xl">check_circle</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">Service Completed</h3>
+              <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+              <span class="text-sm text-gray-500 ml-auto">15 min ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              <strong>John Doe</strong> has completed the engine diagnostic service for Toyota Camry. Customer has been notified.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">directions_car</span>
+                <span>Toyota Camry 2019</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">receipt</span>
+                <span>Booking #CAM-2024-001</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button class="view-details bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">visibility</span>
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Received -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="payment">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-green-600 text-xl">payments</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">Payment Received</h3>
+              <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+              <span class="text-sm text-gray-500 ml-auto">1 hour ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              Payment of <strong>₱3,500</strong> has been received for brake service completed by Mike Rodriguez.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">receipt</span>
+                <span>Transaction #TX-789123</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">account_balance_wallet</span>
+                <span>Credit Card</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button class="view-receipt bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">receipt</span>
+                View Receipt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mechanic Request -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="mechanic">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-purple-600 text-xl">person_add</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">Mechanic Application</h3>
+              <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+              <span class="text-sm text-gray-500 ml-auto">2 hours ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              <strong>Carlos Rivera</strong> has applied to join your shop as a mechanic. Specializes in engine diagnostics with 8 years experience.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">star</span>
+                <span>4.8 rating</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">work</span>
+                <span>8 years experience</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button class="accept-mechanic bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">check</span>
+                Accept
+              </button>
+              <button class="decline-btn decline-mechanic border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">close</span>
+                Decline
+              </button>
+              <button class="view-profile bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">person</span>
+                View Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Alert -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="system">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-yellow-600 text-xl">warning</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">Low Inventory Alert</h3>
+              <span class="unread-dot w-2 h-2 bg-orange-500 rounded-full"></span>
+              <span class="text-sm text-gray-500 ml-auto">3 hours ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              Your brake pad inventory is running low. Consider restocking to avoid service delays.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">inventory</span>
+                <span>5 units remaining</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">schedule</span>
+                <span>Reorder needed</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button class="reorder-inventory bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">add_shopping_cart</span>
+                Reorder Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Cancellation -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="booking">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-red-600 text-xl">cancel</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">Booking Cancelled</h3>
+              <span class="text-sm text-gray-500 ml-auto">5 hours ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              <strong>Michael Chen</strong> has cancelled their transmission service appointment scheduled for today.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">directions_car</span>
+                <span>Ford Focus 2018</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">schedule</span>
+                <span>Oct 24, 10:00 AM</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button class="view-details bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">visibility</span>
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue Update -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="payment">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-green-600 text-xl">trending_up</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">Weekly Revenue Update</h3>
+              <span class="text-sm text-gray-500 ml-auto">1 day ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              Your shop generated <strong>₱45,200</strong> in revenue this week, a 15% increase from last week.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">calendar_today</span>
+                <span>Oct 18-24, 2024</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">trending_up</span>
+                <span>+15% from last week</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button class="view-analytics bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+                <span class="material-icons-round text-base">analytics</span>
+                View Analytics
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Maintenance -->
+      <div class="notification-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-type="system">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-icons-round text-blue-600 text-xl">build</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-2">
+              <h3 class="text-base font-semibold text-gray-900">System Maintenance</h3>
+              <span class="text-sm text-gray-500 ml-auto">2 days ago</span>
+            </div>
+            <p class="text-gray-600 mb-3">
+              Scheduled system maintenance completed successfully. All features are now running optimally.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-3">
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">schedule</span>
+                <span>Oct 22, 2:00 AM</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="material-icons-round text-base">check_circle</span>
+                <span>Completed successfully</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Load More -->
+    <div class="text-center mt-8">
+      <button class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+        Load More Notifications
+      </button>
+    </div>
+
+    <!-- Empty State (Hidden) -->
+    <div id="emptyState" class="hidden text-center py-16">
+      <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <span class="material-icons-round text-gray-400 text-3xl">notifications_off</span>
+      </div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">No notifications yet</h3>
+      <p class="text-gray-600 max-w-sm mx-auto">
+        When you have new notifications about bookings, mechanics, or system updates, they'll appear here.
+      </p>
+    </div>
+    </main>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Payment Receipt</h3>
+                    <button id="closeReceiptModal" class="text-gray-400 hover:text-gray-600">
+                        <span class="material-icons-round">close</span>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="p-6 space-y-6">
+                    <!-- Receipt Header -->
+                    <div class="text-center border-b border-gray-200 pb-4">
+                        <h4 class="text-2xl font-bold text-gray-900">AutoFix Pro</h4>
+                        <p class="text-sm text-gray-600">Professional Automotive Services</p>
+                        <p class="text-sm text-gray-600">123 Main Street, Downtown, NY 10001</p>
+                        <p class="text-sm text-gray-600">Phone: +1 (555) 234-5678</p>
+                    </div>
+
+                    <!-- Receipt Details -->
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Receipt Number</label>
+                                <p id="receiptNumber" class="text-sm text-gray-900">#RCP-2024-001</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                <p id="receiptDate" class="text-sm text-gray-900">October 25, 2024</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Transaction ID</label>
+                                <p id="transactionId" class="text-sm text-gray-900">#TX-789123</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                                <p id="paymentMethod" class="text-sm text-gray-900">Credit Card</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div>
+                        <h5 class="text-lg font-medium text-gray-900 mb-3">Customer Information</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
+                                <p id="customerName" class="text-sm text-gray-900">Lisa Anderson</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                <p id="customerPhone" class="text-sm text-gray-900">+1 (555) 123-4567</p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <p id="customerEmail" class="text-sm text-gray-900">lisa.anderson@email.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Details -->
+                    <div>
+                        <h5 class="text-lg font-medium text-gray-900 mb-3">Service Details</h5>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h6 class="font-medium text-gray-900">Brake Service</h6>
+                                    <p class="text-sm text-gray-600">Complete brake system inspection and repair</p>
+                                </div>
+                                <span class="text-lg font-semibold text-gray-900">₱3,500.00</span>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <p>• Brake pad replacement</p>
+                                <p>• Brake fluid check and top-up</p>
+                                <p>• Brake disc inspection</p>
+                                <p>• Road test and quality check</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Information -->
+                    <div>
+                        <h5 class="text-lg font-medium text-gray-900 mb-3">Vehicle Information</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Vehicle</label>
+                                <p class="text-sm text-gray-900">2020 Honda Civic</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">License Plate</label>
+                                <p class="text-sm text-gray-900">ABC-1234</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Mileage</label>
+                                <p class="text-sm text-gray-900">45,000 miles</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">VIN</label>
+                                <p class="text-sm text-gray-900">1HGBH41JXMN109186</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Summary -->
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-sm text-gray-600">Service Amount</span>
+                                <span class="text-sm text-gray-900">₱3,200.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-sm text-gray-600">Tax (12%)</span>
+                                <span class="text-sm text-gray-900">₱384.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-sm text-gray-600">Labor Charges</span>
+                                <span class="text-sm text-gray-900">₱200.00</span>
+                            </div>
+                            <div class="flex justify-between border-t border-gray-200 pt-2">
+                                <span class="text-lg font-semibold text-gray-900">Total Amount</span>
+                                <span class="text-lg font-bold text-orange-500">₱3,500.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mechanic Information -->
+                    <div>
+                        <h5 class="text-lg font-medium text-gray-900 mb-3">Service Performed By</h5>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                                MR
+                            </div>
+                            <div>
+                                <h6 class="font-medium text-gray-900">Mike Rodriguez</h6>
+                                <p class="text-sm text-gray-600">Senior Mechanic</p>
+                                <p class="text-sm text-gray-600">Certification: ASE Certified</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="flex gap-3 p-6 border-t border-gray-200">
+                    <button id="closeReceiptModalBtn" class="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Close
+                    </button>
+                    <button class="flex-1 bg-orange-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                        Print Receipt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decline Modal -->
+    <div id="declineModal" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-xl max-w-md w-full">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-900">Decline Booking</h3>
+                    <button id="closeDeclineModal" class="text-gray-400 hover:text-gray-600">
+                        <span class="material-icons-round">close</span>
+                    </button>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="p-6">
+                    <p class="text-gray-600 mb-4">Please provide a reason for declining this booking request.</p>
+                    
+                    <!-- Decline Reasons -->
+                    <div class="space-y-3 mb-6">
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="declineReason" value="unavailable" class="text-orange-500 focus:ring-orange-500">
+                            <span class="text-sm text-gray-700">Mechanic unavailable at requested time</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="declineReason" value="equipment" class="text-orange-500 focus:ring-orange-500">
+                            <span class="text-sm text-gray-700">Required equipment not available</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="declineReason" value="complexity" class="text-orange-500 focus:ring-orange-500">
+                            <span class="text-sm text-gray-700">Service complexity beyond our expertise</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="declineReason" value="parts" class="text-orange-500 focus:ring-orange-500">
+                            <span class="text-sm text-gray-700">Required parts not in stock</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="declineReason" value="location" class="text-orange-500 focus:ring-orange-500">
+                            <span class="text-sm text-gray-700">Service location too far</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <input type="radio" name="declineReason" value="custom" class="text-orange-500 focus:ring-orange-500">
+                            <span class="text-sm text-gray-700">Other (specify below)</span>
+                        </label>
+                    </div>
+                    
+                    <!-- Custom Reason Input -->
+                    <div id="customReasonContainer" class="hidden mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Please specify the reason</label>
+                        <textarea id="customReason" rows="3" placeholder="Enter your reason here..." 
+                                class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"></textarea>
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-xs text-gray-500">Be specific and professional</span>
+                            <span id="charCount" class="text-xs text-gray-500">0/200</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="flex gap-3 p-6 border-t border-gray-200">
+                    <button id="closeDeclineModalBtn" class="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                        Cancel
+                    </button>
+                    <button id="confirmDeclineBtn" class="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors">
+                        Confirm Decline
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sidebar toggle functionality
+      const burgerBtn = document.getElementById('burgerBtn');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      
+      // Toggle sidebar
+      function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+        burgerBtn.classList.toggle('active');
+      }
+      
+      // Close sidebar
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        burgerBtn.classList.remove('active');
+      }
+      
+      // Event listeners
+      burgerBtn.addEventListener('click', toggleSidebar);
+      overlay.addEventListener('click', closeSidebar);
+      
+      // Close sidebar when clicking on navigation links
+      const navLinks = sidebar.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', closeSidebar);
+      });
+
+      // Filter functionality
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      const notificationCards = document.querySelectorAll('.notification-card');
+      
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Update active tab
+          filterTabs.forEach(t => {
+            t.classList.remove('active', 'bg-orange-500', 'text-white');
+            t.classList.add('bg-white', 'border', 'border-gray-200');
+          });
+          this.classList.add('active', 'bg-orange-500', 'text-white');
+          this.classList.remove('bg-white', 'border', 'border-gray-200');
+          
+          // Filter notifications
+          const filter = this.getAttribute('data-filter');
+          notificationCards.forEach(card => {
+            if (filter === 'all') {
+              card.style.display = '';
+            } else {
+              card.style.display = card.getAttribute('data-type') === filter ? '' : 'none';
+            }
+          });
+        });
+      });
+
+      // Mark as read functionality
+      notificationCards.forEach(notification => {
+        notification.addEventListener('click', function(e) {
+          // Don't mark as read if clicking action buttons
+          if (e.target.closest('button')) return;
+          
+          const dot = this.querySelector('.unread-dot');
+          if (dot) {
+            dot.remove();
+            updateNotificationCount();
+          }
+        });
+      });
+
+      // Action button handlers
+      document.querySelectorAll('.accept-booking, .decline-booking').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const notification = this.closest('.notification-card');
+          const action = this.classList.contains('accept-booking') ? 'accepted' : 'declined';
+          showSuccessState(notification, `Booking ${action}`, `The booking has been ${action} successfully.`);
+          updateNotificationCount();
+        });
+      });
+
+      document.querySelectorAll('.accept-mechanic, .decline-mechanic').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const notification = this.closest('.notification-card');
+          const action = this.classList.contains('accept-mechanic') ? 'accepted' : 'declined';
+          showSuccessState(notification, `Mechanic ${action}`, `The mechanic application has been ${action} successfully.`);
+          updateNotificationCount();
+        });
+      });
+
+      document.querySelectorAll('.view-details, .view-receipt, .view-profile, .view-analytics').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.stopPropagation();
+          // Simulate navigation or modal opening
+          const notification = this.closest('.notification-card');
+          const dot = notification.querySelector('.unread-dot');
+          if (dot) {
+            dot.remove();
+            updateNotificationCount();
+          }
+        });
+      });
+
+      document.querySelectorAll('.reorder-inventory').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const notification = this.closest('.notification-card');
+          showSuccessState(notification, 'Reorder Requested', 'Your inventory reorder has been submitted successfully.');
+          updateNotificationCount();
+        });
+      });
+
+      function showSuccessState(notification, title, message) {
+        notification.innerHTML = `
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+              <span class="material-icons-round text-green-600 text-xl">check_circle</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-2">
+                <h3 class="text-base font-semibold text-gray-900">${title}</h3>
+                <span class="text-sm text-gray-500 ml-auto">Just now</span>
+              </div>
+              <p class="text-gray-600">${message}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function updateNotificationCount() {
+        const unreadCount = document.querySelectorAll('.unread-dot').length;
+        const countElement = document.getElementById('notificationCount');
+        countElement.textContent = unreadCount;
+        
+        if (unreadCount === 0) {
+          countElement.classList.remove('bg-orange-500');
+          countElement.classList.add('bg-gray-400');
+        }
+      }
+
+      // Mark all as read
+      window.markAllAsRead = function() {
+        document.querySelectorAll('.unread-dot').forEach(dot => dot.remove());
+        updateNotificationCount();
+        
+        // Show temporary success message
+        const successMsg = document.createElement('div');
+        successMsg.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        successMsg.innerHTML = '<div class="flex items-center gap-2"><span class="material-icons-round">check_circle</span> All notifications marked as read</div>';
+        document.body.appendChild(successMsg);
+        
+        setTimeout(() => {
+          successMsg.remove();
+        }, 3000);
+      }
+
+      // Receipt Modal functionality
+      const receiptModal = document.getElementById('receiptModal');
+      const closeReceiptModal = document.getElementById('closeReceiptModal');
+      const closeReceiptModalBtn = document.getElementById('closeReceiptModalBtn');
+      const viewReceiptBtn = document.querySelector('.view-receipt');
+
+      // Receipt data
+      const receiptData = {
+        receiptNumber: '#RCP-2024-001',
+        receiptDate: 'October 25, 2024',
+        transactionId: '#TX-789123',
+        paymentMethod: 'Credit Card',
+        customerName: 'Lisa Anderson',
+        customerPhone: '+1 (555) 123-4567',
+        customerEmail: 'lisa.anderson@email.com',
+        serviceAmount: '₱3,200.00',
+        tax: '₱384.00',
+        laborCharges: '₱200.00',
+        totalAmount: '₱3,500.00'
+      };
+
+      // Function to populate receipt modal
+      function populateReceiptModal() {
+        document.getElementById('receiptNumber').textContent = receiptData.receiptNumber;
+        document.getElementById('receiptDate').textContent = receiptData.receiptDate;
+        document.getElementById('transactionId').textContent = receiptData.transactionId;
+        document.getElementById('paymentMethod').textContent = receiptData.paymentMethod;
+        document.getElementById('customerName').textContent = receiptData.customerName;
+        document.getElementById('customerPhone').textContent = receiptData.customerPhone;
+        document.getElementById('customerEmail').textContent = receiptData.customerEmail;
+      }
+
+      // Add event listener to view receipt button
+      if (viewReceiptBtn) {
+        viewReceiptBtn.addEventListener('click', function() {
+          populateReceiptModal();
+          receiptModal.classList.remove('hidden');
+        });
+      }
+
+      // Close modal functionality
+      [closeReceiptModal, closeReceiptModalBtn].forEach(btn => {
+        btn.addEventListener('click', function() {
+          receiptModal.classList.add('hidden');
+        });
+      });
+
+      // Close modal when clicking outside
+      receiptModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.add('hidden');
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !receiptModal.classList.contains('hidden')) {
+          receiptModal.classList.add('hidden');
+        }
+      });
+
+      // Decline Modal functionality
+      const declineModal = document.getElementById('declineModal');
+      const closeDeclineModal = document.getElementById('closeDeclineModal');
+      const closeDeclineModalBtn = document.getElementById('closeDeclineModalBtn');
+      const confirmDeclineBtn = document.getElementById('confirmDeclineBtn');
+      const customReasonContainer = document.getElementById('customReasonContainer');
+      const customReason = document.getElementById('customReason');
+      const charCount = document.getElementById('charCount');
+      const declineReasons = document.querySelectorAll('input[name="declineReason"]');
+
+      // Add event listeners to decline buttons
+      document.querySelectorAll('.decline-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          declineModal.classList.remove('hidden');
+        });
+      });
+
+      // Handle custom reason selection
+      declineReasons.forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (this.value === 'custom') {
+            customReasonContainer.classList.remove('hidden');
+            customReason.focus();
+          } else {
+            customReasonContainer.classList.add('hidden');
+            customReason.value = '';
+            charCount.textContent = '0/200';
+          }
+        });
+      });
+
+      // Character count for custom reason
+      customReason.addEventListener('input', function() {
+        const length = this.value.length;
+        charCount.textContent = `${length}/200`;
+        
+        if (length > 200) {
+          this.value = this.value.substring(0, 200);
+          charCount.textContent = '200/200';
+        }
+      });
+
+      // Confirm decline functionality
+      confirmDeclineBtn.addEventListener('click', function() {
+        const selectedReason = document.querySelector('input[name="declineReason"]:checked');
+        
+        if (!selectedReason) {
+          alert('Please select a reason for declining the booking.');
+          return;
+        }
+
+        let declineMessage = '';
+        if (selectedReason.value === 'custom') {
+          if (customReason.value.trim() === '') {
+            alert('Please provide a custom reason for declining.');
+            return;
+          }
+          declineMessage = customReason.value.trim();
+        } else {
+          declineMessage = selectedReason.nextElementSibling.textContent;
+        }
+
+        // Show success message
+        const successMsg = document.createElement('div');
+        successMsg.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2';
+        successMsg.innerHTML = '<span class="material-icons-round">check_circle</span> Booking declined successfully';
+        document.body.appendChild(successMsg);
+        
+        // Close modal
+        declineModal.classList.add('hidden');
+        
+        // Reset form
+        declineReasons.forEach(radio => {
+          radio.checked = false;
+        });
+        customReason.value = '';
+        charCount.textContent = '0/200';
+        customReasonContainer.classList.add('hidden');
+        
+        // Remove success message
+        setTimeout(() => {
+          successMsg.remove();
+        }, 3000);
+      });
+
+      // Close modal functionality
+      [closeDeclineModal, closeDeclineModalBtn].forEach(btn => {
+        btn.addEventListener('click', function() {
+          declineModal.classList.add('hidden');
+          
+          // Reset form when closing
+          declineReasons.forEach(radio => {
+            radio.checked = false;
+          });
+          customReason.value = '';
+          charCount.textContent = '0/200';
+          customReasonContainer.classList.add('hidden');
+        });
+      });
+
+      // Close modal when clicking outside
+      declineModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.add('hidden');
+          
+          // Reset form when closing
+          declineReasons.forEach(radio => {
+            radio.checked = false;
+          });
+          customReason.value = '';
+          charCount.textContent = '0/200';
+          customReasonContainer.classList.add('hidden');
+        }
+      });
+
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !declineModal.classList.contains('hidden')) {
+          declineModal.classList.add('hidden');
+          
+          // Reset form when closing
+          declineReasons.forEach(radio => {
+            radio.checked = false;
+          });
+          customReason.value = '';
+          charCount.textContent = '0/200';
+          customReasonContainer.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

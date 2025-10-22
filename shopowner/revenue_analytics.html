@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" class="dark:bg-gray-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Analytics - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .booking-card {
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .burger-menu {
+            transition: all 0.3s ease;
+        }
+        
+        .burger-menu.active .line1 {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .burger-menu.active .line2 {
+            opacity: 0;
+        }
+        
+        .burger-menu.active .line3 {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Hide scrollbar for horizontal scroll */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Card Hover Effects */
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Chart Container Animation */
+        .chart-container {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Insights Card Hover */
+        .insight-card {
+            transition: all 0.3s ease;
+        }
+        
+        .insight-card:hover {
+            transform: translateX(4px);
+            box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Revenue Numbers Animation */
+        .revenue-number {
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans pb-20">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Left side with burger menu and title -->
+                <div class="flex items-center gap-4">
+                    <button id="burgerBtn" class="burger-menu p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-center items-center">
+                            <div class="line1 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line2 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line3 w-5 h-0.5 bg-current transition-all duration-300"></div>
+                        </div>
+                    </button>
+                    <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+                </div>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <a href="notification.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </a>
+                    <a href="settings.html" class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium hover:bg-orange-600 transition-colors">
+                        SO
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-40">
+        <div class="p-6">
+            <!-- Sidebar Header -->
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                    SO
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white">Shop Owner</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Dashboard</p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="space-y-2">
+                <a href="dashboard.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">dashboard</span>
+                    Dashboard
+                </a>
+                
+                <a href="manage_mechanic.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">groups</span>
+                    Manage Mechanics
+                </a>
+                
+                <a href="manage_shop.html" 
+                class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                 <span class="material-icons-round">store</span>
+                 Manage Shop
+             </a>
+
+                <a href="manage_booking.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">calendar_today</span>
+                    Manage Bookings
+                </a>
+                
+                <a href="revenue_analytics.html" 
+                   class="flex items-center gap-3 p-3 text-orange-600 bg-orange-50 rounded-lg font-medium">
+                    <span class="material-icons-round">attach_money</span>
+                    Revenue Analytics
+                </a>
+                
+                <a href="notification.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">notifications</span>
+                    Notifications
+                </a>
+                
+              
+                
+                <a href="settings.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">settings</span>
+                    Settings
+                </a>
+                
+                <a href="privacy_policy.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">help</span>
+                    Help & Support
+                </a>
+            </nav>
+
+            <!-- Logout Button -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <a href="../auth/login.html" 
+                   class="flex items-center gap-3 p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">logout</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Update the main content wrapper -->
+    <main class="max-w-6xl mx-auto px-3 py-4">
+        <!-- Page Header -->
+        <div class="mb-4">
+            <h2 class="text-2xl font-bold text-orange-500">Revenue Analytics</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Track your shop's financial performance and analyze revenue trends.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="mb-6">
+            <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <!-- Total Revenue -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-orange-500 text-xl">attach_money</span>
+                        </div>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">₱24,850</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Total Revenue</p>
+                    </div>
+                </div>
+
+                <!-- Average Booking Value -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-orange-500 text-xl">analytics</span>
+                        </div>
+                    <p class="text-2xl font-bold text-gray-900 mb-1">₱165</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Avg. Booking Value</p>
+                    </div>
+                </div>
+
+                <!-- Completed Bookings -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-orange-500 text-xl">check_circle</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">456</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Completed Bookings</p>
+                    </div>
+                </div>
+
+                <!-- Canceled Bookings -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 min-w-[140px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-orange-500 text-xl">cancel</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">23</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Canceled Bookings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Analysis -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Monthly Revenue Trend -->
+            <div class="lg:col-span-2 bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Monthly Revenue Trend</h3>
+                    <span class="material-icons-round text-gray-400 dark:text-gray-500">trending_up</span>
+                </div>
+                <!-- Added wrapper div for better height control -->
+                <div class="relative h-[250px] sm:h-[300px] md:h-[350px]">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Top Revenue Generator -->
+            <div class="bg-white rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Top Revenue Generator</h3>
+                    <span class="material-icons-round text-gray-400 dark:text-gray-500">star</span>
+                </div>
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <span class="material-icons-round text-orange-600">person</span>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-900 dark:text-white">John Doe</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Engine Repair</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">Revenue Generated</span>
+                            <span class="font-medium text-orange-600">₱3,200</span>
+                        </div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">Percentage of Total</span>
+                            <span class="font-medium">12.9%</span>
+                        </div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600 dark:text-gray-300">Bookings Completed</span>
+                            <span class="font-medium">45</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600 dark:text-gray-300">Rating</span>
+                            <span class="font-medium text-yellow-500">★ 4.9</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue Summary -->
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Booking Analysis -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Booking Analysis</h3>
+                    <span class="material-icons-round text-gray-400">assessment</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-lg p-4 text-center">
+                        <span class="text-2xl font-bold text-green-600">456</span>
+                        <p class="text-sm text-green-800">Completed</p>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-4 text-center">
+                        <span class="text-2xl font-bold text-red-600">23</span>
+                        <p class="text-sm text-red-800">Canceled</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="mb-2">
+                        <span class="text-2xl font-bold text-gray-900 dark:text-white">95.2%</span>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Completion Rate</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Insights -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Performance Insights</h3>
+                    <span class="material-icons-round text-gray-400">insights</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="material-icons-round text-green-600 dark:text-green-400">check_circle</span>
+                            <h4 class="font-medium text-green-800 dark:text-green-200">Strong Performance</h4>
+                        </div>
+                        <p class="mt-1 text-sm text-green-700 dark:text-green-300">Your shop has maintained a 95% booking completion rate this month.</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="material-icons-round text-blue-600 dark:text-blue-400">trending_up</span>
+                            <h4 class="font-medium text-blue-800 dark:text-blue-200">Top Performer</h4>
+                        </div>
+                        <p class="mt-1 text-sm text-blue-700 dark:text-blue-300">John Doe is your top revenue generator, contributing 12.9% of total revenue.</p>
+                    </div>
+                    <div class="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                        <div class="flex items-center gap-2">
+                            <span class="material-icons-round text-orange-600 dark:text-orange-400">lightbulb</span>
+                            <h4 class="font-medium text-orange-800 dark:text-orange-200">Growth Opportunity</h4>
+                        </div>
+                        <p class="mt-1 text-sm text-orange-700 dark:text-orange-300">Consider promoting your most successful mechanics to increase overall shop revenue.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality
+            const burgerBtn = document.getElementById('burgerBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            // Toggle sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+                burgerBtn.classList.toggle('active');
+            }
+            
+            // Close sidebar
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                burgerBtn.classList.remove('active');
+            }
+            
+            // Event listeners
+            burgerBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', closeSidebar);
+            
+            // Close sidebar when clicking on navigation links
+            const navLinks = sidebar.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            // Check for saved dark mode preference
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            
+            // Apply dark mode if enabled
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+            }
+
+            // Update chart colors based on dark mode
+            function updateChartColors(chart) {
+                const isDark = document.documentElement.classList.contains('dark');
+                
+                // Update dataset colors
+                chart.data.datasets[0].backgroundColor = isDark ? 'rgba(249, 115, 22, 0.05)' : 'rgba(249, 115, 22, 0.1)';
+                
+                // Update grid colors
+                chart.options.scales.x.grid.color = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                chart.options.scales.y.grid.color = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+                
+                // Keep text visible but slightly muted
+                chart.options.scales.x.ticks.color = '#9CA3AF';
+                chart.options.scales.y.ticks.color = '#9CA3AF';
+                
+                chart.update();
+            }
+
+            // Create and update chart
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Monthly Revenue',
+                        data: [15000, 18000, 19500, 20000, 22000, 24850],
+                        borderColor: '#f97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#9CA3AF',
+                                callback: function(value) {
+                                    return '₱' + value.toLocaleString();
+                                },
+                                font: {
+                                    size: window.innerWidth < 768 ? 10 : 12
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#9CA3AF',
+                                font: {
+                                    size: window.innerWidth < 768 ? 10 : 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Initial chart color update
+            updateChartColors(revenueChart);
+
+            // Listen for dark mode changes
+            const darkModeObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class') {
+                        updateChartColors(revenueChart);
+                    }
+                });
+            });
+
+            darkModeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        });
+    </script>
+</body>
+</html>

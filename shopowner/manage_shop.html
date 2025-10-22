@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Shop - MechConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            orange: {
+              500: '#f97316',
+              600: '#ea580c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+    .overlay {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease-in-out;
+    }
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .burger-menu {
+      transition: all 0.3s ease;
+    }
+    .burger-menu.active .line1 {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .burger-menu.active .line2 {
+      opacity: 0;
+    }
+    .burger-menu.active .line3 {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .tab-btn.active {
+      background-color: #f97316 !important;
+      color: white !important;
+    }
+    .service-tag {
+      transition: all 0.2s ease;
+    }
+    .service-tag:hover {
+      transform: translateY(-1px);
+    }
+    .item-card {
+      transition: all 0.3s ease;
+    }
+    .item-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .tab-btn.active {
+      background-color: #f97316 !important;
+      color: white !important;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-20">
+    <div class="max-w-6xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between">
+        <!-- Left side with burger menu and title -->
+        <div class="flex items-center gap-4">
+          <!-- Burger Menu Button -->
+          <button id="burgerBtn" class="burger-menu p-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <div class="w-6 h-6 flex flex-col justify-center items-center">
+              <div class="line1 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+              <div class="line2 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+              <div class="line3 w-5 h-0.5 bg-current transition-all duration-300"></div>
+            </div>
+          </button>
+          <!-- MechConnect Title -->
+          <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+        </div>
+        <!-- Right Icons -->
+        <div class="flex items-center gap-4">
+          <!-- Notification Bell -->
+          <a href="notification.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <span class="material-icons-round">notifications</span>
+            <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </a>
+          <!-- Profile Picture -->
+          <a href="settings.html" class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium hover:bg-orange-600 transition-colors">
+            SO
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-40">
+    <div class="p-6">
+      <!-- Sidebar Header -->
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+          SO
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">Shop Owner</h3>
+          <p class="text-sm text-gray-600">Dashboard</p>
+        </div>
+      </div>
+      <!-- Navigation Menu -->
+      <nav class="space-y-2">
+        <a href="dashboard.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">dashboard</span>
+            Dashboard
+        </a>
+        
+        <a href="manage_mechanic.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">groups</span>
+            Manage Mechanics
+        </a>
+        
+        <a href="manage_shop.html" 
+        class="flex items-center gap-3 p-3 text-orange-600 bg-orange-50 rounded-lg font-medium">
+         <span class="material-icons-round">store</span>
+         Manage Shop
+     </a>
+     
+        <a href="manage_booking.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">calendar_today</span>
+            Manage Bookings
+        </a>
+        
+        <a href="revenue_analytics.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">attach_money</span>
+            Revenue Analytics
+        </a>
+        
+        <a href="notification.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">notifications</span>
+            Notifications
+        </a>
+        
+    
+        
+        <a href="settings.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">settings</span>
+            Settings
+        </a>
+        
+        <a href="help_support.html" 
+           class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+            <span class="material-icons-round">help</span>
+            Help & Support
+        </a>
+      </nav>
+      <!-- Logout Button -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <a href="../auth/login.html" 
+           class="flex items-center gap-3 p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+            <span class="material-icons-round">logout</span>
+            Logout
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-3 py-4">
+    <!-- Page Header -->
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold text-orange-500">Manage Shop</h2>
+      <p class="text-sm text-gray-600 mt-1">Update your shop information, services, and settings.</p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="mb-6">
+      <div class="flex gap-2">
+        <button id="shopDetailsTab" class="tab-btn active flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg font-medium transition-colors">
+          <span class="material-icons-round text-base">store</span>
+          Shop Details
+        </button>
+        <button id="shopItemsTab" class="tab-btn flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+          <span class="material-icons-round text-base">inventory</span>
+          Shop Items
+        </button>
+      </div>
+    </div>
+
+    <!-- Shop Details Tab Content -->
+    <div id="shopDetailsContent" class="tab-content active">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left Column -->
+        <div class="lg:col-span-2 space-y-6">
+          <!-- Basic Information -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="material-icons-round text-orange-500">home</span>
+              <h3 class="text-lg font-semibold text-gray-900">Basic Information</h3>
+            </div>
+            
+            <!-- Logo Upload -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Shop Logo</label>
+              <div class="flex items-center gap-4">
+                <div class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <span class="material-icons-round text-gray-400 text-2xl">store</span>
+                </div>
+                <div>
+                  <button class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                    Upload Logo
+                  </button>
+                  <p class="text-xs text-gray-500 mt-1">PNG, JPG up to 2MB</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Shop Name</label>
+                <input type="text" value="AutoFix Pro" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <input type="tel" value="+1 (555) 234-5678" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                <input type="email" value="contact@autofixpro.com" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Shop Address</label>
+                <input type="text" value="123 Main Street, Downtown, NY 10001" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea rows="4" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none">Professional automotive repair services with certified mechanics and quality parts. We specialize in engine diagnostics, brake repair, and routine maintenance.</textarea>
+            </div>
+          </div>
+
+          <!-- Services Offered -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="material-icons-round text-orange-500">description</span>
+              <h3 class="text-lg font-semibold text-gray-900">Services Offered</h3>
+            </div>
+            
+            <!-- Add Service Input -->
+            <div class="flex gap-2 mb-4">
+              <input type="text" id="newServiceInput" placeholder="Add a new service..." class="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              <button id="addServiceBtn" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                <span class="material-icons-round text-base">add</span>
+              </button>
+            </div>
+            
+            <!-- Services List -->
+            <div id="servicesList" class="flex flex-wrap gap-2">
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>Engine Diagnostics & Repair</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>Brake System Maintenance</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>Oil Changes & Fluid Services</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>Transmission Services</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>Electrical System Repair</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>AC & Heating Services</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>Tire Installation & Balancing</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+              <div class="service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                <span>Battery Replacement</span>
+                <button class="remove-service text-orange-600 hover:text-orange-800">
+                  <span class="material-icons-round text-sm">close</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-6">
+          <!-- Operating Hours -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="material-icons-round text-orange-500">schedule</span>
+              <h3 class="text-lg font-semibold text-gray-900">Opening Hours</h3>
+            </div>
+            
+            <div class="space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Monday</span>
+                <span class="text-sm text-gray-600">8:00 AM - 6:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Tuesday</span>
+                <span class="text-sm text-gray-600">8:00 AM - 6:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Wednesday</span>
+                <span class="text-sm text-gray-600">8:00 AM - 6:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Thursday</span>
+                <span class="text-sm text-gray-600">8:00 AM - 6:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Friday</span>
+                <span class="text-sm text-gray-600">8:00 AM - 6:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Saturday</span>
+                <span class="text-sm text-gray-600">9:00 AM - 4:00 PM</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm font-medium text-gray-700">Sunday</span>
+                <span class="text-sm text-gray-600 text-red-500">Closed</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shop Statistics -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="material-icons-round text-orange-500">star_outline</span>
+              <h3 class="text-lg font-semibold text-gray-900">Shop Statistics</h3>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <span class="material-icons-round text-yellow-500">star</span>
+                <div>
+                  <div class="text-sm font-medium text-gray-700">Overall Rating</div>
+                  <div class="text-lg font-bold text-gray-900">4.8</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="material-icons-round text-blue-500">rate_review</span>
+                <div>
+                  <div class="text-sm font-medium text-gray-700">Total Reviews</div>
+                  <div class="text-lg font-bold text-gray-900">324</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="material-icons-round text-green-500">build</span>
+                <div>
+                  <div class="text-sm font-medium text-gray-700">Services</div>
+                  <div class="text-lg font-bold text-gray-900">8</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4 mt-6">
+        <button class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+          Save Changes
+        </button>
+        <button class="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+
+
+    
+    <!-- Shop Items Tab Content -->
+    <div id="shopItemsContent" class="tab-content">
+              <!-- Analytics Cards - Horizontal Scroll -->
+      <div class="mb-6">
+        <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+          <!-- Total Items -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 min-w-[200px] flex-shrink-0">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <span class="material-icons-round text-orange-500">inventory</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-gray-700">Total Items</div>
+                <div class="text-2xl font-bold text-gray-900">5</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total Sales -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 min-w-[200px] flex-shrink-0">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <span class="material-icons-round text-green-500">trending_up</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-gray-700">Total Sales</div>
+                <div class="text-2xl font-bold text-gray-900">₱12,745.37</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Most Sold -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 min-w-[200px] flex-shrink-0">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <span class="material-icons-round text-blue-500">person</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-gray-700">Most Sold</div>
+                <div class="text-sm font-semibold text-gray-900">Premium Motor Oil (...)</div>
+                <div class="text-xs text-gray-500">89 sold</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Least Sold -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 min-w-[200px] flex-shrink-0">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <span class="material-icons-round text-yellow-500">warning</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium text-gray-700">Least Sold</div>
+                <div class="text-sm font-semibold text-gray-900">Car Battery (12V)</div>
+                <div class="text-xs text-gray-500">23 sold</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Items Header -->
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">Shop Items</h2>
+        <button id="addItemBtn" class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center gap-2">
+          <span class="material-icons-round text-base">add</span>
+          Add Item
+        </button>
+      </div>
+
+      <!-- Search and Filter -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-6">
+        <div class="flex gap-4">
+          <div class="relative flex-1">
+            <span class="material-icons-round absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">search</span>
+            <input type="text" placeholder="Search items..." class="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+          </div>
+          <select class="px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+            <option>All Categories</option>
+            <option>Engine</option>
+            <option>Brakes</option>
+            <option>Electrical</option>
+            <option>Accessories</option>
+          </select>
+        </div>
+      </div>
+
+
+      <!-- Items Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <!-- Item Card 1 -->
+        <div class="item-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-category="engine" data-name="premium motor oil">
+          <div class="flex items-start gap-3">
+            <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+              <span class="material-icons-round text-gray-400 text-xl">local_gas_station</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-gray-900 text-sm">Premium Motor Oil (5W-30)</h4>
+              <p class="text-xs text-gray-500 mb-2">Engine</p>
+              <p class="text-lg font-bold text-orange-500 mb-2">₱35.99</p>
+              <p class="text-xs text-gray-500">Stock: 24 | Sold: 89</p>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">edit</span>
+              Edit
+            </button>
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">delete</span>
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- Item Card 2 -->
+        <div class="item-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-category="electrical" data-name="car battery">
+          <div class="flex items-start gap-3">
+            <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+              <span class="material-icons-round text-gray-400 text-xl">battery_charging_full</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-gray-900 text-sm">Car Battery (12V)</h4>
+              <p class="text-xs text-gray-500 mb-2">Electrical</p>
+              <p class="text-lg font-bold text-orange-500 mb-2">₱149.99</p>
+              <p class="text-xs text-gray-500">Stock: 8 | Sold: 23</p>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">edit</span>
+              Edit
+            </button>
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">delete</span>
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- Item Card 3 -->
+        <div class="item-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-category="accessories" data-name="windshield wipers">
+          <div class="flex items-start gap-3">
+            <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+              <span class="material-icons-round text-gray-400 text-xl">visibility</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-gray-900 text-sm">Windshield Wipers</h4>
+              <p class="text-xs text-gray-500 mb-2">Accessories</p>
+              <p class="text-lg font-bold text-orange-500 mb-2">₱29.99</p>
+              <p class="text-xs text-gray-500">Stock: 15 | Sold: 34</p>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">edit</span>
+              Edit
+            </button>
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">delete</span>
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- Item Card 4 -->
+        <div class="item-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-category="brakes" data-name="brake pads set">
+          <div class="flex items-start gap-3">
+            <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+              <span class="material-icons-round text-gray-400 text-xl">build</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-gray-900 text-sm">Brake Pads Set</h4>
+              <p class="text-xs text-gray-500 mb-2">Brakes</p>
+              <p class="text-lg font-bold text-orange-500 mb-2">₱78.50</p>
+              <p class="text-xs text-gray-500">Stock: 12 | Sold: 45</p>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">edit</span>
+              Edit
+            </button>
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">delete</span>
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- Item Card 5 -->
+        <div class="item-card bg-white rounded-lg shadow-sm border border-gray-100 p-4" data-category="engine" data-name="air filter">
+          <div class="flex items-start gap-3">
+            <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+              <span class="material-icons-round text-gray-400 text-xl">air</span>
+            </div>
+            <div class="flex-1">
+              <h4 class="font-semibold text-gray-900 text-sm">Air Filter</h4>
+              <p class="text-xs text-gray-500 mb-2">Engine</p>
+              <p class="text-lg font-bold text-orange-500 mb-2">₱22.99</p>
+              <p class="text-xs text-gray-500">Stock: 18 | Sold: 67</p>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">edit</span>
+              Edit
+            </button>
+            <button class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-xs">
+              <span class="material-icons-round text-sm">delete</span>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top 5 Best Sellers -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mt-6">
+        <h4 class="font-semibold text-gray-900 mb-4">Top 5 Best Sellers</h4>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-700">Premium Motor Oi...</span>
+            <div class="flex items-center gap-2">
+              <div class="w-16 h-2 bg-gray-200 rounded-full">
+                <div class="w-full h-2 bg-orange-500 rounded-full"></div>
+              </div>
+              <span class="text-xs text-gray-500">89</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-700">Air Filter</span>
+            <div class="flex items-center gap-2">
+              <div class="w-16 h-2 bg-gray-200 rounded-full">
+                <div class="w-4/5 h-2 bg-orange-500 rounded-full"></div>
+              </div>
+              <span class="text-xs text-gray-500">67</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-700">Brake Pads Set</span>
+            <div class="flex items-center gap-2">
+              <div class="w-16 h-2 bg-gray-200 rounded-full">
+                <div class="w-3/5 h-2 bg-orange-500 rounded-full"></div>
+              </div>
+              <span class="text-xs text-gray-500">45</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-700">Windshield Wipers</span>
+            <div class="flex items-center gap-2">
+              <div class="w-16 h-2 bg-gray-200 rounded-full">
+                <div class="w-2/5 h-2 bg-orange-500 rounded-full"></div>
+              </div>
+              <span class="text-xs text-gray-500">34</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-700">Car Battery (12V)</span>
+            <div class="flex items-center gap-2">
+              <div class="w-16 h-2 bg-gray-200 rounded-full">
+                <div class="w-1/5 h-2 bg-orange-500 rounded-full"></div>
+              </div>
+              <span class="text-xs text-gray-500">23</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sidebar toggle functionality
+      const burgerBtn = document.getElementById('burgerBtn');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      
+      // Toggle sidebar
+      function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+        burgerBtn.classList.toggle('active');
+      }
+      
+      // Close sidebar
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+        burgerBtn.classList.remove('active');
+      }
+      
+      // Event listeners
+      burgerBtn.addEventListener('click', toggleSidebar);
+      overlay.addEventListener('click', closeSidebar);
+      
+      // Close sidebar when clicking on navigation links
+      const navLinks = sidebar.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', closeSidebar);
+      });
+
+      // Tab functionality
+      const shopDetailsTab = document.getElementById('shopDetailsTab');
+      const shopItemsTab = document.getElementById('shopItemsTab');
+      const shopDetailsContent = document.getElementById('shopDetailsContent');
+      const shopItemsContent = document.getElementById('shopItemsContent');
+
+      function switchTab(activeTab, activeContent) {
+        // Reset all tabs
+        [shopDetailsTab, shopItemsTab].forEach(tab => {
+          tab.classList.remove('bg-orange-500', 'text-white', 'active');
+          tab.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+        });
+        
+        // Reset all content
+        [shopDetailsContent, shopItemsContent].forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Activate selected tab and content
+        activeTab.classList.add('bg-orange-500', 'text-white', 'active');
+        activeTab.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+        activeContent.classList.add('active');
+      }
+
+      shopDetailsTab.addEventListener('click', () => {
+        switchTab(shopDetailsTab, shopDetailsContent);
+      });
+
+      shopItemsTab.addEventListener('click', () => {
+        switchTab(shopItemsTab, shopItemsContent);
+      });
+
+      // Services management
+      const newServiceInput = document.getElementById('newServiceInput');
+      const addServiceBtn = document.getElementById('addServiceBtn');
+      const servicesList = document.getElementById('servicesList');
+
+      function addService() {
+        const serviceName = newServiceInput.value.trim();
+        if (serviceName) {
+          const serviceTag = document.createElement('div');
+          serviceTag.className = 'service-tag flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm';
+          serviceTag.innerHTML = `
+            <span>${serviceName}</span>
+            <button class="remove-service text-orange-600 hover:text-orange-800">
+              <span class="material-icons-round text-sm">close</span>
+            </button>
+          `;
+          
+          servicesList.appendChild(serviceTag);
+          newServiceInput.value = '';
+          
+          // Add remove functionality
+          serviceTag.querySelector('.remove-service').addEventListener('click', () => {
+            serviceTag.remove();
+          });
+        }
+      }
+
+      addServiceBtn.addEventListener('click', addService);
+      newServiceInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          addService();
+        }
+      });
+
+      // Remove existing services
+      document.querySelectorAll('.remove-service').forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.closest('.service-tag').remove();
+        });
+      });
+
+      // Item management
+      const addItemBtn = document.getElementById('addItemBtn');
+      
+      addItemBtn.addEventListener('click', function() {
+        // Simulate adding new item
+        alert('Add Item functionality would open a modal here');
+      });
+
+      // Search and Filter functionality
+      const searchInput = document.querySelector('input[placeholder="Search items..."]');
+      const categoryFilter = document.querySelector('select');
+      const itemCards = document.querySelectorAll('.item-card');
+
+      function filterItems() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        let visibleCount = 0;
+
+        itemCards.forEach(card => {
+          const itemName = card.getAttribute('data-name') || card.querySelector('h4').textContent.toLowerCase();
+          const itemCategory = card.getAttribute('data-category') || card.querySelector('p').textContent.toLowerCase();
+          
+          const matchesSearch = searchTerm === '' || itemName.includes(searchTerm);
+          const matchesCategory = selectedCategory === 'All Categories' || itemCategory.includes(selectedCategory.toLowerCase());
+          
+          if (matchesSearch && matchesCategory) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Update items count in analytics cards
+        const itemsCounters = document.querySelectorAll('.text-2xl.font-bold.text-gray-900');
+        itemsCounters.forEach(counter => {
+          if (counter.textContent === '5' || counter.textContent === '4' || counter.textContent === '3' || counter.textContent === '2' || counter.textContent === '1') {
+            counter.textContent = visibleCount.toString();
+          }
+        });
+      }
+
+      // Add event listeners for search and filter
+      searchInput.addEventListener('input', filterItems);
+      categoryFilter.addEventListener('change', filterItems);
+
+      // Item edit/delete buttons
+      document.querySelectorAll('.item-card').forEach(card => {
+        const editBtn = card.querySelector('button:first-child');
+        const deleteBtn = card.querySelector('button:last-child');
+        
+        editBtn.addEventListener('click', function() {
+          alert('Edit item functionality would open a modal here');
+        });
+        
+        deleteBtn.addEventListener('click', function() {
+          if (confirm('Are you sure you want to delete this item?')) {
+            card.remove();
+            // Update the count after deletion
+            const remainingItems = document.querySelectorAll('.item-card:not([style*="display: none"])');
+            const itemsCounter = document.querySelector('.text-2xl.font-bold.text-gray-900');
+            if (itemsCounter) {
+              itemsCounter.textContent = remainingItems.length.toString();
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

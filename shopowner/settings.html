@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" class="dark:bg-gray-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .booking-card {
+            transition: all 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .burger-menu {
+            transition: all 0.3s ease;
+        }
+        
+        .burger-menu.active .line1 {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .burger-menu.active .line2 {
+            opacity: 0;
+        }
+        
+        .burger-menu.active .line3 {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Hide scrollbar for horizontal scroll */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Add smooth transition for dark mode */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans pb-20">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button id="burgerBtn" class="burger-menu p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-center items-center">
+                            <div class="line1 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line2 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line3 w-5 h-0.5 bg-current transition-all duration-300"></div>
+                        </div>
+                    </button>
+                    <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="notification.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </a>
+                    <a href="settings.html" class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium hover:bg-orange-600 transition-colors">
+                        SO
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-40">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                    SO
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white">Shop Owner</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Dashboard</p>
+                </div>
+            </div>
+            <nav class="space-y-2">
+                <a href="dashboard.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">dashboard</span>
+                    Dashboard
+                </a>
+                
+                <a href="manage_mechanic.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">groups</span>
+                    Manage Mechanics
+                </a>
+                
+                <a href="manage_shop.html" 
+                class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                 <span class="material-icons-round">store</span>
+                 Manage Shop
+             </a>
+             
+                <a href="manage_booking.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">calendar_today</span>
+                    Manage Bookings
+                </a>
+                
+                <a href="revenue_analytics.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">attach_money</span>
+                    Revenue Analytics
+                </a>
+                
+                <a href="notification.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">notifications</span>
+                    Notifications
+                </a>
+                
+              
+                
+                <a href="settings.html" 
+                   class="flex items-center gap-3 p-3 text-orange-600 bg-orange-50 rounded-lg font-medium">
+                    <span class="material-icons-round">settings</span>
+                    Settings
+                </a>
+                
+                <a href="privacy_policy.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 dark:text-gray-200 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">help</span>
+                    Help & Support
+                </a>
+            </nav>
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <a href="../auth/login.html" class="flex items-center gap-3 p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">logout</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-3 py-4">
+        <div class="mb-6">
+            <h2 class="text-3xl font-bold text-orange-500">Settings</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300">Manage your account settings and preferences.</p>
+        </div>
+
+        <!-- Profile Information Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6 mb-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <span class="material-icons-round">person</span>
+                    Profile Information
+                </h3>
+            </div>
+
+            <!-- Avatar and Profile Info - Header Style -->
+            <div class="mb-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                    SO
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white">Shop Owner</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">AutoFix Pro</p>
+                </div>
+                <div class="ml-auto">
+                    <button class="text-sm text-gray-600 hover:text-orange-600 flex items-center gap-1">
+                        <span class="material-icons-round text-sm">upload</span>
+                        Change Avatar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Form - Full width on mobile -->
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Full Name</label>
+                    <input type="text" value="Robert Johnson" class="w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Shop Name</label>
+                    <input type="text" value="AutoFix Pro" class="w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Email Address</label>
+                    <input type="email" value="robert@autofixpro.com" class="w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Phone Number</label>
+                    <input type="tel" value="+1 (555) 234-5678" class="w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:text-white">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Shop Address</label>
+                    <input type="text" value="123 Main Street, Downtown, NY 10001" class="w-full px-3 py-2.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:text-white">
+                </div>
+            </div>
+        </div>
+
+        <!-- Appearance Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6 mb-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <span class="material-icons-round">palette</span>
+                    Appearance
+                </h3>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <p class="font-medium text-gray-900 dark:text-white">Dark Mode</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Switch between light and dark themes</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6 mb-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <span class="material-icons-round">notifications</span>
+                    Notifications
+                </h3>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Make each notification item more spaced on mobile -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <p class="font-medium text-gray-900 dark:text-white">Email Notifications</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Receive notifications via email</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <p class="font-medium text-gray-900 dark:text-white">Push Notifications</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Receive push notifications in browser</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <p class="font-medium text-gray-900 dark:text-white">Booking Alerts</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Get notified about new bookings</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <p class="font-medium text-gray-900 dark:text-white">Payment Alerts</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Get notified about payments and revenue</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <p class="font-medium text-gray-900 dark:text-white">Marketing Emails</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Receive promotional and marketing emails</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Information -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6 mb-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <span class="material-icons-round">manage_accounts</span>
+                    Account Information
+                </h3>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                <div class="space-y-2">
+                    <p class="text-sm font-medium text-gray-700 dark:text-gray-200">Member Since</p>
+                    <p class="text-sm text-gray-900 dark:text-white">May 15, 2022</p>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-sm font-medium text-gray-700 dark:text-gray-200">Account Type</p>
+                    <p class="text-sm text-gray-900 dark:text-white">Shop Owner</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons - Full width on mobile -->
+        <div class="flex flex-col sm:flex-row gap-3">
+            <button class="w-full sm:w-auto px-4 py-3 sm:py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                <span class="material-icons-round text-sm">save</span>
+                Save Changes
+            </button>
+            <button class="w-full sm:w-auto px-4 py-3 sm:py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center">
+                Cancel
+            </button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality
+            const burgerBtn = document.getElementById('burgerBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            // Toggle sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+                burgerBtn.classList.toggle('active');
+            }
+            
+            // Close sidebar
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                burgerBtn.classList.remove('active');
+            }
+            
+            // Event listeners
+            burgerBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', closeSidebar);
+            
+            // Close sidebar when clicking on navigation links
+            const navLinks = sidebar.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+
+            // Dark mode functionality
+            const darkModeToggle = document.querySelector('input[type="checkbox"]');
+            const html = document.documentElement;
+            
+            // Check for saved dark mode preference
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            
+            // Function to update dark mode styles
+            function updateDarkMode(isDark) {
+                if (isDark) {
+                    html.classList.add('dark');
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    html.classList.remove('dark');
+                    localStorage.setItem('darkMode', 'false');
+                }
+            }
+            
+            // Initialize dark mode based on saved preference
+            darkModeToggle.checked = darkMode;
+            updateDarkMode(darkMode);
+            
+            // Handle dark mode toggle
+            darkModeToggle.addEventListener('change', (e) => {
+                updateDarkMode(e.target.checked);
+            });
+        });
+    </script>
+</body>
+</html>

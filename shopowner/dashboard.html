@@ -41,32 +41,172 @@
         .kpi-card:hover {
             transform: translateY(-2px);
         }
+
+        /* Hide scrollbar for horizontal scroll */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .burger-menu {
+            transition: all 0.3s ease;
+        }
+        
+        .burger-menu.active .line1 {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .burger-menu.active .line2 {
+            opacity: 0;
+        }
+        
+        .burger-menu.active .line3 {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans pb-20">
     <!-- Header -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-20">
         <div class="max-w-6xl mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
-                <!-- MechConnect Title -->
-                <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+                <!-- Left side with burger menu and title -->
+                <div class="flex items-center gap-4">
+                    <!-- Burger Menu Button -->
+                    <button id="burgerBtn" class="burger-menu p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                        <div class="w-6 h-6 flex flex-col justify-center items-center">
+                            <div class="line1 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line2 w-5 h-0.5 bg-current mb-1 transition-all duration-300"></div>
+                            <div class="line3 w-5 h-0.5 bg-current transition-all duration-300"></div>
+                        </div>
+                    </button>
+                    
+                    <!-- MechConnect Title -->
+                    <h1 class="text-xl font-bold text-orange-500">MechConnect</h1>
+                </div>
                 
                 <!-- Right Icons -->
                 <div class="flex items-center gap-4">
                     <!-- Notification Bell -->
-                    <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                    <a href="../../mechconnect_mobile_demo/shopowner/notification.html" class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
                         <span class="material-icons-round">notifications</span>
                         <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button>
+                    </a>
                     
                     <!-- Profile Picture -->
-                    <button class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                    <a href="../../mechconnect_mobile_demo/shopowner/settings.html" class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium hover:bg-orange-600 transition-colors">
                         SO
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-40">
+        <div class="p-6">
+            <!-- Sidebar Header -->
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                    SO
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-900">Shop Owner</h3>
+                    <p class="text-sm text-gray-600">Dashboard</p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="space-y-2">
+                <a href="../shopowner/dashboard.html" 
+                   class="flex items-center gap-3 p-3 text-orange-600 bg-orange-50 rounded-lg font-medium">
+                    <span class="material-icons-round">dashboard</span>
+                    Dashboard
+                </a>
+                
+                <a href="../shopowner/manage_mechanic.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">groups</span>
+                     Manage Mechanics
+                </a>
+                
+                <a href="../shopowner/manage_shop.html" 
+                class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                 <span class="material-icons-round">store</span>
+                 Manage Shop
+             </a>
+
+                <a href="../shopowner/manage_booking.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">calendar_today</span>
+                    Manage Bookings
+                </a>
+                
+                <a href="../shopowner/privacy_policy.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">attach_money</span>
+                    Revenue Analytics
+                </a>
+                
+                <a href="../shopowner/notification.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">notifications</span>
+                    Notifications
+                </a>
+                
+    
+                
+                <a href="../shopowner/settings.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">settings</span>
+                    Settings
+                </a>
+                
+                <a href="../shopowner/privacy_policy.html" 
+                   class="flex items-center gap-3 p-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">help</span>
+                    Help & Support
+                </a>
+            </nav>
+
+            <!-- Logout Button -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <a href="../auth/login.html" 
+                   class="flex items-center gap-3 p-3 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">
+                    <span class="material-icons-round">logout</span>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </aside>
 
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-4 py-6">
@@ -83,7 +223,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-600 text-sm">Today's revenue</p>
-                    <p class="text-2xl font-bold text-gray-900">$1,250</p>
+                    <p class="text-2xl font-bold text-gray-900">₱1,250</p>
                 </div>
                 <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
                     <span class="material-icons-round text-orange-500 text-xl">bar_chart</span>
@@ -91,60 +231,54 @@
             </div>
         </div>
 
-        <!-- KPI Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <!-- Total Mechanic -->
-            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                <div class="flex items-center justify-between mb-2">
-                    <div>
-                        <p class="text-sm text-gray-600">Total Mechanic</p>
-                        <p class="text-2xl font-bold text-gray-900">75</p>
-                        <p class="text-xs text-gray-500">O This month</p>
-                    </div>
-                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <span class="material-icons-round text-blue-500 text-lg">groups</span>
+        <!-- KPI Cards - Horizontal Scroll -->
+        <div class="mb-6">
+            <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <!-- Total Mechanic -->
+                <div class="kpi-card bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[160px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-blue-500 text-xl">groups</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">75</p>
+                        <p class="text-sm text-gray-600 mb-1">Total Mechanic</p>
+                        <p class="text-xs text-gray-500">This month</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Total Booking -->
-            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                <div class="flex items-center justify-between mb-2">
-                    <div>
-                        <p class="text-sm text-gray-600">Total Booking</p>
-                        <p class="text-2xl font-bold text-gray-900">175</p>
+                <!-- Total Booking -->
+                <div class="kpi-card bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[160px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-green-500 text-xl">calendar_today</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">175</p>
+                        <p class="text-sm text-gray-600 mb-1">Total Booking</p>
                         <p class="text-xs text-green-600">+12% from last month</p>
                     </div>
-                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                        <span class="material-icons-round text-green-500 text-lg">calendar_today</span>
-                    </div>
                 </div>
-            </div>
 
-            <!-- Total Revenue -->
-            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                <div class="flex items-center justify-between mb-2">
-                    <div>
-                        <p class="text-sm text-gray-600">Total Revenue</p>
-                        <p class="text-2xl font-bold text-gray-900">$25,756</p>
+                <!-- Total Revenue -->
+                <div class="kpi-card bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[160px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-orange-500 text-xl">attach_money</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">₱25,756</p>
+                        <p class="text-sm text-gray-600 mb-1">Total Revenue</p>
                         <p class="text-xs text-green-600">+10% from last month</p>
                     </div>
-                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                        <span class="material-icons-round text-orange-500 text-lg">attach_money</span>
-                    </div>
                 </div>
-            </div>
 
-            <!-- Today's Booking -->
-            <div class="kpi-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                <div class="flex items-center justify-between mb-2">
-                    <div>
-                        <p class="text-sm text-gray-600">Today's Booking</p>
-                        <p class="text-2xl font-bold text-gray-900">13</p>
+                <!-- Today's Booking -->
+                <div class="kpi-card bg-white rounded-xl shadow-lg border border-gray-100 p-4 min-w-[160px] flex-shrink-0">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
+                            <span class="material-icons-round text-purple-500 text-xl">schedule</span>
+                        </div>
+                        <p class="text-2xl font-bold text-gray-900 mb-1">13</p>
+                        <p class="text-sm text-gray-600 mb-1">Today's Booking</p>
                         <p class="text-xs text-gray-500">5 Pending Approved</p>
-                    </div>
-                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <span class="material-icons-round text-purple-500 text-lg">schedule</span>
                     </div>
                 </div>
             </div>
@@ -175,7 +309,7 @@
                 
                 <!-- Earnings -->
                 <div class="text-right">
-                    <p class="text-2xl font-bold text-gray-900">$5,000</p>
+                    <p class="text-2xl font-bold text-gray-900">₱5,000</p>
                     <p class="text-gray-600 text-sm">This Month</p>
                 </div>
             </div>
@@ -202,56 +336,50 @@
                     
                     <!-- Y-axis labels -->
                     <div class="flex justify-between text-xs text-gray-500 mt-2">
-                        <span>$0</span>
-                        <span>$1,000</span>
-                        <span>$2,000</span>
-                        <span>$3,000</span>
-                        <span>$4,000</span>
-                        <span>$5,000</span>
-                        <span>$6,000</span>
+                        <span>₱0</span>
+                        <span>₱1,000</span>
+                        <span>₱2,000</span>
+                        <span>₱3,000</span>
+                        <span>₱4,000</span>
+                        <span>₱5,000</span>
+                        <span>₱6,000</span>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
-        <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <!-- Dashboard -->
-            <a href="dashboard.html" class="flex flex-col items-center text-orange-500 transition-colors">
-                <span class="material-icons-round text-lg">dashboard</span>
-                <span class="text-xs mt-1">Dashboard</span>
-            </a>
-            
-            <!-- Mechanics -->
-            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
-                <span class="material-icons-round text-lg">handyman</span>
-                <span class="text-xs mt-1">Mechanics</span>
-            </a>
-            
-            <!-- Bookings -->
-            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
-                <span class="material-icons-round text-lg">calendar_today</span>
-                <span class="text-xs mt-1">Bookings</span>
-            </a>
-            
-            <!-- Revenue -->
-            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
-                <span class="material-icons-round text-lg">attach_money</span>
-                <span class="text-xs mt-1">Revenue</span>
-            </a>
-            
-            <!-- Profile -->
-            <a href="#" class="flex flex-col items-center text-gray-600 hover:text-orange-500 transition-colors">
-                <span class="material-icons-round text-lg">person</span>
-                <span class="text-xs mt-1">Profile</span>
-            </a>
-        </div>
-    </nav>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality
+            const burgerBtn = document.getElementById('burgerBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            // Toggle sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+                burgerBtn.classList.toggle('active');
+            }
+            
+            // Close sidebar
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                burgerBtn.classList.remove('active');
+            }
+            
+            // Event listeners
+            burgerBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', closeSidebar);
+            
+            // Close sidebar when clicking on navigation links
+            const navLinks = sidebar.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', closeSidebar);
+            });
+            
             // Add some interactive functionality
             const kpiCards = document.querySelectorAll('.kpi-card');
             const dashboardCards = document.querySelectorAll('.dashboard-card');
