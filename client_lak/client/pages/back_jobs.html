@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Back Jobs - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .backjob-card {
+            transition: all 0.3s ease;
+        }
+        
+        .backjob-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-active {
+            background-color: #f97316;
+            color: white;
+        }
+        
+        .tab-inactive {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .mobile-tab {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 8px;
+            border-radius: 8px;
+            margin: 2px;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .mobile-tab-content {
+            display: none;
+        }
+        
+        .mobile-tab-content.active {
+            display: block;
+        }
+        
+        .status-badge {
+            font-size: 0.7rem;
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(249, 115, 22, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(249, 115, 22, 0.5); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header with Back Button Only -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">My Back Jobs</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-6">
+        <!-- New Back Job Button -->
+        <div class="mb-6">
+            <button onclick="requestNewBackJob()" class="w-full bg-orange-500 text-white px-6 py-4 rounded-xl text-base font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-3 shadow-md hover:shadow-lg">
+                <span class="material-icons-round text-lg">add_circle</span>
+                <span class="font-semibold">Request New Back Job</span>
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 mb-6">
+            <div class="flex">
+                <button id="pending-tab" class="mobile-tab tab-active flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">pending_actions</span>
+                    <span>Pending</span>
+                </button>
+                <button id="completed-tab" class="mobile-tab tab-inactive flex items-center justify-center gap-2 whitespace-nowrap">
+                    <span class="material-icons-round text-sm">check_circle</span>
+                    <span>Completed</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div>
+            <!-- Pending Tab Content -->
+            <div id="pending-content" class="mobile-tab-content active">
+                <div class="space-y-4">
+                    <!-- Pending Back Job Card 1 -->
+                    <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-4 pulse-glow">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Brake Squeaking After Replacement</h3>
+                                    <span class="status-badge bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">PENDING</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Submitted: Jan 18, 2024 • 2:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">BJ-2024-001</div>
+                                <div class="text-xs text-gray-500">Back Job ID</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Brakes started squeaking loudly 2 days after the brake pad replacement service. 
+                                The noise occurs when applying light pressure to the brakes.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Original Service: BK-2024-001
+                            </div>
+                            <button onclick="viewBackJobDetails('BJ-2024-001')" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pending Back Job Card 2 -->
+                    <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">AC Not Cooling Properly</h3>
+                                    <span class="status-badge bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">PENDING</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Submitted: Jan 16, 2024 • 10:15 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">BJ-2024-002</div>
+                                <div class="text-xs text-gray-500">Back Job ID</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                AC system was serviced but still not cooling to the expected temperature. 
+                                Airflow seems weaker than before the service.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Original Service: BK-2024-003
+                            </div>
+                            <button onclick="viewBackJobDetails('BJ-2024-002')" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pending Back Job Card 3 -->
+                    <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Oil Leak After Change</h3>
+                                    <span class="status-badge bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-medium">PENDING</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Submitted: Jan 15, 2024 • 3:45 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">BJ-2024-003</div>
+                                <div class="text-xs text-gray-500">Back Job ID</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Noticed oil spots on driveway after oil change service. 
+                                Appears to be leaking from the oil filter area.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Original Service: BK-2024-002
+                            </div>
+                            <button onclick="viewBackJobDetails('BJ-2024-003')" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Tab Content -->
+            <div id="completed-content" class="mobile-tab-content">
+                <div class="space-y-4">
+                    <!-- Completed Back Job Card 1 -->
+                    <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Rattling Noise from Engine</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">COMPLETED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Completed: Jan 12, 2024</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">BJ-2024-004</div>
+                                <div class="text-xs text-gray-500">Back Job ID</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Engine developed rattling noise after tune-up service. 
+                                Mechanic found loose heat shield and properly secured it.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Original Service: BK-2024-001
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="viewBackJobDetails('BJ-2024-004')" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                    View Details
+                                </button>
+                                <button onclick="rateService('BJ-2024-004')" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Rate Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completed Back Job Card 2 -->
+                    <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Dashboard Warning Light</h3>
+                                    <span class="status-badge bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">COMPLETED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Completed: Jan 9, 2024</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">BJ-2024-005</div>
+                                <div class="text-xs text-gray-500">Back Job ID</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-600 line-clamp-2">
+                                Check engine light came on after electrical system inspection. 
+                                Mechanic found loose connection and resolved the issue.
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <div class="text-xs text-gray-500">
+                                Original Service: BK-2024-003
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="viewBackJobDetails('BJ-2024-005')" class="bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">
+                                    View Details
+                                </button>
+                                <button onclick="rateService('BJ-2024-005')" class="bg-orange-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                                    Rate Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State for Pending Tab -->
+        <div id="pending-empty-state" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-3">
+                <span class="material-icons-round text-4xl">sentiment_satisfied</span>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No Pending Back Jobs</h3>
+            <p class="text-sm text-gray-500 mb-4">You don't have any pending back jobs at the moment.</p>
+            <button onclick="requestNewBackJob()" class="bg-orange-500 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors">
+                Request New Back Job
+            </button>
+        </div>
+
+        <!-- Empty State for Completed Tab -->
+        <div id="completed-empty-state" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-3">
+                <span class="material-icons-round text-4xl">history</span>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No Completed Back Jobs</h3>
+            <p class="text-sm text-gray-500">You haven't completed any back jobs yet.</p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const pendingTab = document.getElementById('pending-tab');
+            const completedTab = document.getElementById('completed-tab');
+            
+            const pendingContent = document.getElementById('pending-content');
+            const completedContent = document.getElementById('completed-content');
+            
+            // Initialize with pending tab active
+            updateTabDisplay('pending');
+            
+            pendingTab.addEventListener('click', () => updateTabDisplay('pending'));
+            completedTab.addEventListener('click', () => updateTabDisplay('completed'));
+            
+            function updateTabDisplay(selectedTab) {
+                // Reset all tabs
+                pendingTab.classList.remove('tab-active');
+                completedTab.classList.remove('tab-active');
+                
+                pendingTab.classList.add('tab-inactive');
+                completedTab.classList.add('tab-inactive');
+                
+                // Hide all content
+                pendingContent.classList.remove('active');
+                completedContent.classList.remove('active');
+                
+                // Activate selected tab
+                if (selectedTab === 'pending') {
+                    pendingTab.classList.remove('tab-inactive');
+                    pendingTab.classList.add('tab-active');
+                    pendingContent.classList.add('active');
+                } else if (selectedTab === 'completed') {
+                    completedTab.classList.remove('tab-inactive');
+                    completedTab.classList.add('tab-active');
+                    completedContent.classList.add('active');
+                }
+            }
+            
+            // Simple interactions
+            const viewButtons = document.querySelectorAll('button');
+            
+            viewButtons.forEach(button => {
+                if (button.textContent.includes('View Details')) {
+                    button.addEventListener('click', function() {
+                        const backjobTitle = this.closest('.backjob-card').querySelector('h3').textContent;
+                        alert(`Viewing details for: ${backjobTitle}`);
+                    });
+                }
+            });
+        });
+
+        function requestNewBackJob() {
+            alert('Redirecting to new back job request form...');
+            // In a real app, this would navigate to the back job form
+            window.location.href = '../../client/pages/back_jobs_form.html';
+        }
+
+        function viewBackJobDetails(backjobId) {
+            alert(`Viewing details for back job: ${backjobId}`);
+            // In a real app, this would navigate to the back job details page
+            window.location.href = `../../client/pages/back_jobs_detail.html?id=${backjobId}`;
+        }
+
+        function rateService(backjobId) {
+            alert(`Opening rating form for: ${backjobId}`);
+            // In a real app, this would navigate to the rating page
+            window.location.href = `../../client/pages/review_form.html?backjob=${backjobId}`;
+        }
+    </script>
+</body>
+</html>

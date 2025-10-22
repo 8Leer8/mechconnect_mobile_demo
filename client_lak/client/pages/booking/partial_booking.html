@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Complete Booking - AutoCare Pro</title>
+    <title>Active Booking - AutoCare Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -141,8 +141,24 @@
         transform: translateY(-2px);
       }
 
-      .completion-badge {
-        background: linear-gradient(135deg, #10b981, #059669);
+      .payment-method {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .payment-method.selected {
+        border-color: #f97316;
+        background-color: #fff7ed;
+      }
+
+      .payment-option {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .payment-option.selected {
+        border-color: #f97316;
+        background-color: #fff7ed;
       }
     </style>
   </head>
@@ -165,7 +181,7 @@
 
           <!-- Page Title -->
           <div class="flex items-center gap-3">
-            <h1 class="text-lg font-semibold text-gray-900">Complete Booking</h1>
+            <h1 class="text-lg font-semibold text-gray-900">Active Booking</h1>
           </div>
 
           <!-- Placeholder for alignment -->
@@ -189,8 +205,8 @@
                 Brake Pad Replacement
               </h1>
               <span
-                class="status-badge bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full font-medium"
-                >COMPLETED</span
+                class="status-badge bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-medium"
+                >IN PROCESS</span
               >
             </div>
             <div class="flex items-center gap-4 text-sm text-gray-600">
@@ -217,19 +233,11 @@
 
           <div class="text-right">
             <div class="text-lg font-bold text-orange-600">₱3,030</div>
-            <div class="text-sm text-gray-500">Paid in Full</div>
+            <div class="text-sm text-gray-500">Total Service Cost</div>
+            <div class="text-xs text-green-600 font-medium">
+              ₱1,500 paid • ₱1,530 remaining
+            </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Completion Banner -->
-      <div class="completion-badge text-white rounded-2xl p-6 mb-8 flex items-center gap-4 shadow-md">
-        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-          <span class="material-icons-round text-2xl">check_circle</span>
-        </div>
-        <div>
-          <div class="font-semibold text-lg">Service Completed Successfully!</div>
-          <div class="text-white/90 text-sm">Thank you for choosing AutoCare Pro. Your vehicle is now ready.</div>
         </div>
       </div>
 
@@ -243,8 +251,8 @@
           <!-- Timeline Progress Bar -->
           <div class="absolute top-5 left-0 right-0 h-1 bg-gray-200 z-0">
             <div
-              class="h-1 bg-green-500 transition-all duration-500"
-              style="width: 100%"
+              class="h-1 bg-orange-500 transition-all duration-500"
+              style="width: 50%"
               id="timelineProgress"
             ></div>
           </div>
@@ -252,98 +260,97 @@
           <!-- Timeline Steps -->
           <div class="relative z-10 grid grid-cols-6 gap-4">
             <!-- Step 1: In Process -->
-            <div class="timeline-step text-center">
+            <div class="timeline-step active text-center">
               <div
-                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+                class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
               >
                 <span class="material-icons-round text-white text-sm"
                   >pending_actions</span
                 >
               </div>
               <div class="text-xs font-medium text-gray-900">In Process</div>
-              <div class="text-xs text-gray-500">10:00 AM</div>
+              <div class="text-xs text-gray-500">Current</div>
             </div>
 
             <!-- Step 2: On the Way -->
             <div class="timeline-step text-center">
               <div
-                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+                class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
               >
                 <span class="material-icons-round text-white text-sm"
                   >directions_car</span
                 >
               </div>
-              <div class="text-xs font-medium text-gray-900">On the Way</div>
-              <div class="text-xs text-gray-500">10:30 AM</div>
+              <div class="text-xs font-medium text-gray-500">On the Way</div>
+              <div class="text-xs text-gray-400">Upcoming</div>
             </div>
 
             <!-- Step 3: Arrived -->
             <div class="timeline-step text-center">
               <div
-                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+                class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
               >
                 <span class="material-icons-round text-white text-sm"
                   >location_on</span
                 >
               </div>
-              <div class="text-xs font-medium text-gray-900">Arrived</div>
-              <div class="text-xs text-gray-500">11:15 AM</div>
+              <div class="text-xs font-medium text-gray-500">Arrived</div>
+              <div class="text-xs text-gray-400">Upcoming</div>
             </div>
 
             <!-- Step 4: Working -->
             <div class="timeline-step text-center">
               <div
-                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+                class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
               >
                 <span class="material-icons-round text-white text-sm"
                   >build</span
                 >
               </div>
-              <div class="text-xs font-medium text-gray-900">Working</div>
-              <div class="text-xs text-gray-500">11:30 AM</div>
+              <div class="text-xs font-medium text-gray-500">Working</div>
+              <div class="text-xs text-gray-400">Upcoming</div>
             </div>
 
             <!-- Step 5: Finished -->
             <div class="timeline-step text-center">
               <div
-                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+                class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
               >
                 <span class="material-icons-round text-white text-sm"
                   >check_circle</span
                 >
               </div>
-              <div class="text-xs font-medium text-gray-900">Finished</div>
-              <div class="text-xs text-gray-500">1:45 PM</div>
+              <div class="text-xs font-medium text-gray-500">Finished</div>
+              <div class="text-xs text-gray-400">Upcoming</div>
             </div>
 
             <!-- Step 6: Payment -->
             <div class="timeline-step text-center">
               <div
-                class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
+                class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-2 shadow-md"
               >
                 <span class="material-icons-round text-white text-sm"
                   >payments</span
                 >
               </div>
-              <div class="text-xs font-medium text-gray-900">Payment</div>
-              <div class="text-xs text-gray-500">2:00 PM</div>
+              <div class="text-xs font-medium text-gray-500">Payment</div>
+              <div class="text-xs text-gray-400">Upcoming</div>
             </div>
           </div>
         </div>
 
-        <!-- Completion Info -->
-        <div class="mt-8 bg-green-50 rounded-xl p-4 border border-green-200">
+        <!-- Current Status Info -->
+        <div class="mt-8 bg-blue-50 rounded-xl p-4 border border-blue-200">
           <div class="flex items-start gap-3">
-            <span class="material-icons-round text-green-500 mt-0.5"
-              >check_circle</span
+            <span class="material-icons-round text-blue-500 mt-0.5"
+              >build</span
             >
             <div>
-              <div class="text-sm font-medium text-green-900 mb-1">
-                Service & Payment Complete
+              <div class="text-sm font-medium text-blue-900 mb-1">
+                Service In Progress
               </div>
-              <p class="text-sm text-green-700">
-                Your brake pad replacement has been successfully completed and payment has been processed. 
-                Thank you for trusting AutoCare Pro with your vehicle maintenance.
+              <p class="text-sm text-blue-700">
+                Your brake pad replacement is currently being processed. You can make a partial payment now or pay the full amount upon completion.
               </p>
             </div>
           </div>
@@ -353,16 +360,58 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Left Column -->
         <div class="space-y-8">
-          <!-- Service Summary -->
+          <!-- Payment Section -->
           <div
             class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
           >
             <h2
               class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
             >
-              <span class="material-icons-round text-orange-500">receipt</span>
-              Service Summary
+              <span class="material-icons-round text-orange-500">payments</span>
+              Payment Details
             </h2>
+
+            <!-- Payment Options -->
+            <div class="mb-6">
+              <h3 class="text-sm font-medium text-gray-900 mb-3">
+                Payment Options
+              </h3>
+              <div class="space-y-3">
+                <div 
+                  class="payment-option border-2 border-gray-200 rounded-lg p-4 hover:border-orange-300 cursor-pointer"
+                  onclick="selectPaymentOption('partial')"
+                  id="partialOption"
+                >
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="font-medium text-gray-900">Partial Payment</div>
+                      <div class="text-sm text-gray-600">Pay 50% now, balance upon completion</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-bold text-orange-600">₱1,515</div>
+                      <div class="text-xs text-gray-500">50% of total</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  class="payment-option border-2 border-gray-200 rounded-lg p-4 hover:border-orange-300 cursor-pointer"
+                  onclick="selectPaymentOption('full')"
+                  id="fullOption"
+                >
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="font-medium text-gray-900">Full Payment</div>
+                      <div class="text-sm text-gray-600">Pay complete amount now</div>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-bold text-orange-600">₱1,530</div>
+                      <div class="text-xs text-green-600">Remaining balance</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <!-- Service Breakdown -->
             <div class="mb-6">
@@ -400,28 +449,41 @@
                   <span class="text-gray-700">Service Fee</span>
                   <span class="font-medium text-gray-900">₱100</span>
                 </div>
-                <div class="border-t border-gray-300 pt-3 mt-2">
-                  <div class="flex justify-between items-center">
-                    <span class="text-base font-semibold text-gray-900"
-                      >Total Paid</span
-                    >
-                    <span class="text-xl font-bold text-orange-600"
-                      >₱3,030</span
-                    >
+                
+                <!-- Payment Summary -->
+                <div class="border-t border-gray-300 pt-3 mt-2 space-y-2">
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-700">Total Amount</span>
+                    <span class="font-medium text-gray-900">₱3,030</span>
+                  </div>
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-700">Amount Paid</span>
+                    <span class="font-medium text-green-600">-₱1,500</span>
+                  </div>
+                  <div class="flex justify-between items-center text-base font-semibold">
+                    <span class="text-gray-900">Remaining Balance</span>
+                    <span class="text-orange-600">₱1,530</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Payment Confirmation -->
-            <div class="bg-green-50 rounded-lg p-4 border border-green-200">
-              <div class="flex items-center gap-3">
-                <span class="material-icons-round text-green-500">check_circle</span>
-                <div>
-                  <div class="text-sm font-medium text-green-900">Payment Confirmed</div>
-                  <div class="text-xs text-green-700">Transaction ID: TXN-2024-001</div>
-                  <div class="text-xs text-green-700">Paid via GCash • Jan 16, 2024 2:00 PM</div>
-                </div>
+            <!-- Pay Now Button -->
+            <button
+              onclick="processPayment()"
+              class="w-full bg-orange-500 text-white px-6 py-3 rounded-xl text-base font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 shadow-md hover:shadow-lg mb-3"
+              id="payButton"
+            >
+              <span class="material-icons-round text-base">lock</span>
+              Pay Partial - ₱1,515
+            </button>
+
+            <div class="text-center">
+              <div
+                class="text-xs text-gray-500 flex items-center justify-center gap-1"
+              >
+                <span class="material-icons-round text-xs">security</span>
+                <span>Secure payment processed by AutoCare Pro</span>
               </div>
             </div>
           </div>
@@ -436,7 +498,7 @@
               <span class="material-icons-round text-orange-500"
                 >photo_library</span
               >
-              Service Documentation
+              Service Photos
             </h2>
 
             <div class="mb-6">
@@ -476,7 +538,7 @@
 
             <div>
               <h3 class="text-sm font-medium text-gray-900 mb-3">
-                After Service
+                Work In Progress
               </h3>
               <div class="photo-gallery">
                 <div
@@ -484,7 +546,7 @@
                 >
                   <img
                     src="../../../imgs/service_deafault_2.png"
-                    alt="After service 1"
+                    alt="Work in progress 1"
                     class="w-full h-full object-cover"
                   />
                 </div>
@@ -493,7 +555,7 @@
                 >
                   <img
                     src="../../../imgs/service_deafault_2.png"
-                    alt="After service 2"
+                    alt="Work in progress 2"
                     class="w-full h-full object-cover"
                   />
                 </div>
@@ -502,7 +564,7 @@
                 >
                   <img
                     src="../../../imgs/service_deafault_2.png"
-                    alt="After service 3"
+                    alt="Work in progress 3"
                     class="w-full h-full object-cover"
                   />
                 </div>
@@ -513,7 +575,7 @@
               <button
                 class="text-sm text-orange-600 font-medium hover:text-orange-700 transition-colors"
               >
-                Download All Service Photos
+                View All Service Photos
               </button>
             </div>
           </div>
@@ -578,44 +640,61 @@
             </div>
           </div>
 
-          <!-- Service Receipt -->
+          <!-- Mechanic Information -->
           <div
             class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
           >
             <h2 class="text-xl font-bold text-gray-900 mb-4">
-              Service Receipt
+              Mechanic Information
             </h2>
 
             <div class="space-y-4">
-              <div class="flex justify-between items-center text-sm">
-                <span class="text-gray-600">Service Date</span>
-                <span class="font-medium text-gray-900">Jan 16, 2024</span>
+              <div class="flex items-center gap-3">
+                <img
+                  src="../../../imgs/mechanic_default_2.png"
+                  alt="Mechanic"
+                  class="w-12 h-12 bg-gray-200 rounded-full"
+                />
+                <div>
+                  <div class="text-base font-semibold text-gray-900">
+                    Mike Rodriguez
+                  </div>
+                  <div class="text-sm text-gray-600">
+                    Gold Mechanic • 8 years experience
+                  </div>
+                </div>
               </div>
-              <div class="flex justify-between items-center text-sm">
-                <span class="text-gray-600">Service Time</span>
-                <span class="font-medium text-gray-900">10:00 AM - 2:00 PM</span>
-              </div>
-              <div class="flex justify-between items-center text-sm">
-                <span class="text-gray-600">Mechanic</span>
-                <span class="font-medium text-gray-900">Mike Rodriguez</span>
-              </div>
-              <div class="flex justify-between items-center text-sm">
-                <span class="text-gray-600">Booking ID</span>
-                <span class="font-medium text-gray-900">BK-2024-001</span>
-              </div>
-              <div class="flex justify-between items-center text-sm">
-                <span class="text-gray-600">Transaction ID</span>
-                <span class="font-medium text-gray-900">TXN-2024-001</span>
-              </div>
-              
-              <div class="border-t border-gray-300 pt-4 mt-2">
-                <button
-                  onclick="downloadReceipt()"
-                  class="w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+
+              <div class="flex items-center gap-2 text-sm text-gray-700">
+                <span class="material-icons-round text-yellow-400 text-base"
+                  >star</span
                 >
-                  <span class="material-icons-round text-base">download</span>
-                  Download Receipt
-                </button>
+                <span>4.8 rating (128 reviews)</span>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded"
+                  >Brake Systems</span
+                >
+                <span
+                  class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded"
+                  >Engine Repair</span
+                >
+                <span
+                  class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded"
+                  >Diagnostics</span
+                >
+              </div>
+
+              <!-- Phone Number -->
+              <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                <div class="flex items-center gap-2 text-sm text-gray-700">
+                  <span class="material-icons-round text-gray-500 text-base"
+                    >phone</span
+                  >
+                  <span>Phone: <strong>+63 912 345 6789</strong></span>
+                </div>
               </div>
             </div>
           </div>
@@ -628,29 +707,19 @@
 
             <div class="space-y-3">
               <button
-                onclick="rateService()"
-                class="action-btn w-full bg-orange-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
-              >
-                <span class="material-icons-round text-base">star</span>
-                Rate This Service
-              </button>
-              
-              <button
-                onclick="requestBackJob()"
-                class="action-btn w-full bg-yellow-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2"
-              >
-                <span class="material-icons-round text-base">build</span>
-                Request Back Job
-              </button>
-              
-              <button
-                onclick="bookAgain()"
+                onclick="rescheduleService()"
                 class="action-btn w-full bg-blue-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
               >
-                <span class="material-icons-round text-base">repeat</span>
-                Book Same Service Again
+                <span class="material-icons-round text-base">schedule</span>
+                Reschedule Service
               </button>
-              
+              <button
+                onclick="cancelService()"
+                class="action-btn w-full bg-red-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-icons-round text-base">cancel</span>
+                Cancel Service
+              </button>
               <button
                 onclick="contactSupport()"
                 class="action-btn w-full bg-gray-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors flex items-center justify-center gap-2"
@@ -667,7 +736,16 @@
     </main>
 
     <script>
+      // Payment functionality
+      let selectedPaymentOption = 'partial';
+      let totalAmount = 3030;
+      let amountPaid = 1500;
+      let remainingBalance = totalAmount - amountPaid;
+
       document.addEventListener("DOMContentLoaded", function () {
+        // Initialize payment options
+        selectPaymentOption('partial');
+        
         // Photo gallery functionality
         const photoItems = document.querySelectorAll(".photo-item");
         photoItems.forEach((item) => {
@@ -680,46 +758,142 @@
         });
       });
 
-      function rateService() {
-        // Show rating modal or redirect to rating page
-        showMessage('Redirecting to rating page...', 'success');
-        setTimeout(() => {
-          // In a real app, this would navigate to the rating page
-          window.location.href = '../../pages/review_form.html?booking=BK-2024-001';
-        }, 1000);
+      function selectPaymentOption(option) {
+        selectedPaymentOption = option;
+        
+        // Remove selection from all options
+        document.querySelectorAll(".payment-option").forEach((opt) => {
+          opt.classList.remove("selected", "border-orange-500", "bg-orange-50");
+          opt.classList.add("border-gray-200");
+        });
+
+        // Add selection to clicked option
+        const selectedElement = document.getElementById(option + 'Option');
+        selectedElement.classList.add("selected", "border-orange-500", "bg-orange-50");
+        selectedElement.classList.remove("border-gray-200");
+
+        // Update pay button text
+        updatePayButton();
       }
 
-      function requestBackJob() {
-        if (confirm('Request a back job for this service? This is for any issues or incomplete work from the original service.')) {
-          // Show loading state
-          const button = event.target;
-          const originalText = button.innerHTML;
-          button.innerHTML =
-            '<span class="material-icons-round animate-spin">refresh</span><span>Processing...</span>';
-          button.disabled = true;
-
-          // Simulate API call
-          setTimeout(() => {
-            showMessage(
-              "Back job request submitted! We'll redirect you to the back job form.",
-              "success"
-            );
-
-            // Reset button and redirect
-            button.innerHTML =
-              '<span class="material-icons-round text-base">build</span><span>Request Back Job</span>';
-            button.disabled = false;
-            
-            // Redirect to back job form
-            setTimeout(() => {
-              window.location.href = 'backjobs_form.html?booking=BK-2024-001';
-            }, 1500);
-          }, 1500);
+      function updatePayButton() {
+        const payButton = document.getElementById('payButton');
+        if (selectedPaymentOption === 'partial') {
+          const partialAmount = Math.ceil(remainingBalance / 2);
+          payButton.innerHTML = `
+            <span class="material-icons-round text-base">lock</span>
+            Pay Partial - ₱${partialAmount}
+          `;
+        } else {
+          payButton.innerHTML = `
+            <span class="material-icons-round text-base">lock</span>
+            Pay Full Amount - ₱${remainingBalance}
+          `;
         }
       }
 
-      function bookAgain() {
-        if (confirm('Would you like to book the same service again?')) {
+      function processPayment() {
+        let paymentAmount = selectedPaymentOption === 'partial' 
+          ? Math.ceil(remainingBalance / 2) 
+          : remainingBalance;
+
+        // Show loading state
+        const button = document.getElementById('payButton');
+        const originalText = button.innerHTML;
+        button.innerHTML =
+          '<span class="material-icons-round animate-spin text-base">refresh</span> Processing Payment...';
+        button.disabled = true;
+
+        // Simulate API call
+        setTimeout(() => {
+          if (selectedPaymentOption === 'partial') {
+            amountPaid += paymentAmount;
+            remainingBalance = totalAmount - amountPaid;
+            
+            showMessage(
+              `Partial payment of ₱${paymentAmount} successful! Remaining balance: ₱${remainingBalance}`,
+              "success"
+            );
+            
+            // Update UI
+            updatePaymentUI();
+          } else {
+            amountPaid = totalAmount;
+            remainingBalance = 0;
+            
+            showMessage(
+              "Full payment successful! Thank you for your business.",
+              "success"
+            );
+            
+            // Update timeline to show service can proceed
+            updateTimelineAfterFullPayment();
+          }
+
+          // Reset button
+          button.disabled = false;
+          updatePayButton(); // Update button text with new amounts
+        }, 2000);
+      }
+
+      function updatePaymentUI() {
+        // Update header
+        const paidElement = document.querySelector('.text-xs.text-green-600');
+        if (paidElement) {
+          paidElement.textContent = `₱${amountPaid} paid • ₱${remainingBalance} remaining`;
+        }
+
+        // Update payment breakdown
+        const remainingElement = document.querySelector('.text-orange-600:last-child');
+        if (remainingElement) {
+          remainingElement.textContent = `₱${remainingBalance}`;
+        }
+
+        // Update full payment option amount
+        const fullOptionAmount = document.querySelector('#fullOption .font-bold.text-orange-600');
+        if (fullOptionAmount) {
+          fullOptionAmount.textContent = `₱${remainingBalance}`;
+        }
+
+        // Update partial payment option amount
+        const partialAmount = Math.ceil(remainingBalance / 2);
+        const partialOptionAmount = document.querySelector('#partialOption .font-bold.text-orange-600');
+        if (partialOptionAmount) {
+          partialOptionAmount.textContent = `₱${partialAmount}`;
+        }
+
+        // If fully paid, update status
+        if (remainingBalance === 0) {
+          const statusBadge = document.querySelector('.status-badge');
+          statusBadge.textContent = 'READY FOR SERVICE';
+          statusBadge.className = 'status-badge bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full font-medium';
+        }
+      }
+
+      function updateTimelineAfterFullPayment() {
+        // Update progress bar
+        document.getElementById('timelineProgress').style.width = '100%';
+        
+        // Update current status info
+        const statusInfo = document.querySelector('.bg-blue-50');
+        statusInfo.className = 'mt-8 bg-green-50 rounded-xl p-4 border border-green-200';
+        statusInfo.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="material-icons-round text-green-500 mt-0.5">check_circle</span>
+            <div>
+              <div class="text-sm font-medium text-green-900 mb-1">
+                Payment Complete!
+              </div>
+              <p class="text-sm text-green-700">
+                Your payment has been processed successfully. The mechanic will continue with the service.
+              </p>
+            </div>
+          </div>
+        `;
+      }
+
+      function rescheduleService() {
+        if (confirm("Would you like to reschedule this service?")) {
           // Show loading state
           const button = event.target;
           const originalText = button.innerHTML;
@@ -730,38 +904,44 @@
           // Simulate API call
           setTimeout(() => {
             showMessage(
-              "Service booked successfully! We'll contact you to schedule the appointment.",
+              "Service rescheduled successfully! We will contact you to confirm the new date.",
               "success"
             );
 
             // Reset button
             button.innerHTML =
-              '<span class="material-icons-round text-base">repeat</span><span>Book Same Service Again</span>';
+              '<span class="material-icons-round text-base">schedule</span><span>Reschedule Service</span>';
             button.disabled = false;
           }, 1500);
         }
       }
 
-      function downloadReceipt() {
-        // Show loading state
-        const button = event.target;
-        const originalText = button.innerHTML;
-        button.innerHTML =
-          '<span class="material-icons-round animate-spin">refresh</span><span>Generating...</span>';
-        button.disabled = true;
-
-        // Simulate receipt generation
-        setTimeout(() => {
-          showMessage(
-            "Receipt downloaded successfully!",
-            "success"
-          );
-
-          // Reset button
+      function cancelService() {
+        if (
+          confirm(
+            "Are you sure you want to cancel this service? A cancellation fee may apply."
+          )
+        ) {
+          // Show loading state
+          const button = event.target;
+          const originalText = button.innerHTML;
           button.innerHTML =
-            '<span class="material-icons-round text-base">download</span><span>Download Receipt</span>';
-          button.disabled = false;
-        }, 1500);
+            '<span class="material-icons-round animate-spin">refresh</span><span>Processing...</span>';
+          button.disabled = true;
+
+          // Simulate API call
+          setTimeout(() => {
+            showMessage(
+              "Service cancelled successfully. We hope to serve you again soon!",
+              "success"
+            );
+
+            // Reset button
+            button.innerHTML =
+              '<span class="material-icons-round text-base">cancel</span><span>Cancel Service</span>';
+            button.disabled = false;
+          }, 1500);
+        }
       }
 
       function contactSupport() {

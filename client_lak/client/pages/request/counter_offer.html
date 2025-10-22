@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Offer - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .request-card {
+            transition: all 0.3s ease;
+        }
+        
+        .image-preview {
+            transition: all 0.3s ease;
+        }
+        
+        .image-preview:hover {
+            transform: scale(1.05);
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(249, 115, 22, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(249, 115, 22, 0.5); }
+        }
+        
+        .quote-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        
+        .service-item {
+            transition: all 0.2s ease;
+        }
+        
+        .service-item:hover {
+            background-color: #fef7ed;
+        }
+        
+        .counter-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        
+        .accept-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .decline-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        
+        .price-input {
+            transition: all 0.2s ease;
+        }
+        
+        .price-input:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        
+        .negotiation-note {
+            transition: all 0.3s ease;
+        }
+        
+        .negotiation-note:focus {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button -->
+                <button onclick="window.history.back()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium hidden sm:inline">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-lg font-semibold text-gray-900">Counter Offer</h1>
+                </div>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6">
+        <div class="max-w-2xl mx-auto">
+            <!-- Quote Status Banner -->
+            <div class="quote-badge text-white rounded-2xl p-4 mb-6 flex items-center gap-3 shadow-md">
+                <span class="material-icons-round text-xl">balance</span>
+                <div>
+                    <div class="font-semibold">Negotiate Quote</div>
+                    <div class="text-sm opacity-90">Make a counter offer to Mike Rodriguez</div>
+                </div>
+            </div>
+
+            <!-- Original Quote Summary -->
+            <div class="request-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+                <h3 class="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                    <span class="material-icons-round text-orange-500 text-base">receipt_long</span>
+                    Original Quote Summary
+                </h3>
+                
+                <div class="bg-gray-50 rounded-xl border border-gray-200 p-4">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-600">Labor (Brake Pad Replacement)</span>
+                            <span class="font-medium text-gray-900">₱1,200</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-600">Parts</span>
+                            <span class="font-medium text-gray-900">₱1,230</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-600">Additional Services</span>
+                            <span class="font-medium text-gray-900">₱500</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-600">Service Fee</span>
+                            <span class="font-medium text-gray-900">₱100</span>
+                        </div>
+                        <div class="border-t border-gray-300 pt-3 mt-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-base font-semibold text-gray-900">Original Total</span>
+                                <span class="text-xl font-bold text-orange-600">₱3,030</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Counter Offer Form -->
+            <div class="request-card bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+                <h3 class="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                    <span class="material-icons-round text-blue-500 text-base">edit</span>
+                    Your Counter Offer
+                </h3>
+                
+                <!-- Labor Cost Adjustment -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500 text-base">handyman</span>
+                        Labor Costs
+                    </h4>
+                    
+                    <div class="service-item bg-orange-50 rounded-xl border border-orange-200 p-4 mb-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="text-base font-semibold text-gray-900 mb-1">Brake Pad Replacement</div>
+                                <p class="text-sm text-gray-600">Complete brake pad replacement with inspection of rotors and calipers</p>
+                            </div>
+                            <div class="text-right ml-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-500 line-through">₱1,200</span>
+                                    <div class="relative">
+                                        <span class="text-lg font-bold text-blue-600">₱</span>
+                                        <input type="number" value="1000" min="0" class="price-input bg-white border border-blue-300 rounded-lg px-2 py-1 w-20 text-right text-blue-600 font-bold focus:outline-none">
+                                    </div>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">1-2 hours</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parts Cost Adjustment -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-icons-round text-orange-500 text-base">inventory_2</span>
+                        Parts Costs
+                    </h4>
+                    
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-4">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-icons-round text-orange-500 text-base">build</span>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Brake Pads (Front)</div>
+                                        <div class="text-xs text-gray-500">High-quality ceramic pads</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-500 line-through">₱800</span>
+                                    <div class="relative">
+                                        <span class="text-sm font-bold text-blue-600">₱</span>
+                                        <input type="number" value="700" min="0" class="price-input bg-white border border-blue-300 rounded-lg px-2 py-1 w-16 text-right text-blue-600 font-medium focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-icons-round text-orange-500 text-base">oil_barrel</span>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Brake Fluid</div>
+                                        <div class="text-xs text-gray-500">DOT 4 synthetic fluid</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-500 line-through">₱250</span>
+                                    <div class="relative">
+                                        <span class="text-sm font-bold text-blue-600">₱</span>
+                                        <input type="number" value="250" min="0" class="price-input bg-white border border-blue-300 rounded-lg px-2 py-1 w-16 text-right text-blue-600 font-medium focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-icons-round text-orange-500 text-base">filter_alt</span>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Air Filter</div>
+                                        <div class="text-xs text-gray-500">Standard replacement filter</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-500 line-through">₱180</span>
+                                    <div class="relative">
+                                        <span class="text-sm font-bold text-blue-600">₱</span>
+                                        <input type="number" value="150" min="0" class="price-input bg-white border border-blue-300 rounded-lg px-2 py-1 w-16 text-right text-blue-600 font-medium focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Services Adjustment -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-icons-round text-green-500 text-base">add_circle</span>
+                        Additional Services
+                    </h4>
+                    
+                    <div class="space-y-3">
+                        <div class="service-item bg-gray-50 rounded-xl border border-gray-200 p-4">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" id="wheel-alignment" checked class="rounded text-blue-600 focus:ring-blue-500">
+                                        <label for="wheel-alignment" class="text-base font-semibold text-gray-900">Wheel Alignment</label>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1 ml-6">Adjust wheel angles to manufacturer specifications</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm text-gray-500 line-through">₱300</span>
+                                        <div class="relative">
+                                            <span class="text-sm font-bold text-blue-600">₱</span>
+                                            <input type="number" value="250" min="0" class="price-input bg-white border border-blue-300 rounded-lg px-2 py-1 w-16 text-right text-blue-600 font-medium focus:outline-none">
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-gray-500">30 mins</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-item bg-gray-50 rounded-xl border border-gray-200 p-4">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2">
+                                        <input type="checkbox" id="air-filter" checked class="rounded text-blue-600 focus:ring-blue-500">
+                                        <label for="air-filter" class="text-base font-semibold text-gray-900">Air Filter Replacement</label>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1 ml-6">Replace engine air filter for optimal performance</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm text-gray-500 line-through">₱200</span>
+                                        <div class="relative">
+                                            <span class="text-sm font-bold text-blue-600">₱</span>
+                                            <input type="number" value="150" min="0" class="price-input bg-white border border-blue-300 rounded-lg px-2 py-1 w-16 text-right text-blue-600 font-medium focus:outline-none">
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-gray-500">15 mins</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Counter Offer Summary -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-icons-round text-blue-500 text-base">calculate</span>
+                        Counter Offer Summary
+                    </h4>
+                    
+                    <div class="bg-blue-50 rounded-xl border border-blue-200 p-4">
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-600">Labor (Brake Pad Replacement)</span>
+                                <span class="font-medium text-gray-900">₱1,000</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-600">Parts</span>
+                                <span class="font-medium text-gray-900">₱1,100</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-600">Additional Services</span>
+                                <span class="font-medium text-gray-900">₱400</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-600">Service Fee</span>
+                                <span class="font-medium text-gray-900">₱100</span>
+                            </div>
+                            <div class="border-t border-blue-300 pt-3 mt-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-base font-semibold text-gray-900">Your Counter Offer</span>
+                                    <span class="text-xl font-bold text-blue-600">₱2,600</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm mt-1">
+                                    <span class="text-gray-600">Savings</span>
+                                    <span class="font-medium text-green-600">₱430 (14%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Negotiation Note -->
+                <div class="mb-4">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="material-icons-round text-blue-500 text-base">chat_bubble</span>
+                        Message to Mechanic
+                    </h4>
+                    
+                    <div class="bg-white rounded-xl border border-blue-200 p-4">
+                        <textarea class="negotiation-note w-full h-32 p-3 text-sm text-gray-700 rounded-lg border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Explain your counter offer to the mechanic...">Hi Mike, I appreciate your detailed quote. I've adjusted some of the prices based on my research and budget. Would you be able to work with these adjusted prices? Thank you!</textarea>
+                        <div class="text-xs text-gray-500 mt-2">This message will be sent to Mike Rodriguez along with your counter offer.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                <button onclick="cancelCounterOffer()" class="decline-btn text-white px-6 py-3 rounded-xl text-base font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg flex-1">
+                    <span class="material-icons-round text-base">close</span>
+                    Cancel
+                </button>
+                <button onclick="submitCounterOffer()" class="counter-btn text-white px-6 py-3 rounded-xl text-base font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg flex-1">
+                    <span class="material-icons-round text-base">send</span>
+                    Send Counter Offer
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function submitCounterOffer() {
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="material-icons-round animate-spin">refresh</span><span>Sending...</span>';
+            button.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('Your counter offer has been sent to Mike Rodriguez! You will be notified when they respond.');
+                window.location.href = 'quoted_cu_request.html';
+            }, 1500);
+        }
+
+        function cancelCounterOffer() {
+            if (confirm('Are you sure you want to cancel your counter offer? Any changes you made will be lost.')) {
+                window.history.back();
+            }
+        }
+
+        // Update counter offer summary when inputs change
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.price-input, input[type="checkbox"]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('change', updateCounterOfferSummary);
+            });
+            
+            updateCounterOfferSummary();
+        });
+
+        function updateCounterOfferSummary() {
+            // In a real application, this would calculate based on all inputs
+            // For this demo, we'll just update with placeholder values
+            const laborInput = document.querySelector('.service-item .price-input');
+            const partsInputs = document.querySelectorAll('.bg-gray-50 .price-input');
+            const serviceInputs = document.querySelectorAll('.space-y-3 .price-input');
+            const serviceCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            // Calculate new total (simplified for demo)
+            let labor = parseInt(laborInput.value) || 0;
+            let parts = 0;
+            partsInputs.forEach(input => {
+                parts += parseInt(input.value) || 0;
+            });
+            
+            let services = 0;
+            serviceInputs.forEach((input, index) => {
+                if (serviceCheckboxes[index].checked) {
+                    services += parseInt(input.value) || 0;
+                }
+            });
+            
+            const serviceFee = 100; // Fixed service fee
+            const newTotal = labor + parts + services + serviceFee;
+            const originalTotal = 3030;
+            const savings = originalTotal - newTotal;
+            const savingsPercent = Math.round((savings / originalTotal) * 100);
+            
+            // Update the summary
+            document.querySelector('.bg-blue-50 .space-y-3 div:nth-child(1) span:nth-child(2)').textContent = `₱${labor}`;
+            document.querySelector('.bg-blue-50 .space-y-3 div:nth-child(2) span:nth-child(2)').textContent = `₱${parts}`;
+            document.querySelector('.bg-blue-50 .space-y-3 div:nth-child(3) span:nth-child(2)').textContent = `₱${services}`;
+            document.querySelector('.bg-blue-50 .text-xl').textContent = `₱${newTotal}`;
+            document.querySelector('.bg-blue-50 .text-green-600').textContent = `₱${savings} (${savingsPercent}%)`;
+        }
+    </script>
+</body>
+</html>

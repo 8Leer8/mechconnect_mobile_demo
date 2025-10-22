@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Back Jobs Request - MechConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                    },
+                    fontSize: {
+                        'xs': ['0.75rem', { lineHeight: '1rem' }],
+                        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+                        'base': ['1rem', { lineHeight: '1.5rem' }],
+                        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+                    },
+                    colors: {
+                        orange: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .backjob-card {
+            transition: all 0.3s ease;
+        }
+        
+        .backjob-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .photo-upload-area {
+            transition: all 0.3s ease;
+            border: 2px dashed #d1d5db;
+        }
+        
+        .photo-upload-area:hover {
+            border-color: #f97316;
+            background-color: #fffbeb;
+        }
+        
+        .photo-upload-area.dragover {
+            border-color: #f97316;
+            background-color: #fffbeb;
+        }
+        
+        .photo-preview {
+            transition: all 0.3s ease;
+        }
+        
+        .photo-preview:hover {
+            transform: scale(1.05);
+        }
+        
+        .remove-photo {
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .photo-preview:hover .remove-photo {
+            opacity: 1;
+        }
+        
+        .booking-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .booking-option:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .booking-option.selected {
+            background-color: #fffbeb;
+            border-color: #f97316;
+        }
+
+        /* Custom Checkbox Styles */
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.25rem;
+            background: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox:checked {
+            background: #f97316;
+            border-color: #f97316;
+        }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-checkbox:hover {
+            border-color: #9ca3af;
+        }
+
+        .custom-checkbox:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+        }
+
+        /* Custom Radio Styles */
+        .custom-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .custom-radio:checked {
+            border-color: #f97316;
+        }
+
+        .custom-radio:checked::after {
+            content: "";
+            position: absolute;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #f97316;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-radio:hover {
+            border-color: #9ca3af;
+        }
+
+        .custom-radio:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+        }
+        
+        .date-time-input {
+            transition: all 0.2s ease;
+        }
+        
+        .date-time-input:focus {
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+            border-color: #f97316;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-20">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Back Button -->
+                <button onclick="window.location.href='../../client/pages/back_jobs.html'" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-all duration-200 group">
+                    <span class="material-icons-round text-lg group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+                    <span class="text-sm font-medium">Back</span>
+                </button>
+                
+                <!-- Page Title -->
+                <h1 class="text-xl font-bold text-gray-900">Back Jobs Request</h1>
+                
+                <!-- Placeholder for alignment -->
+                <div class="w-10"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-4 py-6">
+        <!-- Back Jobs Form -->
+        <div class="space-y-6">
+            <!-- Booking Selection -->
+            <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span class="material-icons-round text-orange-500">receipt</span>
+                    Select Previous Service
+                </h2>
+                
+                <div class="space-y-3">
+                    <!-- Booking Option 1 -->
+                    <div class="booking-option border-2 border-gray-200 rounded-lg p-4" onclick="selectBooking('BK-2024-001')">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Brake Pad Replacement</h3>
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">COMPLETED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Mike Rodriguez</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 10, 2024 • 10:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱3,030</div>
+                                <div class="text-xs text-gray-500">Booking ID: BK-2024-001</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Option 2 -->
+                    <div class="booking-option border-2 border-gray-200 rounded-lg p-4" onclick="selectBooking('BK-2024-002')">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">Oil Change Service</h3>
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">COMPLETED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 5, 2024 • 1:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱1,800</div>
+                                <div class="text-xs text-gray-500">Booking ID: BK-2024-002</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Option 3 -->
+                    <div class="booking-option border-2 border-gray-200 rounded-lg p-4" onclick="selectBooking('BK-2024-003')">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-semibold text-gray-900">AC Repair</h3>
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">COMPLETED</span>
+                                </div>
+                                <div class="text-sm text-gray-600 flex items-center gap-1 mb-1">
+                                    <span class="material-icons-round text-sm">handyman</span>
+                                    <span>David Chen</span>
+                                </div>
+                                <div class="text-xs text-gray-500 flex items-center gap-1">
+                                    <span class="material-icons-round text-xs">schedule</span>
+                                    <span>Jan 3, 2024 • 9:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-base font-bold text-gray-900">₱2,500</div>
+                                <div class="text-xs text-gray-500">Booking ID: BK-2024-003</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Booking Display -->
+                <div id="selected-booking" class="hidden mt-4 bg-orange-50 rounded-lg p-4 border border-orange-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm font-medium text-orange-900">Selected Service</div>
+                            <div id="selected-booking-details" class="text-xs text-orange-700"></div>
+                        </div>
+                        <button onclick="clearSelection()" class="text-orange-600 hover:text-orange-700">
+                            <span class="material-icons-round">close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issue Description -->
+            <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span class="material-icons-round text-orange-500">description</span>
+                    Describe the Issue
+                </h2>
+                
+                <div class="space-y-4">
+                    <!-- Issue Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Issue Type</label>
+                        <div class="relative">
+                            <select id="issue-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none appearance-none bg-white transition">
+                                <option value="">Select issue type</option>
+                                <option value="incomplete-work">Incomplete Work</option>
+                                <option value="missed-problem">Missed Problem</option>
+                                <option value="new-issue">New Issue After Service</option>
+                                <option value="quality-issue">Quality Issue</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <span class="material-icons-round absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg pointer-events-none">arrow_drop_down</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Detailed Description</label>
+                        <textarea 
+                            id="issue-description" 
+                            rows="6" 
+                            placeholder="Please describe what was missed or needs to be corrected. Include details about when you noticed the issue and how it affects your vehicle..."
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition resize-none"
+                        ></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Minimum 50 characters required</div>
+                    </div>
+                    
+                    <!-- Urgency Level -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Urgency Level</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="urgency" value="low" class="custom-radio">
+                                <span>Low - Issue doesn't affect vehicle operation</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="urgency" value="medium" checked class="custom-radio">
+                                <span>Medium - Issue affects vehicle operation but not safety</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="urgency" value="high" class="custom-radio">
+                                <span>High - Issue affects vehicle safety</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photo Evidence -->
+            <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span class="material-icons-round text-orange-500">photo_library</span>
+                    Photo Evidence
+                </h2>
+                
+                <div class="space-y-4">
+                    <!-- Photo Upload Area -->
+                    <div 
+                        id="photo-upload-area" 
+                        class="photo-upload-area rounded-xl p-8 text-center cursor-pointer"
+                        onclick="document.getElementById('photo-input').click()"
+                    >
+                        <input type="file" id="photo-input" class="hidden" accept="image/*" multiple>
+                        <div class="text-gray-400 mb-3">
+                            <span class="material-icons-round text-4xl">cloud_upload</span>
+                        </div>
+                        <div class="text-sm font-medium text-gray-600 mb-1">Upload photos of the issue</div>
+                        <div class="text-xs text-gray-500">Click to upload or drag and drop</div>
+                        <div class="text-xs text-gray-400 mt-2">PNG, JPG up to 5MB each (max 3 photos)</div>
+                    </div>
+                    
+                    <!-- Photo Previews -->
+                    <div id="photo-previews" class="grid grid-cols-3 gap-3 hidden">
+                        <!-- Photo previews will be added here -->
+                    </div>
+                    
+                    <!-- Uploaded Photos Count -->
+                    <div id="photo-count" class="text-xs text-gray-500 text-center hidden">
+                        <span id="uploaded-count">0</span>/3 photos uploaded
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Back Job -->
+            <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span class="material-icons-round text-orange-500">schedule</span>
+                    Schedule Back Job
+                </h2>
+                
+                <div class="space-y-4">
+                    <!-- Preferred Date -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Date</label>
+                        <input 
+                            type="date" 
+                            id="preferred-date"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none date-time-input"
+                            min=""
+                        >
+                    </div>
+                    
+                    <!-- Preferred Time -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Time</label>
+                        <div class="relative">
+                            <select id="preferred-time" class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none appearance-none bg-white transition">
+                                <option value="">Select preferred time</option>
+                                <option value="08:00">8:00 AM</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                            </select>
+                            <span class="material-icons-round absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg pointer-events-none">arrow_drop_down</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Service Location</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="location" value="same" checked class="custom-radio">
+                                <span>Same location as previous service</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="location" value="different" class="custom-radio">
+                                <span>Different location</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Different Location Details -->
+                    <div id="different-location" class="hidden">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">New Location Details</label>
+                        <textarea 
+                            rows="3" 
+                            placeholder="Enter the full address where you'd like the back job to be performed..."
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition resize-none"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="backjob-card bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span class="material-icons-round text-orange-500">info</span>
+                    Additional Information
+                </h2>
+                
+                <div class="space-y-4">
+                    <!-- Contact Preference -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Contact Method</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="contact" value="email" checked class="custom-radio">
+                                <span>Email</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="contact" value="phone" class="custom-radio">
+                                <span>Phone Call</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
+                                <input type="radio" name="contact" value="app" class="custom-radio">
+                                <span>In-app Messaging</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Special Instructions -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Special Instructions (Optional)</label>
+                        <textarea 
+                            rows="3" 
+                            placeholder="Any special instructions for the mechanic..."
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition resize-none"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="sticky bottom-4 bg-white rounded-xl shadow-lg border border-gray-200 p-4">
+                <button 
+                    id="submit-backjob" 
+                    onclick="submitBackJob()"
+                    class="w-full bg-orange-500 text-white px-6 py-4 rounded-xl text-base font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-3 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled
+                >
+                    <span class="material-icons-round text-lg">build</span>
+                    <span class="font-semibold">Submit Back Job Request</span>
+                </button>
+                <div class="text-xs text-gray-500 text-center mt-2">
+                    By submitting, you agree to our terms of service
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons-round text-green-500 text-3xl">check_circle</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Back Job Request Submitted!</h3>
+                <p class="text-sm text-gray-600">Your back job request has been successfully submitted. The mechanic will review it and contact you soon.</p>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                <div class="text-sm text-gray-600">
+                    <div class="font-medium mb-1">Request Details</div>
+                    <div id="backjob-details" class="text-gray-900">
+                        <!-- Back job details will be displayed here -->
+                    </div>
+                    <div class="mt-2 text-xs text-gray-500">
+                        Request ID: <span id="request-id" class="font-mono">BJ-2024-001</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button
+                    onclick="viewBackJobStatus()"
+                    class="flex-1 bg-orange-500 text-white px-4 py-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+                >
+                    Track Status
+                </button>
+                <button
+                    onclick="closeModal()"
+                    class="flex-1 bg-gray-200 text-gray-800 px-4 py-3 rounded-lg text-sm font-medium hover:bg-gray-300 transition-colors"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedBookingId = null;
+        let uploadedPhotos = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize photo upload functionality
+            initPhotoUpload();
+            
+            // Add validation for form fields
+            document.getElementById('issue-description').addEventListener('input', validateForm);
+            document.getElementById('issue-type').addEventListener('change', validateForm);
+            document.getElementById('preferred-date').addEventListener('change', validateForm);
+            document.getElementById('preferred-time').addEventListener('change', validateForm);
+            
+            // Add drag and drop for photos
+            const uploadArea = document.getElementById('photo-upload-area');
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('dragleave', handleDragLeave);
+            uploadArea.addEventListener('drop', handleDrop);
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('preferred-date').min = today;
+            
+            // Show/hide different location field
+            document.querySelectorAll('input[name="location"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const differentLocation = document.getElementById('different-location');
+                    if (this.value === 'different') {
+                        differentLocation.classList.remove('hidden');
+                    } else {
+                        differentLocation.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        function initPhotoUpload() {
+            const photoInput = document.getElementById('photo-input');
+            photoInput.addEventListener('change', handlePhotoSelect);
+        }
+
+        function selectBooking(bookingId) {
+            // Remove selection from all booking options
+            document.querySelectorAll('.booking-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            selectedBookingId = bookingId;
+            
+            // Show selected booking details
+            const selectedBooking = document.getElementById('selected-booking');
+            const selectedBookingDetails = document.getElementById('selected-booking-details');
+            
+            selectedBookingDetails.textContent = `Booking ID: ${bookingId}`;
+            selectedBooking.classList.remove('hidden');
+            
+            validateForm();
+        }
+
+        function clearSelection() {
+            selectedBookingId = null;
+            document.querySelectorAll('.booking-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.getElementById('selected-booking').classList.add('hidden');
+            validateForm();
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('photo-upload-area').classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            document.getElementById('photo-upload-area').classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('photo-upload-area').classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            handlePhotoFiles(files);
+        }
+
+        function handlePhotoSelect(e) {
+            const files = e.target.files;
+            handlePhotoFiles(files);
+        }
+
+        function handlePhotoFiles(files) {
+            if (uploadedPhotos.length + files.length > 3) {
+                showMessage('Maximum 3 photos allowed', 'error');
+                return;
+            }
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    showMessage('Please upload only image files', 'error');
+                    continue;
+                }
+                
+                // Check file size (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage('File size must be less than 5MB', 'error');
+                    continue;
+                }
+                
+                // Add to uploaded photos
+                uploadedPhotos.push(file);
+                
+                // Create preview
+                createPhotoPreview(file);
+            }
+            
+            updatePhotoCount();
+            validateForm();
+        }
+
+        function createPhotoPreview(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const previewsContainer = document.getElementById('photo-previews');
+                const photoCount = document.getElementById('photo-count');
+                
+                // Show containers if first photo
+                if (uploadedPhotos.length === 1) {
+                    previewsContainer.classList.remove('hidden');
+                    photoCount.classList.remove('hidden');
+                }
+                
+                const preview = document.createElement('div');
+                preview.className = 'photo-preview relative bg-gray-100 rounded-lg overflow-hidden aspect-square';
+                
+                preview.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview" class="w-full h-full object-cover">
+                    <button onclick="removePhoto(${uploadedPhotos.length - 1})" class="remove-photo absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
+                        <span class="material-icons-round text-sm">close</span>
+                    </button>
+                `;
+                
+                previewsContainer.appendChild(preview);
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        function removePhoto(index) {
+            // Remove from array
+            uploadedPhotos.splice(index, 1);
+            
+            // Re-render previews
+            const previewsContainer = document.getElementById('photo-previews');
+            previewsContainer.innerHTML = '';
+            
+            // Re-create all previews
+            uploadedPhotos.forEach(file => createPhotoPreview(file));
+            
+            // Hide containers if no photos
+            if (uploadedPhotos.length === 0) {
+                previewsContainer.classList.add('hidden');
+                document.getElementById('photo-count').classList.add('hidden');
+            } else {
+                updatePhotoCount();
+            }
+            
+            validateForm();
+        }
+
+        function updatePhotoCount() {
+            document.getElementById('uploaded-count').textContent = uploadedPhotos.length;
+        }
+
+        function validateForm() {
+            const submitButton = document.getElementById('submit-backjob');
+            const issueDescription = document.getElementById('issue-description').value;
+            const issueType = document.getElementById('issue-type').value;
+            const preferredDate = document.getElementById('preferred-date').value;
+            const preferredTime = document.getElementById('preferred-time').value;
+            const urgencySelected = document.querySelector('input[name="urgency"]:checked');
+            
+            const isValid = selectedBookingId && 
+                          issueDescription.length >= 50 && 
+                          issueType && 
+                          preferredDate && 
+                          preferredTime && 
+                          urgencySelected;
+            
+            submitButton.disabled = !isValid;
+        }
+
+        function submitBackJob() {
+            if (!selectedBookingId) {
+                showMessage('Please select a previous service', 'error');
+                return;
+            }
+            
+            const issueDescription = document.getElementById('issue-description').value;
+            if (issueDescription.length < 50) {
+                showMessage('Please provide a detailed description (minimum 50 characters)', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = document.getElementById('submit-backjob');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<span class="material-icons-round animate-spin">refresh</span><span>Submitting...</span>';
+            submitButton.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Show success modal
+                const successModal = document.getElementById('success-modal');
+                const backjobDetails = document.getElementById('backjob-details');
+                
+                const date = document.getElementById('preferred-date').value;
+                const time = document.getElementById('preferred-time').options[document.getElementById('preferred-time').selectedIndex].text;
+                
+                backjobDetails.innerHTML = `
+                    <div>Service: ${selectedBookingId}</div>
+                    <div>Issue: ${document.getElementById('issue-type').options[document.getElementById('issue-type').selectedIndex].text}</div>
+                    <div>Scheduled: ${date} at ${time}</div>
+                    <div>Photos: ${uploadedPhotos.length} uploaded</div>
+                `;
+                
+                successModal.classList.remove('hidden');
+                
+                // Reset button
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }, 2000);
+        }
+
+        function viewBackJobStatus() {
+            // In a real app, this would navigate to the back job status page
+            showMessage('Redirecting to back job status...', 'success');
+            setTimeout(() => {
+                window.location.href = '../../client/pages/dispute_detail.html';
+            }, 1000);
+        }
+
+        function closeModal() {
+            document.getElementById('success-modal').classList.add('hidden');
+            // Reset form
+            clearSelection();
+            document.getElementById('issue-type').selectedIndex = 0;
+            document.getElementById('issue-description').value = '';
+            document.querySelectorAll('input[name="urgency"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('preferred-date').value = '';
+            document.getElementById('preferred-time').selectedIndex = 0;
+            document.querySelector('input[name="location"][value="same"]').checked = true;
+            document.getElementById('different-location').classList.add('hidden');
+            uploadedPhotos = [];
+            document.getElementById('photo-previews').innerHTML = '';
+            document.getElementById('photo-previews').classList.add('hidden');
+            document.getElementById('photo-count').classList.add('hidden');
+            validateForm();
+        }
+
+        function showMessage(message, type) {
+            const messageEl = document.createElement("div");
+            messageEl.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50 ${
+                type === "success"
+                    ? "bg-green-500 text-white"
+                    : "bg-red-500 text-white"
+            }`;
+            messageEl.innerHTML = `<div class="flex items-center gap-2"><span class="material-icons-round">${
+                type === "success" ? "check_circle" : "error"
+            }</span> ${message}</div>`;
+            document.body.appendChild(messageEl);
+
+            setTimeout(() => {
+                messageEl.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
